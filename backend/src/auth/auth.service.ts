@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@nestjs/common';
 import { JwtPayload } from '../auth/types/jwt-payload.interface';
 import { Jwt } from '../auth/types/jwt.interface';
 import { JwksClient } from 'jwks-rsa';
+import logStatements from './log-statements';
 
 @Injectable()
 export class AuthService {
@@ -19,23 +20,23 @@ export class AuthService {
 
   decodeToken(token: string) {
     const jwt = this.jwtManager.decode(token, { complete: true }) as Jwt;
-    if (!jwt.header.kid) throw new Error('No kid provided in token!');
+    if (!jwt.header.kid) throw new Error(logStatements.decodeToken.error.noKid);
     return jwt;
   }
 
   async getSigningKey(jwt: Jwt): Promise<string> {
     const signingKey = await this.jwksClient.getSigningKey(jwt.header.kid);
     if (!signingKey) {
-      throw new Error('Key was not signed by application');
+      throw new Error(logStatements.getSigningKey.error.noAssocKey);
     }
     return signingKey.getPublicKey();
   }
 
   getToken(authHeader: string): string {
-    if (!authHeader) throw new Error('No authentication header');
+    if (!authHeader) throw new Error(logStatements.getToken.error.noheader);
 
     if (!authHeader.toLowerCase().startsWith('bearer ')) {
-      throw new Error('Invalid authentication header');
+      throw new Error(logStatements.getToken.error.invalidHeader);
     }
     const split = authHeader.split(' ');
     const token = split[1];

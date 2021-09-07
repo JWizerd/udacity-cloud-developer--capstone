@@ -1,24 +1,22 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { AuthGuard } from './auth.guard';
-import { jwtManagerCustomMock } from './mocks/jwtManager.mock';
 import { AuthService } from './auth.service';
-import { jwksClientMock } from './mocks/jwksClient.mock';
+import { AuthServiceMock } from './mocks/auth-service.mock';
+import { ExecutionContextMock } from './mocks/executionContextMock';
 
-describe('AuthService', () => {
+describe('AuthGuard', () => {
   let service: AuthGuard;
+  let authService: AuthServiceMock;
+  const mockAuthHeader = 'Authorization test';
 
   beforeEach(async () => {
+    authService = new AuthServiceMock();
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthGuard,
-        AuthService,
         {
-          provide: 'JWT_MANAGER_CUSTOM',
-          useValue: new jwtManagerCustomMock(),
-        },
-        {
-          provide: 'JWKS_CLIENT',
-          useValue: new jwksClientMock(),
+          provide: AuthService,
+          useValue: authService,
         },
       ],
     }).compile();
@@ -26,7 +24,33 @@ describe('AuthService', () => {
     service = module.get<AuthGuard>(AuthGuard);
   });
 
-  it('should be defined', () => {
-    expect(service).toBeDefined();
+  afterEach(() => {
+    jest.resetAllMocks();
+  });
+
+  it('should call AuthService.verifyToken with correct params', async () => {
+    const verifyTokenSpy = jest.spyOn(authService, 'verifyToken');
+    verifyTokenSpy.mockResolvedValueOnce(null);
+    await service.canActivate(ExecutionContextMock(mockAuthHeader) as any);
+    expect(authService.verifyToken).toHaveBeenCalledTimes(1);
+    expect(authService.verifyToken).toHaveBeenCalledWith(mockAuthHeader);
+  });
+
+  it('should return false if verifyToken throws an error', async () => {
+    const verifyTokenSpy = jest.spyOn(authService, 'verifyToken');
+    verifyTokenSpy.mockRejectedValue(null);
+    const result = await service.canActivate(
+      ExecutionContextMock(mockAuthHeader) as any,
+    );
+    expect(result).toEqual(false);
+  });
+
+  it('should return true if verifyToken properly executes', async () => {
+    const verifyTokenSpy = jest.spyOn(authService, 'verifyToken');
+    verifyTokenSpy.mockResolvedValue(null);
+    const result = await service.canActivate(
+      ExecutionContextMock(mockAuthHeader) as any,
+    );
+    expect(result).toEqual(true);
   });
 });

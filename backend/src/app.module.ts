@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './config/database.config';
 import { AuthModule } from './auth/auth.module';
+import { JwksClient } from './jwks-client';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { AuthModule } from './auth/auth.module';
     AuthModule
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, JwksClient],
 })
 export class AppModule {}

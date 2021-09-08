@@ -55,7 +55,8 @@
             "warn"
           ]
         }
-      ]
+      ],
+      "no-debugger": 1
     },
     "parserOptions": {
       "parser": "babel-eslint"

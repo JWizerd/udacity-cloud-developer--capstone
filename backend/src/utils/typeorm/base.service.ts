@@ -6,7 +6,7 @@ import {
   Pagination,
   paginate,
 } from 'nestjs-typeorm-paginate';
-import { ISearchOptions } from '../../types/search-options.interface';
+import { ISearchOptions } from './search-options.interface';
 
 export class BaseService<T> implements IService {
   constructor(

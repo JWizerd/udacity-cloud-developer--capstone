@@ -1,6 +1,6 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 
-import { Profile } from '../profiles/profile.entity';
+import { User } from '../users/user.entity';
 
 export const databaseConfig: TypeOrmModuleOptions = {
   type: 'mysql',
@@ -12,5 +12,5 @@ export const databaseConfig: TypeOrmModuleOptions = {
   synchronize: process.env.NODE_ENV === 'development',
   bigNumberStrings: false,
   cache: true,
-  entities: [Profile],
+  entities: [User],
 };

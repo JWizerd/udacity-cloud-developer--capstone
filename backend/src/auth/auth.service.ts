@@ -24,6 +24,11 @@ export class AuthService {
     return jwt;
   }
 
+  getUser(authHeader: string): Jwt {
+    const token = this.getToken(authHeader);
+    return this.decodeToken(token);
+  }
+
   async getSigningKey(jwt: Jwt): Promise<string> {
     const signingKey = await this.jwksClient.getSigningKey(jwt.header.kid);
     if (!signingKey) {

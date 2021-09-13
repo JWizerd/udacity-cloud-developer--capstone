@@ -1,25 +1,38 @@
-import { Entity, Column } from 'typeorm';
-
-import { BaseEntity } from '../utils/typeorm/base.entity';
+import {
+  Entity,
+  Column,
+  CreateDateColumn,
+  DeleteDateColumn,
+  UpdateDateColumn,
+  PrimaryColumn,
+} from 'typeorm';
 
 @Entity()
-export class User extends BaseEntity {
+export class User {
   constructor(user?: User) {
-    super();
     if (user) {
       Object.assign(user, this);
     }
   }
 
-  @Column({ nullable: false, unique: true })
-  userUuid?: string;
+  @PrimaryColumn()
+  userUuid: string;
 
   @Column({ nullable: false, unique: true })
-  username?: string;
+  username: string;
 
   @Column({ nullable: false, unique: true })
   headshot?: string;
 
   @Column({ nullable: false })
   email?: string;
+
+  @CreateDateColumn()
+  created?: Date;
+
+  @UpdateDateColumn()
+  updated?: Date;
+
+  @DeleteDateColumn()
+  deleted?: Date;
 }

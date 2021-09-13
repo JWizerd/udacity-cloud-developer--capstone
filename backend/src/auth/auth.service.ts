@@ -18,15 +18,15 @@ export class AuthService {
     return this.jwtManager.verify(token, signingKey) as JwtPayload;
   }
 
-  decodeToken(token: string) {
+  decodeToken(token: string): Jwt {
     const jwt = this.jwtManager.decode(token, { complete: true }) as Jwt;
     if (!jwt.header.kid) throw new Error(logStatements.decodeToken.error.noKid);
     return jwt;
   }
 
-  getUser(authHeader: string): Jwt {
+  getUser(authHeader: string): string {
     const token = this.getToken(authHeader);
-    return this.decodeToken(token);
+    return this.decodeToken(token).payload.sub;
   }
 
   async getSigningKey(jwt: Jwt): Promise<string> {

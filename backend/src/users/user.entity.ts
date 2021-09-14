@@ -1,10 +1,11 @@
+import { Market } from 'src/markets/market.entity';
 import {
   Entity,
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   UpdateDateColumn,
   PrimaryColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -33,6 +34,9 @@ export class User {
   @UpdateDateColumn()
   updated?: Date;
 
-  @DeleteDateColumn()
-  deleted?: Date;
+  @OneToMany(() => Market, (market) => market.organizer, {
+    lazy: true,
+    onDelete: 'CASCADE',
+  })
+  markets?: Promise<Market[]>;
 }

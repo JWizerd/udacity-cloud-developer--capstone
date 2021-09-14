@@ -11,6 +11,11 @@ import logStatements from './log-statements';
 describe('AuthService', () => {
   let service: AuthService;
   let jwksClient: any;
+  const mockJwtResult = {
+    payload: {
+      sub: 'mockUserId',
+    },
+  } as any;
 
   beforeEach(async () => {
     jwksClient = new JwksClientMock();
@@ -110,6 +115,33 @@ describe('AuthService', () => {
         auth0ClientResultMock.idToken,
         publicSigningKeyMock,
       );
+    });
+  });
+
+  describe('getUser', () => {
+    it('should call getToken with correct params', () => {
+      jest.spyOn(service, 'decodeToken').mockReturnValue(mockJwtResult);
+      const getTokenSpy = jest.spyOn(service, 'getToken').mockImplementation();
+      service.getUser('test');
+      expect(getTokenSpy).toHaveBeenCalledTimes(1);
+      expect(getTokenSpy).toHaveBeenCalledWith('test');
+    });
+
+    it('should call decodeToken with correct params', () => {
+      const decodeToken = jest
+        .spyOn(service, 'decodeToken')
+        .mockReturnValue(mockJwtResult);
+      jest.spyOn(service, 'getToken').mockReturnValue('123abc');
+      service.getUser('Bearer 123abc');
+      expect(decodeToken).toHaveBeenCalledTimes(1);
+      expect(decodeToken).toHaveBeenCalledWith('123abc');
+    });
+
+    it('should return jwt.payload.sub', () => {
+      jest.spyOn(service, 'decodeToken').mockReturnValue(mockJwtResult);
+      jest.spyOn(service, 'getToken').mockReturnValue('123abc');
+      const user = service.getUser('Bearer 123abc');
+      expect(user).toBe(mockJwtResult.payload.sub);
     });
   });
 });

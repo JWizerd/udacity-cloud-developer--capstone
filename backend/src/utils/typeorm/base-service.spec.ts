@@ -61,7 +61,7 @@ describe('BaseService', () => {
     it('should return the deleted entity', async () => {
       jest.spyOn(repo, 'delete').mockResolvedValue(MockEntity);
       const entity = await service.remove(1);
-      expect(entity).toEqual(MockEntity);
+      expect(entity).toBeUndefined();
     });
   });
 
@@ -72,7 +72,7 @@ describe('BaseService', () => {
         .spyOn(repo, 'findOne')
         .mockResolvedValue(MockEntity);
       const saveSpy = jest.spyOn(repo, 'save').mockResolvedValue(MockEntity);
-      await service.update(MockEntity2, 1);
+      await service.update(1, MockEntity2);
       expect(findOneSpy).toHaveBeenCalledTimes(1);
       expect(findOneSpy).toHaveBeenCalledWith(1);
       expect(saveSpy).toHaveBeenCalledTimes(1);
@@ -83,7 +83,7 @@ describe('BaseService', () => {
       const MockEntity2 = { ...MockEntity, ...{ name: 'bob' } };
       jest.spyOn(repo, 'findOne').mockResolvedValue(MockEntity);
       jest.spyOn(repo, 'save').mockResolvedValue(MockEntity);
-      const entity = await service.update(MockEntity2, 1);
+      const entity = await service.update(1, MockEntity2);
       expect(entity).toEqual(MockEntity);
     });
   });

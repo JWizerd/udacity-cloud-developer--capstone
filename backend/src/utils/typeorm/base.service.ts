@@ -1,4 +1,4 @@
-import { DeleteResult, ObjectLiteral, Repository } from 'typeorm';
+import { ObjectLiteral, Repository } from 'typeorm';
 import { IService } from '../typeorm/resource-service.interface';
 
 import {
@@ -35,18 +35,18 @@ export class BaseService<T> implements IService {
     return this.repo.save(payload);
   }
 
-  async update(fields: T, id: number): Promise<T> {
+  async update(id: number | string, payload: any): Promise<T> {
     const existingRecord = await this.repo.findOne(id);
-    const entity = { ...existingRecord, ...fields };
+    const entity = { ...existingRecord, ...payload };
     return this.repo.save(entity);
   }
 
-  async findOne(id: number): Promise<T> {
+  async findOne(id: number | string): Promise<T> {
     return this.repo.findOne(id);
   }
 
-  async remove(id: number): Promise<DeleteResult> {
-    return await this.repo.delete(id);
+  async remove(id: number | string): Promise<void> {
+    this.repo.delete(id);
   }
 
   protected removeUndefinedProps(obj: ObjectLiteral) {

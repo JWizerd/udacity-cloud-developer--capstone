@@ -21,11 +21,11 @@ export class User {
   @Column({ nullable: false, unique: true })
   username: string;
 
+  @Column({ nullable: false })
+  email: string;
+
   @Column({ nullable: false, unique: true })
   headshot?: string;
-
-  @Column({ nullable: false })
-  email?: string;
 
   @CreateDateColumn()
   created?: Date;

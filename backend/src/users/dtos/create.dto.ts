@@ -5,14 +5,11 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty()
+  username: string;
+
+  @IsNotEmpty()
   userUuid: string;
 
-  @IsNotEmpty()
-  firstName: string;
-
-  @IsNotEmpty()
-  lastName: string;
-
   @IsOptional()
-  bio?: string;
+  headshot?: string;
 }

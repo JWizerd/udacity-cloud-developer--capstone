@@ -28,7 +28,7 @@ export class BaseService<T> implements IService<T> {
   }
 
   async create(payload: any): Promise<T> {
-    return this.repo.insert(payload);
+    return this.repo.save(payload);
   }
 
   async update(id: number | string, payload: any): Promise<T> {

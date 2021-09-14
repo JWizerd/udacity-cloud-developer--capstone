@@ -1,6 +1,6 @@
 import { BaseEntity } from '../utils/typeorm/base.entity';
 import { Entity, Column, ManyToOne } from 'typeorm';
-import { User } from 'src/users/user.entity';
+import { User } from '../users/user.entity';
 
 @Entity()
 export class Market extends BaseEntity {

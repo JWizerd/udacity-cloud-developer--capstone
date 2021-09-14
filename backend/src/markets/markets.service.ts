@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersService } from 'src/users/users.service';
-import { TenantedService } from 'src/utils/typeorm/base-tenanted.service';
+import { UsersService } from '../users/users.service';
+import { TenantedService } from '../utils/typeorm/base-tenanted.service';
 import { Repository } from 'typeorm';
 import { CreateMarketDTO } from './dtos/create-market-dto.interface';
 import { UpdateMarketDTO } from './dtos/update-market-dto.interface';
@@ -24,7 +24,7 @@ export class MarketsService extends TenantedService<Market> {
   }
 
   async findOne(marketId: number): Promise<Market> {
-    return this.usersService.findOne(marketId);
+    return this.marketRepo.findOne(marketId);
   }
 
   async remove(userId: string, marketId: number) {

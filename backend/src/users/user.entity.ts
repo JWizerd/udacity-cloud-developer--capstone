@@ -1,4 +1,4 @@
-import { Market } from 'src/markets/market.entity';
+import { Market } from '../markets/market.entity';
 import {
   Entity,
   Column,
@@ -34,7 +34,7 @@ export class User {
   @UpdateDateColumn()
   updated?: Date;
 
-  @OneToMany(() => Market, (market) => market.organizer, {
+  @OneToMany(() => Market, (market) => market.user, {
     lazy: true,
     onDelete: 'CASCADE',
   })

@@ -1,10 +1,9 @@
 import { ObjectLiteral, Repository } from 'typeorm';
-import { IService } from '../typeorm/resource-service.interface';
 
 import { IPaginationOptions, paginate } from 'nestjs-typeorm-paginate';
 import { ISearchOptions } from './search-options.interface';
 
-export class BaseService<T> implements IService<T> {
+export class TenantedService<T> {
   constructor(
     protected readonly repo: Repository<T>,
     private readonly paginator = paginate,
@@ -14,7 +13,9 @@ export class BaseService<T> implements IService<T> {
     options: IPaginationOptions,
     searchOptions: ISearchOptions,
     order: string,
+    userId?: string,
   ) {
+    if (userId) searchOptions.userId = userId;
     this.setOrderBy(order || 'DESC');
     return this.paginator<T>(this.repo, options, {
       where: { ...this.removeUndefinedProps(searchOptions) },
@@ -25,24 +26,6 @@ export class BaseService<T> implements IService<T> {
     const orderStr = order.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
     const queryBuilder = this.repo.createQueryBuilder('e');
     queryBuilder.addOrderBy('e.created', orderStr, 'NULLS LAST');
-  }
-
-  async create(payload: any): Promise<T> {
-    return this.repo.insert(payload);
-  }
-
-  async update(id: number | string, payload: any): Promise<T> {
-    const existingRecord = await this.repo.findOne(id);
-    const entity = { ...existingRecord, ...payload };
-    return this.repo.save(entity);
-  }
-
-  async findOne(id: number | string): Promise<T> {
-    return this.repo.findOne(id);
-  }
-
-  async remove(id: number | string): Promise<void> {
-    this.repo.delete(id);
   }
 
   protected removeUndefinedProps(obj: ObjectLiteral) {

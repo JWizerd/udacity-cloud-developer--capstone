@@ -17,14 +17,6 @@ export interface IService<T> {
   ):
     | Promise<Pagination<T, IPaginationMeta>>
     | Promise<Pagination<T[], IPaginationMeta>>;
-  paginate(
-    options: IPaginationOptions,
-    searchOptions: ISearchOptions,
-    order: string,
-    userId?: string | number,
-  ):
-    | Promise<Pagination<T, IPaginationMeta>>
-    | Promise<Pagination<T[], IPaginationMeta>>;
 
   create(entity: DeepPartial<T>): Promise<T>;
   create(entity: DeepPartial<T>, userId: string | number): Promise<T>;

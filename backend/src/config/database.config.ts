@@ -1,7 +1,5 @@
 import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-options.interface';
 
-import { User } from '../users/user.entity';
-
 export const databaseConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   host: process.env.DATABASE_HOST || '127.0.0.1',
@@ -11,6 +9,11 @@ export const databaseConfig: TypeOrmModuleOptions = {
   database: process.env.DATABASE_DB || 'udacity_uassigned_test',
   synchronize: process.env.NODE_ENV === 'development',
   bigNumberStrings: false,
+  migrationsRun: true,
+  // migrations: ['src/migrations/*.ts'],
+  // cli: {
+  //   migrationsDir: 'src/migrations',
+  // },
   cache: true,
-  entities: [User],
+  autoLoadEntities: true,
 };

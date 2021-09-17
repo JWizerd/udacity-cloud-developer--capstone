@@ -6,7 +6,6 @@ import {
   UpdateDateColumn,
   PrimaryColumn,
   OneToMany,
-  BeforeInsert,
 } from 'typeorm';
 
 @Entity()
@@ -15,11 +14,6 @@ export class User {
     if (user) {
       Object.assign(user, this);
     }
-  }
-
-  @BeforeInsert()
-  setDefaultUsername() {
-    this.username = `${this.email.split('@')[0]}.${Date.now()}`;
   }
 
   @PrimaryColumn()

@@ -18,7 +18,7 @@ import { UsersService } from './users.service';
 export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
-  @Get()
+  @Get('me')
   async me(@AuthUserParam() userId: string) {
     return this.usersService.findOne(userId);
   }

@@ -1,4 +1,4 @@
-import { BaseEntity } from '../utils/typeorm/base-entity.interface';
+import { BaseEntity } from '../typeorm/base-entity.interface';
 
 export interface IUser extends BaseEntity {
   userUuid: string;

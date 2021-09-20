@@ -3,9 +3,6 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from '../users/users.service';
 import { TenantedService } from '../typeorm/base-tenanted.service';
 import { DeepPartial, Repository } from 'typeorm';
-import { CreateMarketDTO } from './dtos/create-market-dto.interface';
-import { UpdateMarketDTO } from './dtos/update-market-dto.interface';
-
 import { Market } from './market.entity';
 
 @Injectable()
@@ -17,8 +14,11 @@ export class MarketsService extends TenantedService<Market> {
     super(marketRepo);
   }
 
-  async create(market: DeepPartial<Market>, userUuid: string): Promise<Market> {
-    const marketEntity = this.marketRepo.create(market);
+  async create(
+    createMarketDTO: DeepPartial<Market>,
+    userUuid: string,
+  ): Promise<Market> {
+    const marketEntity = this.marketRepo.create(createMarketDTO);
     const userEntity = await this.usersService.findOne(userUuid);
     marketEntity.user = userEntity;
     return this.marketRepo.save(marketEntity);
@@ -28,32 +28,17 @@ export class MarketsService extends TenantedService<Market> {
     return this.marketRepo.findOne(marketId);
   }
 
-  async remove(userId: string, marketId: number) {
-    const market = await this.marketRepo.findOne({
-      where: {
-        id: marketId,
-        user: userId,
-      },
-    });
-
-    if (market) {
-      this.marketRepo.remove(market);
-    }
+  async remove(marketId: number) {
+    const market = await this.findOne(marketId);
+    this.marketRepo.remove(market);
   }
 
-  async update(
-    userId: string,
-    marketId: number,
-    updateMarketDTO: UpdateMarketDTO,
-  ) {
-    const market = await this.marketRepo.findOne({
-      relations: ['user'],
+  async update(marketId: number, updateMarketDTO: DeepPartial<Market>) {
+    const market = this.marketRepo.create({
+      id: marketId,
+      ...updateMarketDTO,
     });
 
-    if (market.user.userUuid === userId) {
-      const updatedEntity = this.marketRepo.merge(market, updateMarketDTO);
-      await this.marketRepo.update(marketId, updatedEntity);
-      return updatedEntity;
-    }
+    return this.marketRepo.save(market);
   }
 }

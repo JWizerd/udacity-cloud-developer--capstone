@@ -43,7 +43,8 @@ export class BaseService<T> implements IService<T> {
   }
 
   async remove(id: number | string): Promise<void> {
-    this.repo.delete(id);
+    const entity = await this.repo.findOne(id);
+    this.repo.remove(entity);
   }
 
   protected removeUndefinedProps(obj: ObjectLiteral) {

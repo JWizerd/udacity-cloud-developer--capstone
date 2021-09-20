@@ -15,7 +15,7 @@ export class TenantedService<T> {
     order: string,
     userId?: string,
   ) {
-    if (userId) searchOptions.userId = userId;
+    if (userId) searchOptions.user = userId;
     this.setOrderBy(order || 'DESC');
     return this.paginator<T>(this.repo, options, {
       where: { ...this.removeUndefinedProps(searchOptions) },
@@ -30,5 +30,20 @@ export class TenantedService<T> {
 
   protected removeUndefinedProps(obj: ObjectLiteral) {
     return JSON.parse(JSON.stringify(obj));
+  }
+
+  async ownsResource(
+    id: string | number,
+    resourceId: string | number,
+    joinColumn = 'user',
+  ) {
+    const resource = await this.repo.findOne({
+      where: {
+        [`${joinColumn}`]: id,
+        id: resourceId,
+      },
+    });
+
+    return resource !== undefined;
   }
 }

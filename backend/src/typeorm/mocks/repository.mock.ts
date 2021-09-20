@@ -6,4 +6,5 @@ export const RepositoryMock = {
   createQueryBuilder: () => null,
   addOrderBy: () => null,
   create: () => null,
+  remove: () => null,
 };

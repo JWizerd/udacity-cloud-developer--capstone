@@ -52,13 +52,24 @@ describe('BaseService', () => {
   });
 
   describe('service.remove', () => {
-    it('should call with the correct params', async () => {
-      const deleteSpy = jest
-        .spyOn(repo, 'delete')
-        .mockResolvedValue(MockEntity);
+    it('should call repo.findOne with the correct params', async () => {
+      jest.spyOn(repo, 'remove');
+      const findOneSpy = jest.spyOn(repo, 'findOne');
+
       await service.remove(1);
-      expect(deleteSpy).toHaveBeenCalledTimes(1);
-      expect(deleteSpy).toHaveBeenCalledWith(1);
+
+      expect(findOneSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call with the correct params', async () => {
+      jest.spyOn(repo, 'findOne').mockResolvedValue(MockEntity);
+
+      const removeSpy = jest.spyOn(repo, 'remove');
+
+      await service.remove(1);
+
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+      expect(removeSpy).toHaveBeenCalledWith(MockEntity);
     });
 
     it('should return the deleted entity', async () => {

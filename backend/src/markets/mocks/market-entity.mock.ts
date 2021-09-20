@@ -6,6 +6,11 @@ export const MarketEntityMock: Market = {
   description: 'blah',
   id: 1,
   featuredImage: 'something.jpg',
+  user: {
+    userUuid: 'abc123',
+    email: 'woo@gmail.com',
+    username: 'test',
+  },
 };
 
 export const MarketDTOMock: CreateMarketDTO = {

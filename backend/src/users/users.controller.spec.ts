@@ -16,7 +16,7 @@ describe('UsersController', () => {
 
   beforeEach(async () => {
     usersService = ServiceMock;
-    authService = new AuthServiceMock();
+    authService = AuthServiceMock;
     authGuard = new AuthGuardMock();
 
     const module: TestingModule = await Test.createTestingModule({

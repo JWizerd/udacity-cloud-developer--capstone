@@ -17,7 +17,7 @@ describe('AttachUserInterceptor', () => {
   };
 
   beforeEach(() => {
-    authService = new AuthServiceMock();
+    authService = AuthServiceMock;
     interceptor = new AttachUserInterceptor(authService);
     callHandlerSpy = {
       handle: jest.fn(),

@@ -96,14 +96,38 @@ describe('MarketsService', () => {
         .spyOn(repo, 'findOne')
         .mockResolvedValue(undefined);
 
-      await service.remove('abc123', 1);
+      await service.remove(1);
 
-      expect(findOneSpy).toHaveBeenCalledWith({
-        where: {
-          id: 1,
-          user: 'abc123',
-        },
-      });
+      expect(findOneSpy).toHaveBeenCalledWith(1);
+    });
+
+    it('should call remove with correct params', async () => {
+      jest.spyOn(repo, 'findOne').mockResolvedValue(MarketEntityMock);
+      const removeSpy = jest.spyOn(repo, 'remove');
+
+      await service.remove(1);
+
+      expect(removeSpy).toHaveBeenCalledWith(MarketEntityMock);
+    });
+  });
+
+  describe('update', () => {
+    it('should call repo.create with the correct params', async () => {
+      jest.spyOn(repo, 'save');
+      const createSpy = jest.spyOn(repo, 'create');
+
+      await service.update(1, MarketDTOMock);
+
+      expect(createSpy).toHaveBeenCalledWith({ id: 1, ...MarketDTOMock });
+    });
+
+    it('should call repo.save with the correct params', async () => {
+      const saveSpy = jest.spyOn(repo, 'save');
+      jest.spyOn(repo, 'create').mockReturnValue(MarketEntityMock);
+
+      await service.update(1, MarketDTOMock);
+
+      expect(saveSpy).toHaveBeenCalledWith(MarketEntityMock);
     });
   });
 });

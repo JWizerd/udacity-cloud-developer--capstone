@@ -18,6 +18,9 @@ export class Market extends BaseEntity {
   @Column({ nullable: false, unique: true })
   name?: string;
 
+  @Column({ nullable: false, type: 'string', length: 255 })
+  summary?: string;
+
   @Column({ nullable: false, type: 'text' })
   description?: string;
 

@@ -109,7 +109,7 @@ describe('BaseService', () => {
     };
 
     const searchOpts = {
-      created: '2021-09-11T19:54:46.662Z',
+      created: '2021-09-17 15:40:52.195242',
     };
 
     const order = 'DESC';

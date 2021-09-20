@@ -16,5 +16,6 @@ export const MarketEntityMock: Market = {
 export const MarketDTOMock: CreateMarketDTO = {
   name: 'market name',
   description: 'blah',
+  summary: 'blah',
   featuredImage: 'something.jpg',
 };

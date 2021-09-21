@@ -7,7 +7,7 @@ import { ISearchOptions } from './search-options.interface';
 export class BaseService<T> implements IService<T> {
   constructor(
     protected readonly repo: Repository<T>,
-    private readonly paginator = paginate,
+    protected readonly paginator = paginate,
   ) {}
 
   async paginate(
@@ -16,6 +16,7 @@ export class BaseService<T> implements IService<T> {
     order: string,
   ) {
     this.setOrderBy(order || 'DESC');
+    if (options.limit > 50) options.limit = 50;
     return this.paginator<T>(this.repo, options, {
       where: { ...this.removeUndefinedProps(searchOptions) },
     });
@@ -27,19 +28,8 @@ export class BaseService<T> implements IService<T> {
     queryBuilder.addOrderBy('e.created', orderStr, 'NULLS LAST');
   }
 
-  async create(payload: DeepPartial<T>): Promise<T> {
-    const entity = this.repo.create(payload);
-    return this.repo.save(entity);
-  }
-
-  async update(id: number | string, payload: any): Promise<T> {
-    const existingRecord = await this.repo.findOne(id);
-    const entity = { ...existingRecord, ...payload };
-    return this.repo.save(entity);
-  }
-
-  async findOne(id: number | string): Promise<T> {
-    return this.repo.findOne(id);
+  protected removeUndefinedProps(obj: ObjectLiteral) {
+    return JSON.parse(JSON.stringify(obj));
   }
 
   async remove(id: number | string): Promise<void> {
@@ -47,7 +37,9 @@ export class BaseService<T> implements IService<T> {
     this.repo.remove(entity);
   }
 
-  protected removeUndefinedProps(obj: ObjectLiteral) {
-    return JSON.parse(JSON.stringify(obj));
+  async update(id: number | string, payload: DeepPartial<T>): Promise<T> {
+    const existingRecord = await this.repo.findOne(id);
+    const entity = { ...existingRecord, ...payload };
+    return this.repo.save(entity);
   }
 }

@@ -1,15 +1,14 @@
-import { TenantedService } from './base-tenanted.service';
+import { TenantedService } from './tenanted.service';
 import { MockEntity } from './mocks/entity.mock';
 import { RepositoryMock } from './mocks/repository.mock';
 describe('TenantedService', () => {
   const entity = MockEntity;
   let service: TenantedService<typeof entity>;
   let repo: typeof RepositoryMock;
-  const paginatorSpy = jest.fn();
 
   beforeEach(() => {
     repo = RepositoryMock as any;
-    service = new TenantedService(repo as any, paginatorSpy as any);
+    service = new TenantedService(repo as any);
   });
 
   afterEach(() => {

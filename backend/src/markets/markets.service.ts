@@ -1,44 +1,48 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UsersService } from '../users/users.service';
-import { TenantedService } from '../typeorm/base-tenanted.service';
+import { TenantedService } from '../typeorm/tenanted.service';
 import { DeepPartial, Repository } from 'typeorm';
 import { Market } from './market.entity';
+import { ITenantedService } from 'src/typeorm/resource-service.interface';
 
 @Injectable()
-export class MarketsService extends TenantedService<Market> {
+export class MarketsService
+  extends TenantedService<Market>
+  implements ITenantedService<Market>
+{
   constructor(
-    @InjectRepository(Market) protected readonly marketRepo: Repository<Market>,
+    @InjectRepository(Market) protected readonly repo: Repository<Market>,
     private readonly usersService: UsersService,
   ) {
-    super(marketRepo);
+    super(repo);
   }
 
   async create(
     createMarketDTO: DeepPartial<Market>,
-    userUuid: string,
+    userId: string,
   ): Promise<Market> {
-    const marketEntity = this.marketRepo.create(createMarketDTO);
-    const userEntity = await this.usersService.findOne(userUuid);
-    marketEntity.user = userEntity;
-    return this.marketRepo.save(marketEntity);
+    const entity = this.repo.create(createMarketDTO);
+    const userEntity = await this.usersService.findOne(userId);
+    entity.user = userEntity;
+    return this.repo.save(entity);
   }
 
   async findOne(marketId: number): Promise<Market> {
-    return this.marketRepo.findOne(marketId);
+    return this.repo.findOne(marketId);
   }
 
   async remove(marketId: number) {
     const market = await this.findOne(marketId);
-    this.marketRepo.remove(market);
+    this.repo.remove(market);
   }
 
   async update(marketId: number, updateMarketDTO: DeepPartial<Market>) {
-    const market = this.marketRepo.create({
+    const market = this.repo.create({
       id: marketId,
       ...updateMarketDTO,
     });
 
-    return this.marketRepo.save(market);
+    return this.repo.save(market);
   }
 }

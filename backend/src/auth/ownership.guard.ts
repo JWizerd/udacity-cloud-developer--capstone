@@ -1,11 +1,11 @@
 import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
-import { TenantedService } from '../typeorm/base-tenanted.service';
+import { ITenantedService } from 'src/typeorm/resource-service.interface';
 import { AuthService } from './auth.service';
 
 @Injectable()
 export class OwnershipGuard<T> implements CanActivate {
   constructor(
-    protected readonly service: TenantedService<T>,
+    protected readonly service: ITenantedService<T>,
     protected readonly authService: AuthService,
     protected readonly parentColumn: string = 'user',
   ) {}

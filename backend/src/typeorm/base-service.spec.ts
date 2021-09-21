@@ -1,15 +1,15 @@
-import { BaseService } from './base.service';
 import { MockEntity } from './mocks/entity.mock';
 import { RepositoryMock } from './mocks/repository.mock';
-describe('BaseService', () => {
+import { ResourceService } from './resource.service';
+describe('ResourceService', () => {
   const entity = MockEntity;
-  let service: BaseService<typeof entity>;
+  let service: ResourceService<typeof entity>;
   let repo: typeof RepositoryMock;
   const paginatorSpy = jest.fn();
 
   beforeEach(() => {
     repo = RepositoryMock as any;
-    service = new BaseService(repo as any, paginatorSpy as any);
+    service = new ResourceService(repo as any, paginatorSpy as any);
   });
 
   afterEach(() => {

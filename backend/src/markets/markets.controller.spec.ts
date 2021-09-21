@@ -57,12 +57,82 @@ describe('MarketsController', () => {
       expect(serviceCreateSpy).toHaveBeenCalledWith(MarketDTOMock, 'abc123');
     });
 
-    it('should return a newly creted mock', async () => {
+    it('should return a newly created mock', async () => {
       jest.spyOn(ServiceMock, 'create').mockResolvedValue(MarketEntityMock);
 
       const market = await controller.create('abc123', MarketDTOMock);
 
       expect(market).toEqual(MarketEntityMock);
+    });
+  });
+
+  describe('controller.remove', () => {
+    it('should call service.remove with correct params', async () => {
+      const serviceRemoveSpy = jest
+        .spyOn(ServiceMock, 'remove')
+        .mockResolvedValue(MarketEntityMock);
+
+      await controller.remove(1);
+
+      expect(serviceRemoveSpy).toHaveBeenCalledWith(1);
+    });
+
+    it('should return undefined if successfully deleted', async () => {
+      jest.spyOn(ServiceMock, 'remove').mockResolvedValue(MarketEntityMock);
+
+      const result = await controller.remove(1);
+
+      expect(result).toBeUndefined();
+    });
+  });
+
+  describe('controller.update', () => {
+    it('should call service.update with correct params', async () => {
+      const serviceUpdateSpy = jest
+        .spyOn(ServiceMock, 'update')
+        .mockResolvedValue(MarketEntityMock);
+
+      await controller.update(1, MarketDTOMock);
+
+      expect(serviceUpdateSpy).toHaveBeenCalledWith(1, MarketDTOMock);
+    });
+
+    it('should return updated entity', async () => {
+      jest.spyOn(ServiceMock, 'update').mockResolvedValue(MarketEntityMock);
+
+      const result = await controller.update(1, MarketEntityMock);
+
+      expect(result).toEqual(MarketEntityMock);
+    });
+  });
+
+  describe('controller.index', () => {
+    it('should call service.paginate with correct params', async () => {
+      const servicePaginateSpy = jest.spyOn(ServiceMock, 'paginate');
+
+      const dateString = new Date().toDateString();
+
+      await controller.index(dateString, 'test name', 10, 2, 'ASC');
+
+      expect(servicePaginateSpy).toHaveBeenCalledWith(
+        { page: 10, limit: 2 },
+        { created: dateString, name: 'test name' },
+        'ASC',
+      );
+    });
+
+    it('should call service.paginate with default params', async () => {
+      const servicePaginateSpy = jest.spyOn(ServiceMock, 'paginate');
+
+      const dateString = new Date().toDateString();
+
+      await controller.index(dateString, 'test name');
+
+      expect(servicePaginateSpy).toHaveBeenCalledWith(
+        { page: 1, limit: 10 },
+        { created: dateString, name: 'test name' },
+        'DESC',
+      );
     });
   });
 });

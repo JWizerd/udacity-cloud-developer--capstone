@@ -7,8 +7,6 @@ import { DeepPartial } from 'typeorm';
 import { ISearchOptions } from './search-options.interface';
 
 export interface IService<T> {
-  findOne: (userId: string | number, id: number) => Promise<T>;
-
   paginate(
     options: IPaginationOptions,
     searchOptions: ISearchOptions,
@@ -18,11 +16,22 @@ export interface IService<T> {
     | Promise<Pagination<T, IPaginationMeta>>
     | Promise<Pagination<T[], IPaginationMeta>>;
 
-  create(entity: DeepPartial<T>): Promise<T>;
+  update(id: number, entity: any): Promise<T>;
+  remove(userId: string | number, id: number): Promise<void>;
+}
+
+export interface ITenantedService<T> extends IService<T> {
+  findOne: (userId: string | number, id: number) => Promise<T>;
   create(entity: DeepPartial<T>, userId: string | number): Promise<T>;
 
-  update(userId: string | number, id: number, entity: any): Promise<T>;
-  update(id: number, entity: any): Promise<T>;
+  ownsResource(
+    id: string | number,
+    resourceId: string | number,
+    joinColumn?: string,
+  ): Promise<boolean>;
+}
 
-  remove(userId: string | number, id: number): Promise<void>;
+export interface IBaseService<T> extends IService<T> {
+  findOne: (id: number | string) => Promise<T>;
+  create(entity: DeepPartial<T>): Promise<T>;
 }

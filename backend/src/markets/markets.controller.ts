@@ -25,11 +25,13 @@ export class MarketsController {
     @Query('page') page = 1,
     @Query('limit') limit = 10,
     @Query('order') order = 'DESC',
+    @Query('filterByUser') filterByUser = false,
+    @AuthUserParam() userId?: string,
   ) {
-    limit = limit > 50 ? 50 : limit;
     const options = {
       created,
       name,
+      user: filterByUser ? userId : undefined,
     };
 
     return this.service.paginate({ page, limit }, options, order);
@@ -50,7 +52,7 @@ export class MarketsController {
 
   @Delete()
   async remove(@Param('id', ParseIntPipe) id: number) {
-    return this.service.remove(id);
+    this.service.remove(id);
   }
 
   @Patch()

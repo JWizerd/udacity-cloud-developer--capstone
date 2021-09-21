@@ -15,17 +15,19 @@ export class BaseService<T> implements IService<T> {
     searchOptions: ISearchOptions,
     order: string,
   ) {
-    this.setOrderBy(order || 'DESC');
+    const orderBy = {
+      created: this.getOrderBy(order || 'DESC'),
+    } as any;
+
     if (options.limit > 50) options.limit = 50;
     return this.paginator<T>(this.repo, options, {
       where: { ...this.removeUndefinedProps(searchOptions) },
+      order: orderBy,
     });
   }
 
-  protected setOrderBy(order: string | undefined): void {
-    const orderStr = order.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
-    const queryBuilder = this.repo.createQueryBuilder('e');
-    queryBuilder.addOrderBy('e.created', orderStr, 'NULLS LAST');
+  protected getOrderBy(order: string | undefined): 'ASC' | 'DESC' {
+    return order.toUpperCase() === 'ASC' ? 'ASC' : 'DESC';
   }
 
   protected removeUndefinedProps(obj: ObjectLiteral) {
@@ -37,9 +39,16 @@ export class BaseService<T> implements IService<T> {
     this.repo.remove(entity);
   }
 
+  async findOne(id: number | string): Promise<T> {
+    return this.repo.findOne(id);
+  }
+
   async update(id: number | string, payload: DeepPartial<T>): Promise<T> {
     const existingRecord = await this.repo.findOne(id);
-    const entity = { ...existingRecord, ...payload };
-    return this.repo.save(entity);
+
+    if (existingRecord) {
+      const entity = { ...existingRecord, ...payload };
+      return this.repo.save(entity);
+    }
   }
 }

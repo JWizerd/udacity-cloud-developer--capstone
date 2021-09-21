@@ -27,22 +27,4 @@ export class MarketsService
     entity.user = userEntity;
     return this.repo.save(entity);
   }
-
-  async findOne(marketId: number): Promise<Market> {
-    return this.repo.findOne(marketId);
-  }
-
-  async remove(marketId: number) {
-    const market = await this.findOne(marketId);
-    this.repo.remove(market);
-  }
-
-  async update(marketId: number, updateMarketDTO: DeepPartial<Market>) {
-    const market = this.repo.create({
-      id: marketId,
-      ...updateMarketDTO,
-    });
-
-    return this.repo.save(market);
-  }
 }

@@ -54,17 +54,17 @@ export class MarketsController {
     return this.service.create(createMarketDTO, userId);
   }
 
-  @Delete()
-  @UseGuards(MarketsOwnershipGuard)
+  @Delete(':id')
+  @UseGuards(AuthGuard, MarketsOwnershipGuard)
   async remove(@Param('id', ParseIntPipe) id: number) {
     this.service.remove(id);
   }
 
-  @Patch()
-  @UseGuards(MarketsOwnershipGuard)
+  @Patch(':id')
+  @UseGuards(AuthGuard, MarketsOwnershipGuard)
   async update(
     @Param('id', ParseIntPipe) id: number,
-    updateMarketDTO: UpdateMarketDTO,
+    @Body() updateMarketDTO: UpdateMarketDTO,
   ) {
     return this.service.update(id, updateMarketDTO);
   }

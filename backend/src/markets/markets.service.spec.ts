@@ -38,21 +38,6 @@ describe('MarketsService', () => {
     expect(service).toBeDefined();
   });
 
-  describe('findOne', () => {
-    it('should call repo.findOne with correct params', async () => {
-      const findOneSpy = jest.spyOn(repo, 'findOne');
-      await service.findOne(1);
-      expect(findOneSpy).toHaveBeenCalledTimes(1);
-      expect(findOneSpy).toHaveBeenLastCalledWith(1);
-    });
-
-    it('should return a market entity if found', async () => {
-      jest.spyOn(repo, 'findOne').mockResolvedValue(MarketEntityMock);
-      const entity = await service.findOne(1);
-      expect(entity).toEqual(MarketEntityMock);
-    });
-  });
-
   describe('create', () => {
     it('should call repo.create with correct params', async () => {
       const createSpy = jest
@@ -108,26 +93,6 @@ describe('MarketsService', () => {
       await service.remove(1);
 
       expect(removeSpy).toHaveBeenCalledWith(MarketEntityMock);
-    });
-  });
-
-  describe('update', () => {
-    it('should call repo.create with the correct params', async () => {
-      jest.spyOn(repo, 'save');
-      const createSpy = jest.spyOn(repo, 'create');
-
-      await service.update(1, MarketDTOMock);
-
-      expect(createSpy).toHaveBeenCalledWith({ id: 1, ...MarketDTOMock });
-    });
-
-    it('should call repo.save with the correct params', async () => {
-      const saveSpy = jest.spyOn(repo, 'save');
-      jest.spyOn(repo, 'create').mockReturnValue(MarketEntityMock);
-
-      await service.update(1, MarketDTOMock);
-
-      expect(saveSpy).toHaveBeenCalledWith(MarketEntityMock);
     });
   });
 });

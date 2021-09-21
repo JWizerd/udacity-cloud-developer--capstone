@@ -103,40 +103,25 @@ describe('ResourceService', () => {
   });
 
   it('should call service.paginate with correct params', async () => {
+    const order = 'ASC';
+
     const paginationOpts = {
       limit: 1,
       page: 1,
     };
 
     const searchOpts = {
-      created: '2021-09-17 15:40:52.195242',
-    };
-
-    const order = 'DESC';
-
-    const addOrderBySpy = jest.fn();
-
-    const createQueryBuilderSpy = jest
-      .spyOn(repo, 'createQueryBuilder')
-      .mockReturnValue({
-        addOrderBy: addOrderBySpy,
-      });
+      name: 'test market',
+    } as any;
 
     await service.paginate(paginationOpts, searchOpts, order);
-
-    expect(createQueryBuilderSpy).toHaveBeenCalledTimes(1);
-    expect(createQueryBuilderSpy).toHaveBeenCalledWith('e');
-
-    expect(addOrderBySpy).toHaveBeenCalledTimes(1);
-    expect(addOrderBySpy).toHaveBeenCalledWith(
-      'e.created',
-      order,
-      'NULLS LAST',
-    );
 
     expect(paginatorSpy).toHaveBeenCalledTimes(1);
     expect(paginatorSpy).toHaveBeenCalledWith(repo, paginationOpts, {
       where: searchOpts,
+      order: {
+        created: order,
+      },
     });
   });
 });

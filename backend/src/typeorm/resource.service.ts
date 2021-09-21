@@ -18,8 +18,4 @@ export class ResourceService<T>
     const entity = this.repo.create(payload);
     return this.repo.save(entity);
   }
-
-  async findOne(id: number | string): Promise<T> {
-    return this.repo.findOne(id);
-  }
 }

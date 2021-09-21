@@ -12,7 +12,6 @@ export class OwnershipGuard<T> implements CanActivate {
     try {
       const req = context.switchToHttp().getRequest();
       const authHeader = req.header('Authorization');
-      await this.authService.verifyToken(authHeader);
       const user = this.authService.getUser(authHeader);
       return this.service.ownsResource(user, req.params.id);
     } catch (error) {

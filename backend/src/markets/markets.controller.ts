@@ -8,11 +8,14 @@ import {
   Patch,
   Post,
   Query,
+  UseGuards,
 } from '@nestjs/common';
 import { AuthUserParam } from '../auth/auth-user-param.decorator';
 import { CreateMarketDTO } from './dtos/create-market-dto.interface';
 import { UpdateMarketDTO } from './dtos/update-market-dto.interface';
 import { MarketsService } from './markets.service';
+import { AuthGuard } from '../auth/auth.guard';
+import { MarketsOwnershipGuard } from './markets-ownership.guard';
 
 @Controller('markets')
 export class MarketsController {
@@ -31,7 +34,7 @@ export class MarketsController {
     const options = {
       created,
       name,
-      user: filterByUser ? userId : undefined,
+      user: filterByUser && userId ? userId : undefined,
     };
 
     return this.service.paginate({ page, limit }, options, order);
@@ -43,6 +46,7 @@ export class MarketsController {
   }
 
   @Post()
+  @UseGuards(AuthGuard)
   async create(
     @AuthUserParam() userId: string,
     @Body() createMarketDTO: CreateMarketDTO,
@@ -51,11 +55,13 @@ export class MarketsController {
   }
 
   @Delete()
+  @UseGuards(MarketsOwnershipGuard)
   async remove(@Param('id', ParseIntPipe) id: number) {
     this.service.remove(id);
   }
 
   @Patch()
+  @UseGuards(MarketsOwnershipGuard)
   async update(
     @Param('id', ParseIntPipe) id: number,
     updateMarketDTO: UpdateMarketDTO,

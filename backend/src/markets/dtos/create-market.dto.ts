@@ -6,7 +6,7 @@ import {
   MaxLength,
 } from 'class-validator';
 
-export class CreateMarketDto {
+export class CreateMarketDTO {
   @IsNotEmpty()
   @IsString()
   name: string;

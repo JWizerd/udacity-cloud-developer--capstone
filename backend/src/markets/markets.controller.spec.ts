@@ -151,4 +151,18 @@ describe('MarketsController', () => {
       );
     });
   });
+
+  describe('controller.getCreateSchema', () => {
+    it('should return the create dto class as an object', async () => {
+      const result = await controller.getSchemaCreate();
+      expect(result.properties).toBeDefined();
+    });
+  });
+
+  describe('controller.getUpdateSchema', () => {
+    it('should return the create dto class as an object', async () => {
+      const result = await controller.getSchemaUpdate();
+      expect(result.properties).toBeDefined();
+    });
+  });
 });

@@ -27,7 +27,7 @@ export interface ITenantedService<T> extends IService<T> {
   ownsResource(
     id: string | number,
     resourceId: string | number,
-    joinColumn?: string,
+    foreignKey?: string,
   ): Promise<boolean>;
 }
 

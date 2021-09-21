@@ -7,13 +7,13 @@ export class TenantedService<T> extends BaseService<T> {
   }
 
   async ownsResource(
-    id: string | number,
+    ownerId: string | number,
     resourceId: string | number,
     joinColumn = 'user',
   ) {
     const resource = await this.repo.findOne({
       where: {
-        [`${joinColumn}`]: id,
+        [`${joinColumn}`]: ownerId,
         id: resourceId,
       },
     });

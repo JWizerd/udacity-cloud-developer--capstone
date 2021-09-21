@@ -30,13 +30,35 @@ describe('OwnershipGuard', () => {
     expect(authServiceSpy).toHaveBeenCalledWith(mockToken);
   });
 
+  it('should call authService.verifyToken with correct params', async () => {
+    jest.spyOn(AuthServiceMock, 'getUser');
+    jest.spyOn(ServiceMock, 'ownsResource');
+    const verifyTokenSpy = jest
+      .spyOn(AuthServiceMock, 'verifyToken')
+      .mockResolvedValue(true);
+
+    await guard.canActivate(executionContextMock);
+
+    expect(verifyTokenSpy).toHaveBeenCalledWith(mockToken);
+  });
+
+  it('should return false if token is invalid', async () => {
+    jest.spyOn(AuthServiceMock, 'getUser');
+    jest.spyOn(ServiceMock, 'ownsResource');
+    jest.spyOn(AuthServiceMock, 'verifyToken').mockRejectedValue(null);
+
+    const valid = await guard.canActivate(executionContextMock);
+
+    expect(valid).toEqual(false);
+  });
+
   it('should call service.ownsResource with correct params', async () => {
     jest.spyOn(AuthServiceMock, 'getUser').mockReturnValue('abc123');
     const ownsResourceSpy = jest.spyOn(ServiceMock, 'ownsResource');
 
     await guard.canActivate(executionContextMock);
 
-    expect(ownsResourceSpy).toHaveBeenCalledWith('abc123', 1, 'user');
+    expect(ownsResourceSpy).toHaveBeenCalledWith('abc123', 1);
   });
 
   it('should call guard.canActive and return true if owns resource', async () => {

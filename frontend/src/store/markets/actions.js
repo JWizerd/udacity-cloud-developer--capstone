@@ -1,4 +1,5 @@
 import { CONSTANTS } from "./constants";
+import axios from "axios";
 import { actionResolver } from "../action-resolver";
 export default {
   async GET_MARKETS({ commit }) {
@@ -26,7 +27,15 @@ export default {
     }
   },
   CREATE_MARKET(_, market) {
-    return actionResolver(this.$api.post, 'markets', market);
+    const uploadMarket = async (market) => {
+      if (!market.featuredImage) throw new Error('Featured image is required.');
+      const { data } = await this.$api.get(`/files/upload-url/market-${Date.now()}`);
+      await axios.put(data.uploadUrl, market.featuredImage);
+      market.featuredImage = data.attachmentUrl;
+      await this.$api.post('markets', market);
+    }
+
+    return actionResolver(uploadMarket, market);
   },
   async GET_MARKET_SCHEMA_CREATE({ commit }) {
     try {

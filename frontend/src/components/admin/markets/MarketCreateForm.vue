@@ -1,73 +1,103 @@
 <template>
   <div class="market-create-form mb-5" v-if="$store.getters.marketSchemaCreate">
-    <div class="text-danger text-center mb-3" v-if="error">{{ error }}</div>
-    <div class="text-success text-center mb-3" v-if="success">Successfully created market! Redirecting to markets page...</div>
-    <vue-form-json-schema
-      v-model="model"
-      :schema="$store.getters.marketSchemaCreate"
-      :ui-schema="uiSchema"
-    >
-    </vue-form-json-schema>
-    <button @click="createMarket" class="btn btn-primary">Save Market</button>
+    <div class="text-danger text-center mb-3" v-if="status === 'ERROR'">{{ error }}</div>
+    <div class="text-success text-center mb-3" v-if="status === 'SUCCESS'">Successfully created market! Redirecting to markets page...</div>
+    <form @submit.prevent="createMarket" novalidate>
+      <div class="form-group text-center" v-if="error">
+        <div class="text-danger">{{ error }}</div>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">Name</label>
+        <input type="text" class="form-control" name="form" v-model="model.name" placeholder="Enter market name" />
+        <small class="form-text text-danger" v-if="!$v.model.name.required">Field is required</small>
+        <small class="form-text text-danger" v-if="!$v.model.name.minLength">Name must have at least {{$v.model.name.$params.minLength.min}} letters.</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">Summary</label>
+        <input type="text" class="form-control" name="form" v-model="model.summary" placeholder="Enter summary about market" />
+        <small class="form-text text-danger" v-if="!$v.model.summary.required">Field is required</small>
+        <small class="form-text text-danger" v-if="!$v.model.summary.minLength">Summary must have at least {{$v.model.summary.$params.minLength.min}} letters.</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">Description</label>
+        <textarea class="form-control" name="form" v-model="model.description" placeholder="Enter detailed information about market" />
+        <small class="form-text text-danger" v-if="!$v.model.description.required">Field is required</small>
+        <small class="form-text text-danger" v-if="!$v.model.description.maxLength">Description can only {{$v.model.name.$params.description.max}} letters.</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">Featured Image</label>
+        <input type="file" @change="fileChange($event.target.files)" accept="image/*" class="form-control-file">
+        <small class="form-text text-danger" v-if="!$v.model.featuredImage.required">Field is required</small>
+      </div>
+
+      <div class="form-group mt-5">
+        <button type="submit" :disabled="$v.$invalid" class="btn btn-primary">{{ status }}</button>
+      </div>
+    </form>
   </div>
 </template>
 
 <script>
+import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 export default {
   async created() {
     this.$store.dispatch("GET_MARKET_SCHEMA_CREATE");
   },
-  methods: {
-    async createMarket() {
-      try {
-        await this.$store.dispatch('CREATE_MARKET', this.model);
-        this.success = true;
-        setTimeout(() => this.$router.push('/admin/markets'), 2000);
-      } catch(error) {
-        this.error = error;
-      }
-    }
-  },
   data() {
     return {
-      error: null,
-      success: false,
-      model: {},
-      uiSchema: [
-        {
-          component: 'input',
-          model: 'name',
-          fieldOptions: {
-            class: ['form-control mb-3'],
-            on: ['input'],
-            attrs: {
-              placeholder: 'Enter name',
-            },
-          },
-        },
-        {
-          component: 'textarea',
-          model: 'summary',
-          fieldOptions: {
-            class: ['form-control mb-3'],
-            on: ['input'],
-            attrs: {
-              placeholder: 'Enter summary',
-            },
-          },
-        },
-        {
-          component: 'textarea',
-          model: 'description',
-          fieldOptions: {
-            class: ['form-control mb-3'],
-            on: ['input'],
-            attrs: {
-              placeholder: 'Enter description',
-            },
-          },
+      error: '',
+      status: "SUBMIT",
+      model: {
+        featuredImage: '',
+        name: '',
+        description: '',
+        summary: ''
+      },
+    }
+  },
+  validations: {
+    model: {
+      name: {
+        required,
+        minLength: minLength(5)
+      },
+      summary: {
+        required,
+        minLength: minLength(10),
+        maxLength: maxLength(255),
+      },
+      description: {
+        required,
+        maxLength: maxLength(5000),
+      },
+      featuredImage: {
+        required,
+      },
+    }
+  },
+  methods: {
+    fileChange(files) {
+      const newModel = { ...this.model };
+      newModel.featuredImage = files[0];
+      this.model = newModel;
+    },
+    async createMarket() {
+      try {
+        this.status = "SAVING";
+        if (!this.$v.$invalid) {
+          await this.$store.dispatch('CREATE_MARKET', this.model);
+          this.status = "SUCCESS";
+          setTimeout(() => this.$router.push('/admin/markets'), 3000);
         }
-      ],
+      } catch(error) {
+        this.status = "ERROR";
+        this.error = error;
+        setTimeout(() => this.status = "SUBMIT", 5000);
+      }
     }
   },
 }

@@ -1,7 +1,7 @@
 <template>
   <div :class="'col-sm-12 mb-3 card market-card p-4 market-content market-' + market.id" v-if="market">
-    <div class="relative img-wrapper">
-      <img v-show="market.featuredImage" :alt="market.name + ' - image'" />
+    <div class="relative img-wrapper mb-4">
+      <img class="img-fluid" v-show="market.featuredImage" :src="market.featuredImage" :alt="market.name + ' - image'" />
     </div>
 
     <div class="content-wrapper">

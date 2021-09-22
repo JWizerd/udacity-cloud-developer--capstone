@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthServiceMock } from '../auth/mocks/auth-service.mock';
 import { AuthGuardMock } from '../auth/mocks/auth-guard.mock';
 import { UsersController } from './users.controller';
-import { ServiceMock } from '../utils/typeorm/mocks/service.mock';
+import { ServiceMock } from '../../test/mocks/service.mock';
 import { UsersService } from './users.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthService } from '../auth/auth.service';
@@ -16,7 +16,7 @@ describe('UsersController', () => {
 
   beforeEach(async () => {
     usersService = ServiceMock;
-    authService = new AuthServiceMock();
+    authService = AuthServiceMock;
     authGuard = new AuthGuardMock();
 
     const module: TestingModule = await Test.createTestingModule({

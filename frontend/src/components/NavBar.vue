@@ -49,6 +49,9 @@
                 <router-link to="/profile" class="dropdown-item dropdown-profile">
                   <font-awesome-icon class="mr-3" icon="user" />Profile
                 </router-link>
+                <router-link to="/admin/markets" class="dropdown-item dropdown-profile">
+                  <font-awesome-icon class="mr-3" icon="store" />My Markets
+                </router-link>
                 <a id="qsLogoutBtn" href="#" class="dropdown-item" @click.prevent="logout">
                   <font-awesome-icon class="mr-3" icon="power-off" />Log out
                 </a>
@@ -79,6 +82,11 @@
             <li>
               <font-awesome-icon icon="user" class="mr-3" />
               <router-link to="/profile">Profile</router-link>
+            </li>
+
+            <li>
+              <font-awesome-icon icon="user" class="mr-3" />
+              <router-link to="/admin/markets">My Markets</router-link>
             </li>
 
             <li>

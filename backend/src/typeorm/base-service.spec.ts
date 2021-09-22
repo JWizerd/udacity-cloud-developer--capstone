@@ -1,15 +1,15 @@
-import { BaseService } from './base.service';
-import { MockEntity } from './mocks/entity.mock';
-import { RepositoryMock } from './mocks/repository.mock';
-describe('BaseService', () => {
+import { MockEntity } from '../../test/mocks/entity.mock';
+import { RepositoryMock } from '../../test/mocks/repository.mock';
+import { ResourceService } from './resource.service';
+describe('ResourceService', () => {
   const entity = MockEntity;
-  let service: BaseService<typeof entity>;
-  let repo: RepositoryMock;
+  let service: ResourceService<typeof entity>;
+  let repo: typeof RepositoryMock;
   const paginatorSpy = jest.fn();
 
   beforeEach(() => {
-    repo = new RepositoryMock() as any;
-    service = new BaseService(repo as any, paginatorSpy as any);
+    repo = RepositoryMock as any;
+    service = new ResourceService(repo as any, paginatorSpy as any);
   });
 
   afterEach(() => {
@@ -19,9 +19,12 @@ describe('BaseService', () => {
   describe('service.save', () => {
     it('should call with the correct params', async () => {
       const saveSpy = jest.spyOn(repo, 'save').mockResolvedValue(MockEntity);
+      const createSpy = jest.spyOn(repo, 'create').mockReturnValue(MockEntity);
       await service.create(MockEntity);
       expect(saveSpy).toHaveBeenCalledTimes(1);
       expect(saveSpy).toHaveBeenCalledWith(MockEntity);
+      expect(createSpy).toHaveBeenCalledTimes(1);
+      expect(createSpy).toHaveBeenCalledWith(MockEntity);
     });
 
     it('should return an entity', async () => {
@@ -49,13 +52,24 @@ describe('BaseService', () => {
   });
 
   describe('service.remove', () => {
-    it('should call with the correct params', async () => {
-      const deleteSpy = jest
-        .spyOn(repo, 'delete')
-        .mockResolvedValue(MockEntity);
+    it('should call repo.findOne with the correct params', async () => {
+      jest.spyOn(repo, 'remove');
+      const findOneSpy = jest.spyOn(repo, 'findOne');
+
       await service.remove(1);
-      expect(deleteSpy).toHaveBeenCalledTimes(1);
-      expect(deleteSpy).toHaveBeenCalledWith(1);
+
+      expect(findOneSpy).toHaveBeenCalledTimes(1);
+    });
+
+    it('should call with the correct params', async () => {
+      jest.spyOn(repo, 'findOne').mockResolvedValue(MockEntity);
+
+      const removeSpy = jest.spyOn(repo, 'remove');
+
+      await service.remove(1);
+
+      expect(removeSpy).toHaveBeenCalledTimes(1);
+      expect(removeSpy).toHaveBeenCalledWith(MockEntity);
     });
 
     it('should return the deleted entity', async () => {
@@ -89,40 +103,25 @@ describe('BaseService', () => {
   });
 
   it('should call service.paginate with correct params', async () => {
+    const order = 'ASC';
+
     const paginationOpts = {
       limit: 1,
       page: 1,
     };
 
     const searchOpts = {
-      created: '2021-09-11T19:54:46.662Z',
-    };
-
-    const order = 'DESC';
-
-    const addOrderBySpy = jest.fn();
-
-    const createQueryBuilderSpy = jest
-      .spyOn(repo, 'createQueryBuilder')
-      .mockReturnValue({
-        addOrderBy: addOrderBySpy,
-      });
+      name: 'test market',
+    } as any;
 
     await service.paginate(paginationOpts, searchOpts, order);
-
-    expect(createQueryBuilderSpy).toHaveBeenCalledTimes(1);
-    expect(createQueryBuilderSpy).toHaveBeenCalledWith('e');
-
-    expect(addOrderBySpy).toHaveBeenCalledTimes(1);
-    expect(addOrderBySpy).toHaveBeenCalledWith(
-      'e.created',
-      order,
-      'NULLS LAST',
-    );
 
     expect(paginatorSpy).toHaveBeenCalledTimes(1);
     expect(paginatorSpy).toHaveBeenCalledWith(repo, paginationOpts, {
       where: searchOpts,
+      order: {
+        created: order,
+      },
     });
   });
 });

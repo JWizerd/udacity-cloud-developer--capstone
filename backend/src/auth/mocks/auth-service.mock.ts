@@ -1,4 +1,4 @@
-export class AuthServiceMock {
-  verifyToken = jest.fn();
-  getUser = jest.fn();
-}
+export const AuthServiceMock = {
+  verifyToken: () => null,
+  getUser: () => null,
+};

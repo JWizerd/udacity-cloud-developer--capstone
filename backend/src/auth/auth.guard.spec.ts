@@ -6,11 +6,11 @@ import { ExecutionContextMock } from './mocks/executionContextMock';
 
 describe('AuthGuard', () => {
   let service: AuthGuard;
-  let authService: AuthServiceMock;
+  let authService: any;
   const mockAuthHeader = 'Authorization test';
 
   beforeEach(async () => {
-    authService = new AuthServiceMock();
+    authService = AuthServiceMock;
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         AuthGuard,

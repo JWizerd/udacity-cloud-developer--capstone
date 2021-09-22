@@ -4,4 +4,5 @@ export const ServiceMock = {
   remove: () => null,
   paginate: () => null,
   update: () => null,
+  ownsResource: () => null,
 };

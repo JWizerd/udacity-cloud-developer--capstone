@@ -11,6 +11,7 @@ export const getInstance = () => instance;
 export const useAuth0 = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   redirectUri = window.location.origin,
+  onAfterLogin = null,
   ...options
 }) => {
   if (instance) return instance;
@@ -92,6 +93,10 @@ export const useAuth0 = ({
       } finally {
         this.isAuthenticated = await this.auth0Client.isAuthenticated();
         this.user = await this.auth0Client.getUser();
+        this.claims = await this.auth0Client.getIdTokenClaims();
+        if (typeof onAfterLogin === 'function' && this.claims && this.user) {
+          onAfterLogin(this.user, this.claims);
+        }
         this.loading = false;
       }
     }

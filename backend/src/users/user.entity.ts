@@ -1,10 +1,11 @@
+import { Market } from '../markets/market.entity';
 import {
   Entity,
   Column,
   CreateDateColumn,
-  DeleteDateColumn,
   UpdateDateColumn,
   PrimaryColumn,
+  OneToMany,
 } from 'typeorm';
 
 @Entity()
@@ -19,12 +20,12 @@ export class User {
   userUuid: string;
 
   @Column({ nullable: false, unique: true })
-  username: string;
-
-  @Column({ nullable: false })
-  email: string;
+  username?: string;
 
   @Column({ nullable: false, unique: true })
+  email: string;
+
+  @Column({ nullable: false })
   headshot?: string;
 
   @CreateDateColumn()
@@ -33,6 +34,9 @@ export class User {
   @UpdateDateColumn()
   updated?: Date;
 
-  @DeleteDateColumn()
-  deleted?: Date;
+  @OneToMany(() => Market, (market) => market.user, {
+    lazy: true,
+    onDelete: 'CASCADE',
+  })
+  markets?: Promise<Market[]>;
 }

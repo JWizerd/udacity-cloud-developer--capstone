@@ -22,5 +22,5 @@ export class UpdateMarketDTO {
 
   @IsOptional()
   @IsUrl()
-  headshot?: string;
+  featuredImage?: string;
 }

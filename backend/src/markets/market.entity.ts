@@ -24,6 +24,6 @@ export class Market extends BaseEntity {
   @Column({ nullable: false, type: 'text' })
   description?: string;
 
-  @Column({ nullable: false })
+  @Column({ nullable: true })
   featuredImage?: string;
 }

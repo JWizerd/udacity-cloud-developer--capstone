@@ -22,5 +22,5 @@ export class CreateMarketDTO {
 
   @IsOptional()
   @IsUrl()
-  headshot?: string;
+  featuredImage?: string;
 }

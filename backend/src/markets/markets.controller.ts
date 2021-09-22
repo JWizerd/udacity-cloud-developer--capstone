@@ -17,7 +17,6 @@ import { AuthGuard } from '../auth/auth.guard';
 import { MarketsOwnershipGuard } from './markets-ownership.guard';
 import { CreateMarketDTO } from './dtos/create-market.dto';
 import { UpdateMarketDTO } from './dtos/update-market.dto';
-import { targetConstructorToSchema } from 'class-validator-jsonschema';
 
 @Controller('markets')
 export class MarketsController {
@@ -69,15 +68,5 @@ export class MarketsController {
     @Body() updateMarketDTO: UpdateMarketDTO,
   ) {
     return this.service.update(id, updateMarketDTO);
-  }
-
-  @Get('/schema/create')
-  async getSchemaCreate() {
-    return targetConstructorToSchema(CreateMarketDTO);
-  }
-
-  @Get('/schema/update')
-  async getSchemaUpdate() {
-    return targetConstructorToSchema(UpdateMarketDTO);
   }
 }

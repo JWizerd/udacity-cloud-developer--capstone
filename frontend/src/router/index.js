@@ -3,6 +3,8 @@ import Router from "vue-router";
 import Home from "../views/Home.vue";
 import Profile from "../views/Profile.vue";
 import { authGuard } from "../auth";
+import { AdminRoutes } from "./admin";
+import { MarketRoutes } from "./markets";
 
 Vue.use(Router);
 
@@ -20,7 +22,9 @@ const router = new Router({
       name: "profile",
       component: Profile,
       beforeEnter: authGuard
-    }
+    },
+    ...MarketRoutes,
+    ...AdminRoutes
   ]
 });
 

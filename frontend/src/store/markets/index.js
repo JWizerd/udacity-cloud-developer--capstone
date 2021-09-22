@@ -2,9 +2,12 @@ import getters from './getters';
 import mutations from './mutations';
 import actions from './actions';
 
-export const MARKETS = {
+export default {
   state: () => ({
     markets: [],
+    currentMarket: null,
+    marketSchemaCreate: null,
+    marketCreateFormError: "",
   }),
   getters,
   mutations,

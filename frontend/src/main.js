@@ -6,11 +6,18 @@ import { Auth0Plugin } from "./auth";
 import apiClientFactory from "./api";
 import hljs from "highlight.js/lib/core";
 import "highlight.js/styles/github.css";
-
+import VueFormJsonSchema from 'vue-form-json-schema';
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faLink, faUser, faPowerOff } from "@fortawesome/free-solid-svg-icons";
+import { faLink, faUser, faPowerOff, faStore } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome";
 import { domain, clientId } from "../auth_config.json";
+
+
+Vue.component('vue-form-json-schema', VueFormJsonSchema);
+
+store.$api = apiClientFactory({
+  baseURL: process.env.VUE_APP_API_URL,
+});
 
 Vue.config.productionTip = false;
 
@@ -27,16 +34,15 @@ Vue.use(Auth0Plugin, {
     );
   },
   onAfterLogin: (user, claims) => {
-    store.$api = apiClientFactory({
-      baseURL: process.env.VUE_APP_API_URL,
-      token: claims.__raw,
-    })
+    store.$api.defaults.headers.common.Authorization = `Bearer ${claims.__raw}`;
 
-    store.dispatch("CREATE_USER", user);
+    if (localStorage.getItem('isLoggedIn') === null) {
+      store.dispatch("CREATE_USER", user);
+    }
   },
 });
 
-library.add(faLink, faUser, faPowerOff);
+library.add(faLink, faUser, faPowerOff, faStore);
 Vue.component("font-awesome-icon", FontAwesomeIcon);
 
 new Vue({

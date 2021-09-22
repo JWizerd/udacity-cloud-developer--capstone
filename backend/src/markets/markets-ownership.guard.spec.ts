@@ -1,4 +1,4 @@
-import { ServiceMock } from '../typeorm/mocks/service.mock';
+import { ServiceMock } from '../../test/mocks/service.mock';
 import { MarketsOwnershipGuard } from './markets-ownership.guard';
 import { AuthServiceMock } from '../auth/mocks/auth-service.mock';
 

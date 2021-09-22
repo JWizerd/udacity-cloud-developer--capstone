@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthGuardMock } from '../auth/mocks/auth-guard.mock';
-import { ServiceMock } from '../typeorm/mocks/service.mock';
+import { ServiceMock } from '../../test/mocks/service.mock';
 import { MarketsController } from './markets.controller';
 import { MarketsService } from './markets.service';
 import { MarketDTOMock, MarketEntityMock } from './mocks/market-entity.mock';

@@ -1,7 +1,7 @@
-import { ServiceMock } from '../typeorm/mocks/service.mock';
+import { ServiceMock } from '../../test/mocks/service.mock';
 import { AuthServiceMock } from './mocks/auth-service.mock';
 import { OwnershipGuard } from './ownership.guard';
-import { MockEntity } from '../typeorm/mocks/entity.mock';
+import { MockEntity } from '../../test/mocks/entity.mock';
 import { ExecutionContextMock } from './mocks/executionContextMock';
 
 describe('OwnershipGuard', () => {

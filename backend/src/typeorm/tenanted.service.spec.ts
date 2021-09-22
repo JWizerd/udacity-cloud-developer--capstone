@@ -1,6 +1,6 @@
 import { TenantedService } from './tenanted.service';
-import { MockEntity } from './mocks/entity.mock';
-import { RepositoryMock } from './mocks/repository.mock';
+import { MockEntity } from '../../test/mocks/entity.mock';
+import { RepositoryMock } from '../../test/mocks/repository.mock';
 describe('TenantedService', () => {
   const entity = MockEntity;
   let service: TenantedService<typeof entity>;

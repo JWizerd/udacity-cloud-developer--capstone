@@ -1,5 +1,5 @@
-import { MockEntity } from './mocks/entity.mock';
-import { RepositoryMock } from './mocks/repository.mock';
+import { MockEntity } from '../../test/mocks/entity.mock';
+import { RepositoryMock } from '../../test/mocks/repository.mock';
 import { ResourceService } from './resource.service';
 describe('ResourceService', () => {
   const entity = MockEntity;

@@ -1,7 +1,7 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { ServiceMock } from '../typeorm/mocks/service.mock';
+import { ServiceMock } from '../../test/mocks/service.mock';
 import { UsersService } from '../users/users.service';
-import { RepositoryMock } from '../typeorm/mocks/repository.mock';
+import { RepositoryMock } from '../../test/mocks/repository.mock';
 import { MarketsService } from './markets.service';
 import { MarketDTOMock, MarketEntityMock } from './mocks/market-entity.mock';
 import { UserMock } from '../users/mocks/user-entity.mock';

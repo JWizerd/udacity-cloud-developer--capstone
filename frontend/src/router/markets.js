@@ -3,7 +3,7 @@ import MarketSingle from "../views/MarketSingle";
 
 export const MarketRoutes = [
   {
-    path: "/markets",
+    path: "/",
     name: "markets",
     component: Markets
   },

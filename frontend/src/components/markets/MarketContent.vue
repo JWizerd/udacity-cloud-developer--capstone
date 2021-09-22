@@ -23,8 +23,22 @@ export default {
 }
 </script>
 
-<style>
+<style lang="scss" scoped>
   .market-content {
     border: none;
+  }
+
+  .img-wrapper {
+    height: 350px;
+    max-height: 50vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .img-wrapper img {
+    position: absolute;
+    height: auto;
+    width: 100%;
+    bottom: -50%;
   }
 </style>

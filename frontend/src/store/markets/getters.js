@@ -5,7 +5,7 @@ export default {
   currentMarket(state) {
     return state.currentMarket;
   },
-  marketSchemaCreate(state) {
-    return state.marketSchemaCreate;
-  }
+  userMarkets(state) {
+    return state.userMarkets;
+  },
 };

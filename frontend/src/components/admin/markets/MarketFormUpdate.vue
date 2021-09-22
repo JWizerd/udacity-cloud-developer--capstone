@@ -1,8 +1,8 @@
 <template>
-  <div class="market-create-form mb-5" v-if="$store.getters.marketSchemaCreate">
+  <div class="market-create-form mb-5" v-if="$store.getters.currentMarket">
     <div class="text-danger text-center mb-3" v-if="status === 'ERROR'">{{ error }}</div>
-    <div class="text-success text-center mb-3" v-if="status === 'SUCCESS'">Successfully created market! Redirecting to markets page...</div>
-    <form @submit.prevent="createMarket" novalidate>
+    <div class="text-success text-center mb-3" v-if="status === 'SUCCESS'">Successfully updated market!</div>
+    <form @submit.prevent="updateMarket" novalidate>
       <div class="form-group text-center" v-if="error">
         <div class="text-danger">{{ error }}</div>
       </div>
@@ -30,12 +30,18 @@
 
       <div class="form-group">
         <label class="label" for="name">Featured Image</label>
-        <input type="file" @change="fileChange($event.target.files)" accept="image/*" class="form-control-file">
+        <div>
+          <input type="hidden" v-model="model.featuredImage" />
+          <img :src="$store.getters.currentMarket.featuredImage" class="img-fluid uploaded-image mb-1" />
+          <input type="file" @change="fileChange($event.target.files)" accept="image/*" class="form-control-file">
+        </div>
+
         <small class="form-text text-danger" v-if="!$v.model.featuredImage.required">Field is required</small>
       </div>
 
       <div class="form-group mt-5">
-        <button type="submit" :disabled="$v.$invalid" class="btn btn-primary">{{ status }}</button>
+        <button type="submit" :disabled="$v.$invalid || deleteStatus !== 'DELETE'" class="btn btn-primary m-1">{{ status }}</button>
+        <button @click="deleteMarket" :disabled="status !== 'UPDATE'" class="btn btn-danger">{{ deleteStatus }}</button>
       </div>
     </form>
   </div>
@@ -45,12 +51,13 @@
 import { required, minLength, maxLength } from 'vuelidate/lib/validators';
 export default {
   async created() {
-    this.$store.dispatch("GET_MARKET_SCHEMA_CREATE");
+    await this.setMarket();
   },
   data() {
     return {
       error: '',
-      status: "SUBMIT",
+      status: "UPDATE",
+      deleteStatus: "DELETE",
       model: {
         featuredImage: '',
         name: '',
@@ -80,25 +87,53 @@ export default {
     }
   },
   methods: {
+    async setMarket() {
+      await this.$store.dispatch("GET_MARKET", this.$route.params.marketId);
+      const { featuredImage, name, description, summary } = this.$store.getters.currentMarket;
+
+      this.model = {
+        featuredImage,
+        name,
+        description,
+        summary
+      };
+    },
     fileChange(files) {
       const newModel = { ...this.model };
       newModel.featuredImage = files[0];
       this.model = newModel;
     },
-    async createMarket() {
+    async updateMarket() {
       try {
-        this.status = "SAVING";
+        this.status = "UPDATING";
         if (!this.$v.$invalid) {
-          await this.$store.dispatch('CREATE_MARKET', this.model);
+          await this.$store.dispatch('UPDATE_MARKET', { id: this.$route.params.marketId, ...this.model });
           this.status = "SUCCESS";
-          setTimeout(() => this.$router.push('/admin/markets'), 3000);
+          await this.setMarket();
+          this.status = "UPDATE";
         }
       } catch(error) {
         this.status = "ERROR";
         this.error = error;
         setTimeout(() => this.status = "SUBMIT", 5000);
       }
+    },
+    async deleteMarket() {
+      try {
+        this.deleteStatus = "DELETING";
+        await this.$store.dispatch("DELETE_MARKET", this.$route.params.marketId);
+        this.deleteStatus = "DELETED";
+        setTimeout(() => this.$router.push('/admin/markets'), 3000);
+      } catch(error) {
+        this.error = error;
+      }
     }
   },
 }
 </script>
+
+<style lang="scss" scoped>
+.uploaded-image {
+  max-width: 250px;
+}
+</style>

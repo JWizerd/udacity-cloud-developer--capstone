@@ -3,29 +3,17 @@ import { actionResolver } from "../action-resolver";
 
 export default {
   async GET_MARKETS({ commit }) {
-    try {
-      const { data } = await this.$api.get('markets');
-      commit("SET_MARKETS", data.items);
-    } catch (error) {
-      console.error(error);
-    }
+    const { data } = await this.$api.get('markets');
+    commit("SET_MARKETS", data.items);
   },
   async GET_MARKETS_BY_USERS({ commit }) {
-    try {
-      const { data } = await this.$api.get(`markets?filterByUser=true`);
-      commit("SET_USER_MARKETS", data.items);
-    } catch (error) {
-      console.error(error);
-    }
+    const { data } = await this.$api.get(`markets?filterByUser=true`);
+    commit("SET_USER_MARKETS", data.items);
   },
   async GET_MARKET({ commit }, marketId) {
-    try {
-      commit("SET_CURRENT_MARKET", null);
-      const { data: market } = await this.$api.get(`markets/${marketId}`);
-      commit("SET_CURRENT_MARKET", market);
-    } catch (error) {
-      console.error(error);
-    }
+    commit("SET_CURRENT_MARKET", null);
+    const { data: market } = await this.$api.get(`markets/${marketId}`);
+    commit("SET_CURRENT_MARKET", market);
   },
   CREATE_MARKET(_, market) {
     const uploadMarket = async (market) => {

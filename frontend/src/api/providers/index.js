@@ -1,9 +1,11 @@
 import { marketsServiceProvider } from "./markets.service.provider";
 import { axiosServiceProvider } from "./axios.provider";
 import { usersServiceProvider } from "./user.service.provider";
+import { filesServiceProvider } from "./files.service.provider";
 
-export const providers = [
-  marketsServiceProvider,
+export default [
   usersServiceProvider,
-  axiosServiceProvider
+  axiosServiceProvider,
+  filesServiceProvider,
+  marketsServiceProvider,
 ];

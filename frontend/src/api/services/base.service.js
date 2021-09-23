@@ -4,7 +4,7 @@ export default class Service {
     this.resource = resource;
   }
 
-  setHeader(headerName, value) {
+  setGlobalHeader(headerName, value) {
     this.axios.defaults.headers.common[headerName] = value;
   }
 
@@ -19,12 +19,12 @@ export default class Service {
   }
 
   async find(params = {}) {
-    const { data: list } = await this.axios.get(this.resource, { params: params });
+    const { data: list } = await this.axios.get(this.resource, { params });
     return list;
   }
 
-  async destroy(id) {
-    await this.axios.delete(this.resource, id);
+  async remove(id) {
+    await this.axios.delete(`${this.resource}/${id}`);
   }
 
   async update(id, data) {
@@ -33,7 +33,7 @@ export default class Service {
   }
 
   async put(id, data) {
-    const { data: entity } = await this.axios.patch(`${this.resource}/${id}`, data);
+    const { data: entity } = await this.axios.put(`${this.resource}/${id}`, data);
     return entity;
   }
 }

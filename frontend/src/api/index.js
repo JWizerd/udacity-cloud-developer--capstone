@@ -1,15 +1,14 @@
 
-import { providers as serviceProviders } from "./providers";
+import serviceProviders from "./providers";
 import { getConfig } from "./config";
 import { Container } from "./container";
 
-export default function (config, c = new Container(), providers = serviceProviders, configMap = getConfig) {
+export default function (config, container = new Container(), providers = serviceProviders, configMap = getConfig) {
   const clientConfig = configMap(config);
-  for (const key in providers) {
-    c.service(key, (containerInstance) => {
-      providers[key](containerInstance, clientConfig);
-    });
+
+  for (const provider of providers) {
+    provider(container, clientConfig);
   }
 
-  return c;
+  return container;
 }

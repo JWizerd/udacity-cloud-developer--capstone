@@ -1,4 +1,5 @@
 import FilesService from "../services/files.service";
-export const fileServiceProvider = (container) => {
-  container.bind('files',  new FilesService(container.axios));
+export const filesServiceProvider = (container) => {
+  const key = 'files';
+  container.bind(key,  new FilesService(container.axios, key));
 }

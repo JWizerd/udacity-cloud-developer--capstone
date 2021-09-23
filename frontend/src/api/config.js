@@ -1,4 +1,6 @@
 export const getConfig = (settings) => {
+  if (!settings.baseURL) throw new Error("settings.baseURL provided in api client config.");
+
   const config = {
     axios: {
       baseURL: settings.baseURL,

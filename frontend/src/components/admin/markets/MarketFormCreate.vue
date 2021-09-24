@@ -92,7 +92,7 @@ export default {
         }
       } catch(error) {
         this.status = "ERROR";
-        this.error = error;
+        this.error = error.message;
         setTimeout(() => this.status = "SUBMIT", 5000);
       }
     }

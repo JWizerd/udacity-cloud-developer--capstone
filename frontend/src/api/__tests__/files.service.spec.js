@@ -6,8 +6,10 @@ describe('FilesService', () => {
 
   const key = 'abc123';
 
+  const fileUploadClient = { ...axiosMock };
+
   beforeEach(() => {
-    service = new FilesService(axiosMock, 'files');
+    service = new FilesService(axiosMock, 'files', fileUploadClient);
   });
 
   afterEach(() => {
@@ -31,7 +33,7 @@ describe('FilesService', () => {
   describe('upload', () => {
     it('should call service.getUploadUrls with correct params', async () => {
       const getUploadUrlsSpy = jest.spyOn(service, 'getUploadUrls').mockResolvedValue(mockUrlsResponse.data);
-      jest.spyOn(axiosMock, 'put').mockResolvedValue(null);
+      jest.spyOn(fileUploadClient, 'put').mockResolvedValue(null);
 
       service.upload(key, fileMock);
 
@@ -40,7 +42,7 @@ describe('FilesService', () => {
 
     it('should call axios.put with correct params', async () => {
       jest.spyOn(service, 'getUploadUrls').mockResolvedValue(mockUrlsResponse.data);
-      const putSpy = jest.spyOn(axiosMock, 'put').mockResolvedValue(null);
+      const putSpy = jest.spyOn(fileUploadClient, 'put').mockResolvedValue(null);
 
       await service.upload(key, fileMock);
 
@@ -49,7 +51,7 @@ describe('FilesService', () => {
 
     it('should call return attachment url to newly uploaded file', async () => {
       jest.spyOn(service, 'getUploadUrls').mockResolvedValue(mockUrlsResponse.data);
-      jest.spyOn(axiosMock, 'put').mockResolvedValue(null);
+      jest.spyOn(fileUploadClient, 'put').mockResolvedValue(null);
 
       const attachmentUrl = await service.upload(key, fileMock);
 

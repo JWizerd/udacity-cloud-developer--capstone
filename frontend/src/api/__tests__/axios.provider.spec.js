@@ -3,7 +3,6 @@ import { containerMock, validConfigMock, axiosMock } from "../mocks";
 
 describe('serviceProviders.axiosServiceProvider', () => {
   it('should call container.bind with correct params', () => {
-    const containerBindSpy = jest.spyOn(containerMock, 'bind');
     const axiosCreateSpy = jest.spyOn(axiosMock, 'create').mockReturnValue(axiosMock);
     const rateLimiterSpy = jest.fn().mockReturnValue(axiosMock);
 
@@ -11,6 +10,5 @@ describe('serviceProviders.axiosServiceProvider', () => {
 
     expect(axiosCreateSpy).toHaveBeenCalledWith(validConfigMock.axios);
     expect(rateLimiterSpy).toHaveBeenCalledWith(axiosMock, validConfigMock.rateLimiterSettings);
-    expect(containerBindSpy).toHaveBeenCalledWith("axios", axiosMock);
   });
 });

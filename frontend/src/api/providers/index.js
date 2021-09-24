@@ -3,9 +3,9 @@ import { axiosServiceProvider } from "./axios.provider";
 import { usersServiceProvider } from "./user.service.provider";
 import { filesServiceProvider } from "./files.service.provider";
 
-export default [
-  usersServiceProvider,
-  axiosServiceProvider,
-  filesServiceProvider,
-  marketsServiceProvider,
-];
+export default {
+  axios: axiosServiceProvider,
+  users: usersServiceProvider,
+  files: filesServiceProvider,
+  markets: marketsServiceProvider,
+};

@@ -1,6 +1,6 @@
 export default {
   markets(state) {
-    return [...state.markets];
+    return state.markets;
   },
   currentMarket(state) {
     return state.currentMarket;

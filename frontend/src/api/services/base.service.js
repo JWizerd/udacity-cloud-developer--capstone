@@ -1,3 +1,5 @@
+import { ApiError } from "./api.error";
+
 export default class Service {
   constructor(axios, resource) {
     this.axios = axios;
@@ -9,31 +11,55 @@ export default class Service {
   }
 
   async create(data) {
-    const { data: entity } =  await this.axios.post(this.resource, data);
-    return entity;
+    try {
+      const { data: entity } =  await this.axios.post(this.resource, data);
+      return entity;
+    } catch(error) {
+      throw new ApiError(error);
+    }
   }
 
   async findOne(id) {
-    const { data: entity } = await this.axios.get(`${this.resource}/${id}`);
-    return entity;
+    try {
+      const { data: entity } = await this.axios.get(`${this.resource}/${id}`);
+      return entity;
+    } catch (error) {
+      throw new ApiError(error);
+    }
   }
 
   async find(params = {}) {
-    const { data: list } = await this.axios.get(this.resource, { params });
-    return list;
+    try {
+      const { data: list } = await this.axios.get(this.resource, { params });
+      return list;
+    } catch (error) {
+      throw new ApiError(error);
+    }
   }
 
   async remove(id) {
-    await this.axios.delete(`${this.resource}/${id}`);
+    try {
+      await this.axios.delete(`${this.resource}/${id}`);
+    } catch (error) {
+      throw new ApiError(error);
+    }
   }
 
   async update(id, data) {
-    const { data: entity } = await this.axios.patch(`${this.resource}/${id}`, data);
-    return entity;
+    try {
+      const { data: entity } = await this.axios.patch(`${this.resource}/${id}`, data);
+      return entity;
+    } catch (error) {
+      throw new ApiError(error);
+    }
   }
 
   async put(id, data) {
-    const { data: entity } = await this.axios.put(`${this.resource}/${id}`, data);
-    return entity;
+    try {
+      const { data: entity } = await this.axios.put(`${this.resource}/${id}`, data);
+      return entity;
+    } catch (error) {
+      throw new ApiError(error);
+    }
   }
 }

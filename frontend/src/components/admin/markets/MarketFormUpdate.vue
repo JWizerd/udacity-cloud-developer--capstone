@@ -109,7 +109,7 @@ export default {
         if (!this.$v.$invalid) {
           await this.$store.dispatch('UPDATE_MARKET', { id: this.$route.params.marketId, ...this.model });
           this.status = "SUCCESS";
-          await this.setMarket();
+          setTimeout(async () => await this.setMarket(), 2000);
           this.status = "UPDATE";
         }
       } catch(error) {
@@ -125,7 +125,7 @@ export default {
         this.deleteStatus = "DELETED";
         setTimeout(() => this.$router.push('/admin/markets'), 3000);
       } catch(error) {
-        this.error = error;
+        this.error = error.message;
       }
     }
   },

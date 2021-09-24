@@ -1,8 +1,10 @@
 import Service from "./base.service";
+import altAxios from "axios";
 
 export class FilesService extends Service {
-  constructor(axios, resource) {
+  constructor(axios, resource, fileUploadClient = altAxios) {
     super(axios, resource);
+    this.fileUploadClient = fileUploadClient;
   }
 
   /**
@@ -12,7 +14,7 @@ export class FilesService extends Service {
    */
   async upload(id, File) {
     const urls = await this.getUploadUrls(id);
-    await this.axios.put(urls.uploadUrl, File);
+    await this.fileUploadClient.put(urls.uploadUrl, File, );
     return urls.attachmentUrl;
   }
 

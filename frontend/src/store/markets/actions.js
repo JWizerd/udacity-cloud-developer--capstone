@@ -8,7 +8,6 @@ export default {
     commit("SET_USER_MARKETS", markets);
   },
   async GET_MARKET({ commit }, marketId) {
-    commit("SET_CURRENT_MARKET", null);
     const market = await this.$api.markets.findOne(marketId);
     commit("SET_CURRENT_MARKET", market);
   },
@@ -23,7 +22,7 @@ export default {
     dispatch("GET_MARKETS_BY_USERS");
   },
   async DELETE_MARKET({ commit }, marketId) {
-    await this.$api.markets.delete(marketId);
+    await this.$api.markets.remove(marketId);
     commit("REMOVE_MARKET", marketId);
   }
 };

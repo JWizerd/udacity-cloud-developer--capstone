@@ -4,7 +4,7 @@ import actions from './actions';
 
 export default {
   state: () => ({
-    markets: [],
+    markets: {},
     userMarkets: [],
     currentMarket: null,
     marketSchemaCreate: null,

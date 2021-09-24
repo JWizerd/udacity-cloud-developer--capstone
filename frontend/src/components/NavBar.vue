@@ -18,7 +18,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <router-link to="/" class="nav-link">Home</router-link>
+              <router-link to="/" class="nav-link">Markets</router-link>
             </li>
           </ul>
           <ul class="navbar-nav d-none d-md-block">

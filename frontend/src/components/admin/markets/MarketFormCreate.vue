@@ -1,10 +1,15 @@
 <template>
   <div class="market-create-form mb-5">
-    <div class="text-danger text-center mb-3" v-if="status === 'ERROR'">{{ error }}</div>
     <div class="text-success text-center mb-3" v-if="status === 'SUCCESS'">Successfully created market! Redirecting to markets page...</div>
     <form @submit.prevent="createMarket" novalidate>
       <div class="form-group text-center" v-if="error">
         <div class="text-danger">{{ error }}</div>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">Featured Image</label>
+        <input type="file" @change="fileChange($event.target.files)" accept="image/*" class="form-control-file">
+        <small class="form-text text-danger" v-if="!$v.model.featuredImage.required">Field is required</small>
       </div>
 
       <div class="form-group">
@@ -29,9 +34,42 @@
       </div>
 
       <div class="form-group">
-        <label class="label" for="name">Featured Image</label>
-        <input type="file" @change="fileChange($event.target.files)" accept="image/*" class="form-control-file">
-        <small class="form-text text-danger" v-if="!$v.model.featuredImage.required">Field is required</small>
+        <label class="label" for="name">Start Date</label>
+        <input type="date" class="form-control" v-model="model.startDate">
+        <small class="form-text text-danger" v-if="!$v.model.startDate.required">Field is required</small>
+        <small class="form-text text-danger" v-if="!$v.model.startDate.required">Start date should be at least a day in advance be today</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">End Date</label>
+        <input type="date" class="form-control" v-model="model.endDate">
+        <small class="form-text text-danger"  v-if="!$v.model.endDate.required">Field is required</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">Address</label>
+        <input type="text" class="form-control" v-model="model.address">
+        <small class="form-text text-danger"  v-if="!$v.model.address.required">Field is required</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">City</label>
+        <input type="text" class="form-control" v-model="model.city">
+        <small class="form-text text-danger"  v-if="!$v.model.city.required">Field is required</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">State</label>
+        <select v-model="model.state" class="form-control">
+          <option v-for="state in states" :value="state.abbreviation" :key="state.abbreviation">{{ state.name }}</option>
+        </select>
+        <small class="form-text text-danger"  v-if="!$v.model.state.required">Field is required</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">Zipcode</label>
+        <input type="text" class="form-control" v-model.number="model.zipcode">
+        <small class="form-text text-danger"  v-if="!$v.model.zipcode.required">Field is required</small>
       </div>
 
       <div class="form-group mt-5">
@@ -43,6 +81,7 @@
 
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators';
+import { STATES } from "../../../utils";
 export default {
   data() {
     return {
@@ -52,8 +91,19 @@ export default {
         featuredImage: '',
         name: '',
         description: '',
-        summary: ''
+        summary: '',
+        startDate: '',
+        endDate: '',
+        city: '',
+        address: '',
+        state: '',
+        zipcode: '',
       },
+    }
+  },
+  computed: {
+    states() {
+      return STATES;
     }
   },
   validations: {
@@ -74,6 +124,26 @@ export default {
       featuredImage: {
         required,
       },
+      startDate: {
+        required,
+      },
+      endDate: {
+        required,
+      },
+      city: {
+        required,
+      },
+      address: {
+        required
+      },
+      zipcode: {
+        required,
+        minLength: minLength(5),
+        maxLength: maxLength(5)
+      },
+      state: {
+        required
+      }
     }
   },
   methods: {
@@ -93,7 +163,6 @@ export default {
       } catch(error) {
         this.status = "ERROR";
         this.error = error.message;
-        setTimeout(() => this.status = "SUBMIT", 5000);
       }
     }
   },

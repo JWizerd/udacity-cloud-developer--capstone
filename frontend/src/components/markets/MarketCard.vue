@@ -8,6 +8,7 @@
 
         <div class="content-wrapper col-md-9">
           <h3>{{ market.name }}</h3>
+          <market-details :market="market" />
           <p>{{ market.summary }}</p>
           <a :href="'/markets/' + market.id" class="btn btn-primary">Read More</a>
         </div>
@@ -17,12 +18,17 @@
 </template>
 
 <script>
+import MarketDetails from "./MarketDetails";
+
 export default {
+  components: {
+    MarketDetails
+  },
   props: {
     market: {
       type: Object,
       required: true,
     }
-  }
+  },
 }
 </script>

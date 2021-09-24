@@ -14,7 +14,7 @@ export class FilesService extends Service {
    */
   async upload(id, File) {
     const urls = await this.getUploadUrls(id);
-    await this.fileUploadClient.put(urls.uploadUrl, File, );
+    await this.fileUploadClient.put(urls.uploadUrl, File);
     return urls.attachmentUrl;
   }
 

@@ -5,15 +5,28 @@
     </div>
 
     <div class="content-wrapper">
-      <h3>{{ market.name }}</h3>
-      <h4 class="market-sub">{{ market.summary }}</h4>
-      <main class="market-description">{{ market.description }}</main>
+      <h1>{{ market.name }}</h1>
+      <market-details :market="market" />
+
+      <div class="mt-4">
+        <h2>Summary:</h2>
+        <p>{{ market.summary }}</p>
+      </div>
+      <div class="mt-4">
+        <h2>Description:</h2>
+        <main class="market-description">{{ market.description }}</main>
+      </div>
+
     </div>
   </div><!--/ col-sm-6 -->
 </template>
 
 <script>
+import MarketDetails from "./MarketDetails";
 export default {
+  components: {
+    MarketDetails
+  },
   props: {
     market: {
       type: Object,

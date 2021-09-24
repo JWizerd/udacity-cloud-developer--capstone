@@ -39,6 +39,20 @@
         <small class="form-text text-danger" v-if="!$v.model.featuredImage.required">Field is required</small>
       </div>
 
+      <div class="form-group">
+        <label class="label" for="name">Start Date</label>
+        <input type="date" class="form-control" v-model="model.startDate">
+        <small class="form-text text-danger" v-if="!$v.model.startDate.required">Field is required</small>
+        <small class="form-text text-danger" v-if="!$v.model.startDate.required">Start date should be at least be today</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">End Date</label>
+        <input type="date" class="form-control" v-model="model.endDate">
+        <small class="form-text text-danger" v-if="!$v.model.endDate.required">Field is required</small>
+        <small class="form-text text-danger" v-if="!$v.model.endDate.required">End date should be at max a year from now</small>
+      </div>
+
       <div class="form-group mt-5">
         <button type="submit" :disabled="$v.$invalid || deleteStatus !== 'DELETE'" class="btn btn-primary m-1">{{ status }}</button>
         <button @click="deleteMarket" :disabled="status !== 'UPDATE'" class="btn btn-danger">{{ deleteStatus }}</button>
@@ -49,6 +63,7 @@
 
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators';
+
 export default {
   async created() {
     await this.setMarket();
@@ -62,7 +77,9 @@ export default {
         featuredImage: '',
         name: '',
         description: '',
-        summary: ''
+        summary: '',
+        startDate: '',
+        endDate: ''
       },
     }
   },
@@ -84,18 +101,26 @@ export default {
       featuredImage: {
         required,
       },
+      startDate: {
+        required,
+      },
+      endDate: {
+        required,
+      },
     }
   },
   methods: {
     async setMarket() {
       await this.$store.dispatch("GET_MARKET", this.$route.params.marketId);
-      const { featuredImage, name, description, summary } = this.$store.getters.currentMarket;
+      const { featuredImage, name, description, summary, startDate, endDate } = this.$store.getters.currentMarket;
 
       this.model = {
         featuredImage,
         name,
         description,
-        summary
+        summary,
+        startDate,
+        endDate,
       };
     },
     fileChange(files) {
@@ -109,8 +134,7 @@ export default {
         if (!this.$v.$invalid) {
           await this.$store.dispatch('UPDATE_MARKET', { id: this.$route.params.marketId, ...this.model });
           this.status = "SUCCESS";
-          setTimeout(async () => await this.setMarket(), 2000);
-          this.status = "UPDATE";
+          setTimeout(() => this.$router.push('/admin/markets'), 3000);
         }
       } catch(error) {
         this.status = "ERROR";

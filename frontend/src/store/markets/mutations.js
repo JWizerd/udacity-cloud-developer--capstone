@@ -9,8 +9,13 @@ export default {
     state.currentMarket = market;
   },
   REMOVE_MARKET(state, marketId) {
-    const index = state.userMarkets.items.findIndex(m => m.id === marketId);
-    if (index) state.userMarkets.items.splice(index, 1);
+    if (state.userMarkets.items.length === 1) {
+      state.userMarkets.items = [];
+    } else {
+      const index = state.userMarkets.items.findIndex(m => m.id === marketId);
+      if (index) state.userMarkets.items.splice(index, 1);
+      state.userMarkets = {...state.userMarkets};
+    }
   },
   ADD_MARKET(state, market) {
     state.userMarkets.push(market);

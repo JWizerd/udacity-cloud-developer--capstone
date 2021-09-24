@@ -8,6 +8,17 @@
       </div>
 
       <div class="form-group">
+        <label class="label" for="name">Featured Image</label>
+        <div>
+          <input type="hidden" v-model="model.featuredImage" />
+          <img :src="$store.getters.currentMarket.featuredImage" class="img-fluid uploaded-image mb-1" />
+          <input type="file" @change="fileChange($event.target.files)" accept="image/*" class="form-control-file">
+        </div>
+
+        <small class="form-text text-danger" v-if="!$v.model.featuredImage.required">Field is required</small>
+      </div>
+
+      <div class="form-group">
         <label class="label" for="name">Name</label>
         <input type="text" class="form-control" name="form" v-model="model.name" placeholder="Enter market name" />
         <small class="form-text text-danger" v-if="!$v.model.name.required">Field is required</small>
@@ -29,17 +40,6 @@
       </div>
 
       <div class="form-group">
-        <label class="label" for="name">Featured Image</label>
-        <div>
-          <input type="hidden" v-model="model.featuredImage" />
-          <img :src="$store.getters.currentMarket.featuredImage" class="img-fluid uploaded-image mb-1" />
-          <input type="file" @change="fileChange($event.target.files)" accept="image/*" class="form-control-file">
-        </div>
-
-        <small class="form-text text-danger" v-if="!$v.model.featuredImage.required">Field is required</small>
-      </div>
-
-      <div class="form-group">
         <label class="label" for="name">Start Date</label>
         <input type="date" class="form-control" v-model="model.startDate">
         <small class="form-text text-danger" v-if="!$v.model.startDate.required">Field is required</small>
@@ -53,6 +53,32 @@
         <small class="form-text text-danger" v-if="!$v.model.endDate.required">End date should be at max a year from now</small>
       </div>
 
+            <div class="form-group">
+        <label class="label" for="name">Address</label>
+        <input type="text" class="form-control" v-model="model.address">
+        <small class="form-text text-danger"  v-if="!$v.model.address.required">Field is required</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">City</label>
+        <input type="text" class="form-control" v-model="model.city">
+        <small class="form-text text-danger"  v-if="!$v.model.city.required">Field is required</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">State</label>
+        <select v-model="model.state" class="form-control">
+          <option v-for="state in states" :value="state.abbreviation" :key="state.abbreviation">{{ state.name }}</option>
+        </select>
+        <small class="form-text text-danger"  v-if="!$v.model.state.required">Field is required</small>
+      </div>
+
+      <div class="form-group">
+        <label class="label" for="name">Zipcode</label>
+        <input type="text" class="form-control" v-model.number="model.zipcode">
+        <small class="form-text text-danger"  v-if="!$v.model.zipcode.required">Field is required</small>
+      </div>
+
       <div class="form-group mt-5">
         <button type="submit" :disabled="$v.$invalid || deleteStatus !== 'DELETE'" class="btn btn-primary m-1">{{ status }}</button>
         <button @click="deleteMarket" :disabled="status !== 'UPDATE'" class="btn btn-danger">{{ deleteStatus }}</button>
@@ -63,10 +89,16 @@
 
 <script>
 import { required, minLength, maxLength } from 'vuelidate/lib/validators';
+import { STATES } from "../../../utils";
 
 export default {
   async created() {
     await this.setMarket();
+  },
+  computed: {
+    states() {
+      return STATES;
+    }
   },
   data() {
     return {
@@ -79,7 +111,11 @@ export default {
         description: '',
         summary: '',
         startDate: '',
-        endDate: ''
+        endDate: '',
+        city: '',
+        address: '',
+        state: '',
+        zipcode: ''
       },
     }
   },
@@ -107,21 +143,26 @@ export default {
       endDate: {
         required,
       },
+      city: {
+        required,
+      },
+      address: {
+        required
+      },
+      zipcode: {
+        required,
+        minLength: minLength(5),
+        maxLength: maxLength(5)
+      },
+      state: {
+        required
+      }
     }
   },
   methods: {
     async setMarket() {
       await this.$store.dispatch("GET_MARKET", this.$route.params.marketId);
-      const { featuredImage, name, description, summary, startDate, endDate } = this.$store.getters.currentMarket;
-
-      this.model = {
-        featuredImage,
-        name,
-        description,
-        summary,
-        startDate,
-        endDate,
-      };
+      this.model = this.$store.getters.currentMarket;
     },
     fileChange(files) {
       const newModel = { ...this.model };

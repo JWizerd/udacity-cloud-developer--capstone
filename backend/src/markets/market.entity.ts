@@ -26,4 +26,22 @@ export class Market extends BaseEntity {
 
   @Column({ nullable: true })
   featuredImage?: string;
+
+  @Column({ nullable: false, type: 'date' })
+  startDate?: string;
+
+  @Column({ nullable: false, type: 'date' })
+  endDate?: string;
+
+  @Column({ nullable: true })
+  address?: string;
+
+  @Column({ nullable: true })
+  city?: string;
+
+  @Column({ nullable: true, length: 2 })
+  state?: string;
+
+  @Column({ nullable: true, type: 'int' })
+  zipcode?: number;
 }

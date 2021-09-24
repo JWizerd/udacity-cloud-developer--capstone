@@ -1,15 +1,15 @@
 export default {
   async GET_MARKETS({ commit }) {
-    const { data } = await this.$api.get('markets');
-    commit("SET_MARKETS", data.items);
+    const markets = await this.$api.markets.find();
+    commit("SET_MARKETS", markets);
   },
   async GET_MARKETS_BY_USERS({ commit }) {
-    const { data } = await this.$api.markets.find({ filterByUser: true });
-    commit("SET_USER_MARKETS", data.items);
+    const markets = await this.$api.markets.find({ filterByUser: true });
+    commit("SET_USER_MARKETS", markets);
   },
   async GET_MARKET({ commit }, marketId) {
     commit("SET_CURRENT_MARKET", null);
-    const { data: market } = await this.$api.markets.findOne(marketId);
+    const market = await this.$api.markets.findOne(marketId);
     commit("SET_CURRENT_MARKET", market);
   },
   async CREATE_MARKET(_, market) {

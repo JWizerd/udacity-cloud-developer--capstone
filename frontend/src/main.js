@@ -33,7 +33,7 @@ Vue.use(Auth0Plugin, {
     );
   },
   onAfterLogin: (user, claims) => {
-    store.$api.defaults.headers.common.Authorization = `Bearer ${claims.__raw}`;
+    store.$api.users.setGlobalHeader('Authorization', `Bearer ${claims.__raw}`);
 
     if (localStorage.getItem('isLoggedIn') === null) {
       store.dispatch("CREATE_USER", user);

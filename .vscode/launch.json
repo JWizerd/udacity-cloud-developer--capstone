@@ -2,7 +2,7 @@
   "version": "0.2.0",
   "configurations": [
     {
-      "name": "Debug Jest Tests",
+      "name": "Backend: Debug Jest Tests",
       "type": "node",
       "request": "launch",
       "runtimeExecutable": "npm",
@@ -10,6 +10,19 @@
       "runtimeArgs": [
         "run",
         "test:debug"
+      ],
+      "console": "integratedTerminal",
+      "internalConsoleOptions": "neverOpen"
+    },
+    {
+      "name": "Frontend: Debug Jest Tests",
+      "type": "node",
+      "request": "launch",
+      "runtimeExecutable": "npm",
+      "cwd": "${workspaceRoot}/frontend",
+      "runtimeArgs": [
+        "run",
+        "test:unit:debug"
       ],
       "console": "integratedTerminal",
       "internalConsoleOptions": "neverOpen"

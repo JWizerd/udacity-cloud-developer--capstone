@@ -9,7 +9,7 @@ export class MarketService extends Service {
     if (!market.featuredImage) throw new Error('Featured image is required.');
     const attachmentUrl = await this.filesService.upload(`market-${altImageId}`, market.featuredImage);
     market.featuredImage = attachmentUrl;
-    const { data: newMarket } = await this.axios.post('markets', market);
+    const { data: newMarket } = await this.axios.post(this.resource, market);
     return newMarket;
   }
 
@@ -21,7 +21,14 @@ export class MarketService extends Service {
       market.featuredImage = attachmentUrl;
     }
 
-    const { data: newMarket } = await this.axios.patch(`markets/${id}`, fields);
+    const { data: newMarket } = await this.axios.patch(`${this.resource}/${id}`, fields);
+    return newMarket;
+  }
+
+  async duplicate(market) {
+    delete market.id;
+    market.name = `COPY - ${market.name}`;
+    const { data: newMarket } = await this.axios.post(this.resource, market);
     return newMarket;
   }
 }

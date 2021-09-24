@@ -1,54 +1,29 @@
-import axios from "axios";
-import { actionResolver } from "../action-resolver";
-
 export default {
   async GET_MARKETS({ commit }) {
     const { data } = await this.$api.get('markets');
     commit("SET_MARKETS", data.items);
   },
   async GET_MARKETS_BY_USERS({ commit }) {
-    const { data } = await this.$api.get(`markets?filterByUser=true`);
+    const { data } = await this.$api.markets.find({ filterByUser: true });
     commit("SET_USER_MARKETS", data.items);
   },
   async GET_MARKET({ commit }, marketId) {
     commit("SET_CURRENT_MARKET", null);
-    const { data: market } = await this.$api.get(`markets/${marketId}`);
+    const { data: market } = await this.$api.markets.findOne(marketId);
     commit("SET_CURRENT_MARKET", market);
   },
-  CREATE_MARKET(_, market) {
-    const uploadMarket = async (market) => {
-      if (!market.featuredImage) throw new Error('Featured image is required.');
-      const { data } = await this.$api.get(`/files/upload-url/market-${Date.now()}`);
-      await axios.put(data.uploadUrl, market.featuredImage);
-      market.featuredImage = data.attachmentUrl;
-      await this.$api.post('markets', market);
-    }
-
-    return actionResolver(uploadMarket, market);
+  async CREATE_MARKET(_, market) {
+    await this.$api.markets.create(market);
   },
-  UPDATE_MARKET(_, market) {
-    const uploadMarket = async (market) => {
-      const { id, ...fields } = market;
-      if (!fields.featuredImage) throw new Error('Featured image is required.');
-      if (typeof fields.featuredImage === "object") {
-        const { data } = await this.$api.get(`/files/upload-url/market-${Date.now()}`);
-        await axios.put(data.uploadUrl, fields.featuredImage);
-        fields.featuredImage = data.attachmentUrl;
-      }
-
-      await this.$api.patch(`markets/${id}`, fields);
-    }
-
-    return actionResolver(uploadMarket, market);
+  async UPDATE_MARKET(_, market) {
+    await this.$api.markets.update(market);
   },
   async DUPLICATE_MARKET({ dispatch }, market) {
-    delete market.id;
-    market.name = `COPY - ${market.name}`;
-    await this.$api.post('markets', market);
+    await this.$api.markets.duplicate(market);
     dispatch("GET_MARKETS_BY_USERS");
   },
   async DELETE_MARKET({ commit }, marketId) {
-    await this.$api.delete(`markets/${marketId}`);
+    await this.$api.markets.delete(marketId);
     commit("REMOVE_MARKET", marketId);
   }
 };

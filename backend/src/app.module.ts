@@ -10,6 +10,7 @@ import { MarketsModule } from './markets/markets.module';
 import { S3Module } from 'nestjs-s3';
 import { s3Config } from './config/s3.config';
 import { FilesModule } from './files/files.module';
+import { MarketAttendeesModule } from './market-attendees/market-attendees.module';
 
 @Module({
   imports: [
@@ -20,6 +21,7 @@ import { FilesModule } from './files/files.module';
     UsersModule,
     MarketsModule,
     FilesModule,
+    MarketAttendeesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

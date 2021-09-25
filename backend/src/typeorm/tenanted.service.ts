@@ -1,3 +1,4 @@
+import { User } from '../users/user.entity';
 import { Repository } from 'typeorm';
 import { BaseService } from './base.service';
 
@@ -19,5 +20,14 @@ export class TenantedService<T> extends BaseService<T> {
     });
 
     return resource !== undefined;
+  }
+
+  async findOneByUser(id: number | string, user: User) {
+    return this.repo.findOne({
+      where: {
+        id,
+        user: user.userUuid,
+      },
+    });
   }
 }

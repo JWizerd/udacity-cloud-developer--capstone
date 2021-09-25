@@ -1,6 +1,7 @@
 import { TenantedService } from './tenanted.service';
 import { MockEntity } from '../../test/mocks/entity.mock';
 import { RepositoryMock } from '../../test/mocks/repository.mock';
+import { UserMock } from '../users/mocks/user-entity.mock';
 describe('TenantedService', () => {
   const entity = MockEntity;
   let service: TenantedService<typeof entity>;
@@ -56,6 +57,29 @@ describe('TenantedService', () => {
       const ownsResource = await service.ownsResource('abc123', 1);
 
       expect(ownsResource).toEqual(true);
+    });
+  });
+
+  describe('findOneByUser', () => {
+    it('should call repo.findOne with correct params', async () => {
+      const findOneSpy = jest.spyOn(repo, 'findOne');
+
+      await service.findOneByUser(1, UserMock);
+
+      expect(findOneSpy).toHaveBeenCalledWith({
+        where: {
+          id: 1,
+          user: UserMock.userUuid,
+        },
+      });
+    });
+
+    it('should return an entity', async () => {
+      jest.spyOn(repo, 'findOne').mockResolvedValue(MockEntity);
+
+      const entity = await service.findOneByUser(1, UserMock);
+
+      expect(entity).toEqual(entity);
     });
   });
 });

@@ -29,25 +29,25 @@ export class UpdateMarketDTO {
 
   @IsOptional()
   @IsISO8601()
-  startDate: string;
+  startDate?: string;
 
   @IsOptional()
   @IsISO8601()
-  endDate: string;
+  endDate?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
-  address: string;
+  address?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsString()
   @MaxLength(60)
-  city: string;
+  city?: string;
 
   @IsOptional()
   @IsNotEmpty()
   @IsEnum(STATES)
-  state: string;
+  state?: string;
 }

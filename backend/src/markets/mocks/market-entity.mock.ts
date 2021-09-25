@@ -6,6 +6,12 @@ export const MarketEntityMock: Market = {
   description: 'blah',
   id: 1,
   featuredImage: 'something.jpg',
+  startDate: '2021-01-01',
+  endDate: '2021-02-01',
+  city: 'loveland',
+  address: '1234 stiner',
+  state: 'CO',
+  zipcode: 80538,
   user: {
     userUuid: 'abc123',
     email: 'woo@gmail.com',
@@ -18,4 +24,10 @@ export const MarketDTOMock: CreateMarketDTO = {
   description: 'blah',
   summary: 'blah',
   featuredImage: 'something.jpg',
+  startDate: '2021-01-01',
+  endDate: '2021-02-01',
+  city: 'loveland',
+  address: '1234 stiner',
+  state: 'CO',
+  zipcode: 80538,
 };

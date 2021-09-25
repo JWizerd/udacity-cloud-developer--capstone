@@ -5,6 +5,7 @@ import { TenantedService } from '../typeorm/tenanted.service';
 import { DeepPartial, Repository } from 'typeorm';
 import { Market } from './market.entity';
 import { ITenantedService } from 'src/typeorm/resource-service.interface';
+import { User } from '../users/user.entity';
 
 @Injectable()
 export class MarketsService
@@ -13,18 +14,16 @@ export class MarketsService
 {
   constructor(
     @InjectRepository(Market) protected readonly repo: Repository<Market>,
-    private readonly usersService: UsersService,
   ) {
     super(repo);
   }
 
   async create(
     createMarketDTO: DeepPartial<Market>,
-    userId: string,
+    user: User,
   ): Promise<Market> {
     const entity = this.repo.create(createMarketDTO);
-    const userEntity = await this.usersService.findOne(userId);
-    entity.user = userEntity;
+    entity.user = user;
     return this.repo.save(entity);
   }
 }

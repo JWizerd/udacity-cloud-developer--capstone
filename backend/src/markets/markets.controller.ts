@@ -15,9 +15,9 @@ import { AuthUserParam } from '../auth/auth-user-param.decorator';
 import { MarketsService } from './markets.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { MarketsOwnershipGuard } from './markets-ownership.guard';
-import { CreateMarketDTO } from './dtos/create-market.dto';
-import { UpdateMarketDTO } from './dtos/update-market.dto';
-import { targetConstructorToSchema } from 'class-validator-jsonschema';
+import { CreateMarketDTO } from './dtos/create.dto';
+import { UpdateMarketDTO } from './dtos/update.dto';
+import { User } from '../users/user.entity';
 
 @Controller('markets')
 export class MarketsController {
@@ -31,12 +31,12 @@ export class MarketsController {
     @Query('limit') limit = 10,
     @Query('order') order = 'DESC',
     @Query('filterByUser') filterByUser = false,
-    @AuthUserParam() userId?: string,
+    @AuthUserParam() user?: User,
   ) {
     const options = {
       created,
       name,
-      user: filterByUser && userId ? userId : undefined,
+      user: filterByUser && user ? user.userUuid : undefined,
     };
 
     return this.service.paginate({ page, limit }, options, order);
@@ -50,10 +50,10 @@ export class MarketsController {
   @Post()
   @UseGuards(AuthGuard)
   async create(
-    @AuthUserParam() userId: string,
+    @AuthUserParam() user: User,
     @Body() createMarketDTO: CreateMarketDTO,
   ) {
-    return this.service.create(createMarketDTO, userId);
+    return this.service.create(createMarketDTO, user);
   }
 
   @Delete(':id')
@@ -69,15 +69,5 @@ export class MarketsController {
     @Body() updateMarketDTO: UpdateMarketDTO,
   ) {
     return this.service.update(id, updateMarketDTO);
-  }
-
-  @Get('/schema/create')
-  async getSchemaCreate() {
-    return targetConstructorToSchema(CreateMarketDTO);
-  }
-
-  @Get('/schema/update')
-  async getSchemaUpdate() {
-    return targetConstructorToSchema(UpdateMarketDTO);
   }
 }

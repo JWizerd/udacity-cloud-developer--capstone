@@ -20,10 +20,6 @@ describe('MarketsService', () => {
           provide: 'MarketRepository',
           useValue: repo,
         },
-        {
-          provide: UsersService,
-          useValue: usersServiceMock,
-        },
       ],
     }).compile();
 
@@ -43,15 +39,8 @@ describe('MarketsService', () => {
       const createSpy = jest
         .spyOn(repo, 'create')
         .mockReturnValue(MarketEntityMock);
-      await service.create(MarketDTOMock, 'abc123');
+      await service.create(MarketDTOMock, UserMock);
       expect(createSpy).toHaveBeenCalledWith(MarketDTOMock);
-    });
-
-    it('should call usersService.findOne with correct params', async () => {
-      jest.spyOn(repo, 'create').mockReturnValue(MarketEntityMock);
-      const findOneSpy = jest.spyOn(usersServiceMock, 'findOne');
-      await service.create(MarketDTOMock, 'abc123');
-      expect(findOneSpy).toHaveBeenCalledWith('abc123');
     });
 
     it('should call repo.create with correct params', async () => {
@@ -60,7 +49,7 @@ describe('MarketsService', () => {
       jest.spyOn(repo, 'create').mockReturnValue(MarketDTOMock);
       jest.spyOn(usersServiceMock, 'findOne').mockResolvedValue(UserMock);
       const saveSpy = jest.spyOn(repo, 'save');
-      await service.create(MarketDTOMock, 'abc123');
+      await service.create(MarketDTOMock, UserMock);
       expect(saveSpy).toHaveBeenCalledWith(marketEntityWithUser);
     });
 
@@ -70,7 +59,7 @@ describe('MarketsService', () => {
       jest.spyOn(repo, 'create').mockReturnValue(MarketDTOMock);
       jest.spyOn(usersServiceMock, 'findOne').mockResolvedValue(UserMock);
       jest.spyOn(repo, 'save').mockResolvedValue(marketEntityWithUser);
-      const newMarket = await service.create(MarketDTOMock, 'abc123');
+      const newMarket = await service.create(MarketDTOMock, UserMock);
       expect(newMarket).toEqual(marketEntityWithUser);
     });
   });

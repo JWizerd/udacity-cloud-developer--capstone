@@ -7,6 +7,7 @@ import { MarketsController } from './markets.controller';
 import { MarketsService } from './markets.service';
 import { MarketDTOMock, MarketEntityMock } from './mocks/market-entity.mock';
 import { AuthServiceMock } from '../auth/mocks/auth-service.mock';
+import { UserMock } from '../users/mocks/user-entity.mock';
 
 describe('MarketsController', () => {
   let controller: MarketsController;
@@ -68,15 +69,15 @@ describe('MarketsController', () => {
     it('should call service.create with correct params', async () => {
       const serviceCreateSpy = jest.spyOn(ServiceMock, 'create');
 
-      await controller.create('abc123', MarketDTOMock);
+      await controller.create(UserMock, MarketDTOMock);
 
-      expect(serviceCreateSpy).toHaveBeenCalledWith(MarketDTOMock, 'abc123');
+      expect(serviceCreateSpy).toHaveBeenCalledWith(MarketDTOMock, UserMock);
     });
 
     it('should return a newly created mock', async () => {
       jest.spyOn(ServiceMock, 'create').mockResolvedValue(MarketEntityMock);
 
-      const market = await controller.create('abc123', MarketDTOMock);
+      const market = await controller.create(UserMock, MarketDTOMock);
 
       expect(market).toEqual(MarketEntityMock);
     });
@@ -149,20 +150,6 @@ describe('MarketsController', () => {
         { created: dateString, name: 'test name' },
         'DESC',
       );
-    });
-  });
-
-  describe('controller.getCreateSchema', () => {
-    it('should return the create dto class as an object', async () => {
-      const result = await controller.getSchemaCreate();
-      expect(result.properties).toBeDefined();
-    });
-  });
-
-  describe('controller.getUpdateSchema', () => {
-    it('should return the create dto class as an object', async () => {
-      const result = await controller.getSchemaUpdate();
-      expect(result.properties).toBeDefined();
     });
   });
 });

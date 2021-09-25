@@ -1,6 +1,7 @@
 import { BaseEntity } from '../typeorm/base.entity';
-import { Entity, Column, ManyToOne } from 'typeorm';
+import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../users/user.entity';
+import { MarketAttendee } from '../market-attendees/market-attendee.entity';
 
 @Entity()
 export class Market extends BaseEntity {
@@ -14,6 +15,9 @@ export class Market extends BaseEntity {
 
   @ManyToOne(() => User, (user) => user.markets)
   user?: User;
+
+  @OneToMany(() => MarketAttendee, (attendee) => attendee.market)
+  attendees: MarketAttendee[];
 
   @Column({ nullable: false, unique: true })
   name?: string;

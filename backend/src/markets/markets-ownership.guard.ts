@@ -1,4 +1,4 @@
-import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
+import { CanActivate, Injectable } from '@nestjs/common';
 import { AuthService } from '../auth/auth.service';
 import { OwnershipGuard } from '../auth/ownership.guard';
 import { Market } from './market.entity';
@@ -14,16 +14,5 @@ export class MarketsOwnershipGuard
     protected readonly authService: AuthService,
   ) {
     super(marketsService, authService);
-  }
-
-  async canActivate(context: ExecutionContext): Promise<boolean> {
-    try {
-      const req = context.switchToHttp().getRequest();
-      const authHeader = req.header('Authorization');
-      const user = this.authService.getUser(authHeader);
-      return this.service.ownsResource(user, req.params.id);
-    } catch (error) {
-      return false;
-    }
   }
 }

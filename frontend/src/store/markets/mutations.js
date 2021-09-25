@@ -19,5 +19,8 @@ export default {
   },
   ADD_MARKET(state, market) {
     state.userMarkets.push(market);
+  },
+  REMOVE_USER_MARKETS(state) {
+    state.userMarkets = {};
   }
 };

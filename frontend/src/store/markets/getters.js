@@ -5,7 +5,4 @@ export default {
   currentMarket(state) {
     return state.currentMarket;
   },
-  userMarkets(state) {
-    return state.userMarkets;
-  },
 };

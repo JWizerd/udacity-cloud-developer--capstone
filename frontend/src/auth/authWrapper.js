@@ -12,6 +12,7 @@ export const useAuth0 = ({
   onRedirectCallback = DEFAULT_REDIRECT_CALLBACK,
   redirectUri = window.location.origin,
   onAfterLogin = null,
+  onLogout = null,
   ...options
 }) => {
   if (instance) return instance;
@@ -69,6 +70,10 @@ export const useAuth0 = ({
         return this.auth0Client.getTokenWithPopup(o);
       },
       logout(o) {
+        if (typeof onLogout === 'function') {
+          onLogout(this.user);
+        }
+
         return this.auth0Client.logout(o);
       }
     },

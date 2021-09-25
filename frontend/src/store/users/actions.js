@@ -8,5 +8,9 @@ export default {
     }
 
     commit("SET_USER", currentUser);
-  }
+  },
+  LOGOUT({ commit }) {
+    commit("REMOVE_USER");
+    commit("REMOVE_USER_MARKETS");
+  },
 }

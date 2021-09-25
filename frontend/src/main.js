@@ -33,12 +33,16 @@ Vue.use(Auth0Plugin, {
     );
   },
   onAfterLogin: (user, claims) => {
-    store.$api.users.setGlobalHeader('Authorization', `Bearer ${claims.__raw}`);
+    store.$api.auth.login(claims.__raw);
 
-    if (localStorage.getItem('isLoggedIn') === null) {
+    if (!store.getters.isLoggedIn) {
       store.dispatch("CREATE_USER", user);
     }
   },
+  onLogout: () => {
+    store.$api.auth.logout();
+    store.dispatch("LOGOUT");
+  }
 });
 
 library.add(faLink, faUser, faPowerOff, faStore);

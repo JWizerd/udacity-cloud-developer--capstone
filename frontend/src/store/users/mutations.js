@@ -1,5 +1,8 @@
 export default {
   SET_USER(state, user) {
     state.user = user;
-  }
+  },
+  REMOVE_USER(state) {
+    state.user = null;
+  },
 }

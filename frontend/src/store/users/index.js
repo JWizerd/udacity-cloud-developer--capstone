@@ -4,8 +4,7 @@ import actions from "./actions";
 
 export default {
   state: () => ({
-    user: null,
-    isLoggedIn: localStorage.getItem('isLoggedIn') || false
+    user: null
   }),
   actions,
   getters,

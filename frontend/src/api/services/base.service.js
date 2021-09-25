@@ -6,10 +6,6 @@ export default class Service {
     this.resource = resource;
   }
 
-  setGlobalHeader(headerName, value) {
-    this.axios.defaults.headers.common[headerName] = value;
-  }
-
   async create(data) {
     try {
       const { data: entity } =  await this.axios.post(this.resource, data);

@@ -16,4 +16,8 @@ export class UsersService extends ResourceService<User> {
     payload.username = `${payload.email.split('@')[0]}.${Date.now()}`;
     return super.create(payload);
   }
+
+  async findOne(id: string, cache = false): Promise<User> {
+    return this.repo.findOne(id, { cache });
+  }
 }

@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UsersService } from '../users/users.service';
 import { TenantedService } from '../typeorm/tenanted.service';
 import { DeepPartial, Repository } from 'typeorm';
 import { Market } from './market.entity';

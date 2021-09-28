@@ -7,7 +7,6 @@ import {
   IsString,
   IsUrl,
   MaxLength,
-  MinLength,
 } from 'class-validator';
 
 import { STATES } from '../constants';

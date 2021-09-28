@@ -37,15 +37,15 @@ export class Market extends BaseEntity {
   @Column({ nullable: false, type: 'date' })
   endDate?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   address?: string;
 
-  @Column({ nullable: true })
+  @Column({ nullable: false })
   city?: string;
 
-  @Column({ nullable: true, length: 2 })
+  @Column({ nullable: false, length: 2 })
   state?: string;
 
-  @Column({ nullable: true, type: 'int' })
+  @Column({ nullable: false, type: 'int' })
   zipcode?: number;
 }

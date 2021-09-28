@@ -1,18 +1,18 @@
-import { CanActivate, Injectable } from '@nestjs/common';
-import { OwnershipGuard } from '../auth/ownership.guard';
-import { AuthService } from '../auth/auth.service';
-import { MarketAttendee } from './market-attendee.entity';
+import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { MarketAttendeesService } from './market-attendees.service';
 
 @Injectable()
-export class MarketAttendeesOwnershipGuard
-  extends OwnershipGuard<MarketAttendee>
-  implements CanActivate
-{
-  constructor(
-    protected readonly authService: AuthService,
-    protected readonly service: MarketAttendeesService,
-  ) {
-    super(service, authService);
+export class MarketAttendeesOwnershipGuard implements CanActivate {
+  constructor(protected readonly service: MarketAttendeesService) {}
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    try {
+      const req = context.switchToHttp().getRequest();
+      const event = await this.service.findOne(req.params.eventId);
+      if (!event) return false;
+      return this.service.ownsResource(event.id, req.params.id, 'event');
+    } catch (error) {
+      return false;
+    }
   }
 }

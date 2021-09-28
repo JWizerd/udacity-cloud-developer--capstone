@@ -47,7 +47,7 @@ export class MarketplacesController {
   }
 
   @Post()
-  @UseGuards(AuthGuard, MarketplaceOwnershipGuard)
+  @UseGuards(AuthGuard)
   async create(
     @AuthUserParam() user: User,
     @Body() createMarketplaceDTO: CreateMarketplaceDTO,

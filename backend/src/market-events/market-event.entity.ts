@@ -13,7 +13,9 @@ export class MarketEvent extends BaseEntity {
     }
   }
 
-  @ManyToOne(() => Marketplace, (marketplace) => marketplace.events)
+  @ManyToOne(() => Marketplace, (marketplace) => marketplace.events, {
+    eager: true,
+  })
   marketplace?: Marketplace;
 
   @OneToMany(() => MarketAttendee, (attendee) => attendee.event)

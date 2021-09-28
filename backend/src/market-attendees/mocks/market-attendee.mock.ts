@@ -5,4 +5,5 @@ export const MarketAttendeeEntityMock = {
   event: MarketEventEntityMock,
   user: UserMock,
   rsvpDetails: 'test',
+  additionalPeople: 10,
 };

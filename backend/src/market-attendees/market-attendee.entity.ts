@@ -14,7 +14,7 @@ export class MarketAttendee extends BaseEntity {
     }
   }
 
-  @OneToOne(() => User)
+  @OneToOne(() => User, { eager: true })
   @Transform(({ value }) => {
     delete value.email;
     return value;
@@ -25,6 +25,9 @@ export class MarketAttendee extends BaseEntity {
   @ManyToOne(() => MarketEvent, (market) => market.attendees)
   event: MarketEvent;
 
-  @Column({ nullable: false, unique: true })
+  @Column({ nullable: false })
   rsvpDetails?: string;
+
+  @Column({ default: 0, type: 'int' })
+  additionalPeople?: number;
 }

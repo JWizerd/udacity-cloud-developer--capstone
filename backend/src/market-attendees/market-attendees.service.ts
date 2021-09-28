@@ -12,17 +12,17 @@ export class MarketAttendeesService extends TenantedService<MarketAttendee> {
   constructor(
     @InjectRepository(MarketAttendee)
     protected readonly repo: Repository<MarketAttendee>,
-    private readonly marketService: MarketEventsService,
+    private readonly marketEventsService: MarketEventsService,
   ) {
     super(repo);
   }
 
   async create(
-    marketId: number,
+    eventId: number,
     user: User,
     marketAttendeeDTO: DeepPartial<MarketAttendee>,
   ): Promise<MarketAttendee> {
-    const event = await this.marketService.findOne(marketId);
+    const event = await this.marketEventsService.findOne(eventId);
     const entity = this.repo.create(marketAttendeeDTO);
     entity.user = user;
     entity.event = event;

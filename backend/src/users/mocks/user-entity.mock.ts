@@ -1,6 +1,4 @@
-import { IUser } from '../user.interface';
-
-export const UserMock: IUser = {
+export const UserMock = {
   userUuid: 'abc123',
   username: 'jim.bob',
   email: 'jim.bob@jimbob.com',

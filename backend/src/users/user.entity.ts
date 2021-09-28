@@ -1,3 +1,4 @@
+import { Marketplace } from '../marketplaces/marketplace.entity';
 import {
   Entity,
   Column,
@@ -6,8 +7,6 @@ import {
   PrimaryColumn,
   OneToMany,
 } from 'typeorm';
-
-import { Marketplace } from '../marketplaces/marketplace.entity';
 
 @Entity()
 export class User {

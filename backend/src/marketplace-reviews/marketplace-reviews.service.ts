@@ -27,4 +27,13 @@ export class MarketplaceReviewsService extends TenantedService<MarketplaceReview
     review.marketplace = marketplace;
     return await this.repo.save(review);
   }
+
+  async findByUserAndMarketplace(userUuid: string, marketplaceId: number) {
+    return this.repo.findOne({
+      where: {
+        marketplace: marketplaceId,
+        user: userUuid,
+      },
+    });
+  }
 }

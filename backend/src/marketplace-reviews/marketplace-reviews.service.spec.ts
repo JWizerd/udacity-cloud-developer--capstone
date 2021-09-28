@@ -103,4 +103,19 @@ describe('MarketplaceReviewsService', () => {
       expect(review).toEqual(reviewWithUserAndMarketPlace);
     });
   });
+
+  describe('findOneByUserAndMarketplace', () => {
+    it('should call repo.findOne with correct params', async () => {
+      const findOneSpy = jest.spyOn(repo, 'findOne');
+
+      await service.findByUserAndMarketplace('abc123', 1);
+
+      expect(findOneSpy).toHaveBeenLastCalledWith({
+        where: {
+          marketplace: 1,
+          user: 'abc123',
+        },
+      });
+    });
+  });
 });

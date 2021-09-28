@@ -1,6 +1,6 @@
-import { User } from '../users/user.entity';
 import { Repository } from 'typeorm';
 import { BaseService } from './base.service';
+import { IUser } from 'src/users/user.interface';
 
 export class TenantedService<T> extends BaseService<T> {
   constructor(protected readonly repo: Repository<T>) {
@@ -22,7 +22,7 @@ export class TenantedService<T> extends BaseService<T> {
     return resource !== undefined;
   }
 
-  async findOneByUser(id: number | string, user: User) {
+  async findOneByUser(id: number | string, user: IUser) {
     return this.repo.findOne({
       where: {
         id,

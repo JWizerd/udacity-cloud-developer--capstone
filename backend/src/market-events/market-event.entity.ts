@@ -4,8 +4,8 @@ import { MarketAttendee } from '../market-attendees/market-attendee.entity';
 import { Marketplace } from '../marketplaces/marketplace.entity';
 
 @Entity()
-export class Market extends BaseEntity {
-  constructor(market?: Market) {
+export class MarketEvent extends BaseEntity {
+  constructor(market?: MarketEvent) {
     super();
 
     if (market) {

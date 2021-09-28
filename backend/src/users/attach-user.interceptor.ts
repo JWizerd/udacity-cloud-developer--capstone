@@ -5,8 +5,8 @@ import {
   NestInterceptor,
 } from '@nestjs/common';
 import { Observable } from 'rxjs';
-import { UsersService } from '../users/users.service';
-import { AuthService } from './auth.service';
+import { AuthService } from '../auth/auth.service';
+import { UsersService } from './users.service';
 
 @Injectable()
 export class AttachUserInterceptor implements NestInterceptor {

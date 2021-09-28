@@ -2,7 +2,7 @@ import { BaseEntity } from '../typeorm/base.entity';
 import { Entity, Column, OneToOne, JoinColumn, ManyToOne } from 'typeorm';
 import { User } from '../users/user.entity';
 import { Transform } from 'class-transformer';
-import { Market } from '../markets/market.entity';
+import { MarketEvent } from '../market-events/market-event.entity';
 
 @Entity()
 export class MarketAttendee extends BaseEntity {
@@ -22,8 +22,8 @@ export class MarketAttendee extends BaseEntity {
   @JoinColumn()
   user?: User;
 
-  @ManyToOne(() => Market, (market) => market.attendees)
-  market: Market;
+  @ManyToOne(() => MarketEvent, (market) => market.attendees)
+  market: MarketEvent;
 
   @Column({ nullable: false, unique: true })
   rsvpDetails?: string;

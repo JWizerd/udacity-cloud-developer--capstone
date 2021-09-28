@@ -1,7 +1,7 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
 import { MarketplacesService } from 'src/marketplaces/marketplaces.service';
 
-export class MarketsOwnershipGuard implements CanActivate {
+export class MarketEventsOwnershipGuard implements CanActivate {
   constructor(private readonly marketplacesService: MarketplacesService) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {

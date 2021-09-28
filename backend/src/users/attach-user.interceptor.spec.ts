@@ -1,8 +1,8 @@
 import { UserMock } from '../users/mocks/user-entity.mock';
 import { ServiceMock } from '../../test/mocks/service.mock';
 import { AttachUserInterceptor } from './attach-user.interceptor';
-import { AuthServiceMock } from './mocks/auth-service.mock';
-import { ExpressRequestMock } from './mocks/express-req.mock';
+import { AuthServiceMock } from '../auth/mocks/auth-service.mock';
+import { ExpressRequestMock } from '../auth/mocks/express-req.mock';
 
 describe('AttachUserInterceptor', () => {
   let interceptor: AttachUserInterceptor;

@@ -11,17 +11,17 @@ import {
   UseGuards,
 } from '@nestjs/common';
 
-import { MarketsService } from './markets.service';
+import { MarketEventsService } from './market-events.service';
 import { AuthGuard } from '../auth/auth.guard';
-import { MarketsOwnershipGuard } from './markets-ownership.guard';
+import { MarketEventsOwnershipGuard } from './market-events-ownership.guard';
 import { CreateMarketDTO } from './dtos/create.dto';
 import { UpdateMarketDTO } from './dtos/update.dto';
 
 @Controller('marketplaces')
-export class MarketsController {
-  constructor(private readonly service: MarketsService) {}
+export class MarketEventsController {
+  constructor(private readonly service: MarketEventsService) {}
 
-  @Get(':id/markets')
+  @Get(':id/market-events')
   async index(
     @Param('id', ParseIntPipe) id: number,
     @Query('created') created?: string,
@@ -39,12 +39,12 @@ export class MarketsController {
     return this.service.paginate({ page, limit }, options, order);
   }
 
-  @Get(':id/markets/:marketId')
+  @Get(':id/market-events/:marketId')
   async findOne(@Param('marketId', ParseIntPipe) marketId: number) {
     return this.service.findOne(marketId);
   }
 
-  @Post(':id/markets')
+  @Post(':id/market-events')
   @UseGuards(AuthGuard)
   async create(
     @Param('id') marketplaceId: number,
@@ -53,14 +53,14 @@ export class MarketsController {
     return this.service.create(createMarketDTO, marketplaceId);
   }
 
-  @Delete(':id/markets/:marketId')
-  @UseGuards(AuthGuard, MarketsOwnershipGuard)
+  @Delete(':id/market-events/:marketId')
+  @UseGuards(AuthGuard, MarketEventsOwnershipGuard)
   async remove(@Param('marketId', ParseIntPipe) marketId: number) {
     this.service.remove(marketId);
   }
 
-  @Patch(':id/markets/:marketId')
-  @UseGuards(AuthGuard, MarketsOwnershipGuard)
+  @Patch(':id/market-events/:marketId')
+  @UseGuards(AuthGuard, MarketEventsOwnershipGuard)
   async update(
     @Param('marketId', ParseIntPipe) marketId: number,
     @Body() updateMarketDTO: UpdateMarketDTO,

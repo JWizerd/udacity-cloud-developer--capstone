@@ -1,8 +1,8 @@
 import { MarketplaceEntityMock } from '../../marketplaces/mocks/marketplace-entity.mock';
 import { CreateMarketDTO } from '../dtos/create-market-dto.interface';
-import { Market } from '../market.entity';
+import { MarketEvent } from '../market-event.entity';
 
-export const MarketEntityMock: Market = {
+export const MarketEventEntityMock: MarketEvent = {
   name: 'market name',
   description: 'blah',
   id: 1,

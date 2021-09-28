@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { MarketsModule } from '../markets/markets.module';
+import { MarketEventsModule } from '../market-events/market-events.module';
 import { MarketAttendeesService } from './market-attendees.service';
 import { MarketAttendeesController } from './market-attendees.controller';
 
 @Module({
-  imports: [MarketsModule],
+  imports: [MarketEventsModule],
   providers: [MarketAttendeesService],
   controllers: [MarketAttendeesController],
 })

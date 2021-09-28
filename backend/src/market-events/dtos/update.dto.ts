@@ -2,6 +2,7 @@ import {
   IsEnum,
   IsISO8601,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   IsUrl,
@@ -50,4 +51,9 @@ export class UpdateMarketDTO {
   @IsNotEmpty()
   @IsEnum(STATES)
   state?: string;
+
+  @IsOptional()
+  @IsNotEmpty()
+  @IsNumber()
+  zipcode?: number;
 }

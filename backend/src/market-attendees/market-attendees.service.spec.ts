@@ -1,9 +1,9 @@
 import { Test, TestingModule } from '@nestjs/testing';
-import { MarketsService } from '../markets/markets.service';
+import { MarketEventsService } from '../market-events/market-events.service';
 import { RepositoryMock } from '../../test/mocks/repository.mock';
 import { ServiceMock } from '../../test/mocks/service.mock';
 import { MarketAttendeesService } from './market-attendees.service';
-import { MarketEntityMock } from '../markets/mocks/market-entity.mock';
+import { MarketEventEntityMock } from '../market-events/mocks/market-event-entity.mock';
 import { UserMock } from '../users/mocks/user-entity.mock';
 import { MarketAttendeeEntityMock } from './mocks/market-attendee.mock';
 import { MarketAttendeeDTO } from './mocks/market-attendee-dto.mock';
@@ -20,7 +20,7 @@ describe('MarketAttendeesService', () => {
           useValue: RepositoryMock,
         },
         {
-          provide: MarketsService,
+          provide: MarketEventsService,
           useValue: ServiceMock,
         },
       ],
@@ -45,7 +45,7 @@ describe('MarketAttendeesService', () => {
       jest
         .spyOn(RepositoryMock, 'save')
         .mockResolvedValue(MarketAttendeeEntityMock);
-      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEntityMock);
+      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEventEntityMock);
 
       await service.create(1, UserMock, MarketAttendeeDTO);
 
@@ -59,7 +59,7 @@ describe('MarketAttendeesService', () => {
         .mockResolvedValue(MarketAttendeeEntityMock);
       const findOneSpy = jest
         .spyOn(ServiceMock, 'findOne')
-        .mockResolvedValue(MarketEntityMock);
+        .mockResolvedValue(MarketEventEntityMock);
 
       await service.create(1, UserMock, MarketAttendeeDTO);
 
@@ -69,7 +69,7 @@ describe('MarketAttendeesService', () => {
     it('should call repo.save with correct params', async () => {
       const attendeeMock = { ...MarketAttendeeDTO } as any;
       attendeeMock.user = UserMock;
-      attendeeMock.market = MarketEntityMock;
+      attendeeMock.market = MarketEventEntityMock;
 
       jest
         .spyOn(RepositoryMock, 'create')
@@ -77,7 +77,7 @@ describe('MarketAttendeesService', () => {
       const saveSpy = jest
         .spyOn(RepositoryMock, 'save')
         .mockResolvedValue(MarketAttendeeEntityMock);
-      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEntityMock);
+      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEventEntityMock);
 
       await service.create(1, UserMock, MarketAttendeeDTO);
 
@@ -91,7 +91,7 @@ describe('MarketAttendeesService', () => {
       jest
         .spyOn(RepositoryMock, 'save')
         .mockResolvedValue(MarketAttendeeEntityMock);
-      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEntityMock);
+      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEventEntityMock);
 
       const entity = await service.create(1, UserMock, MarketAttendeeDTO);
 

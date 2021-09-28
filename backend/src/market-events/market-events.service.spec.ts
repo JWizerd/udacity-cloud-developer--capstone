@@ -1,23 +1,26 @@
 import { Test, TestingModule } from '@nestjs/testing';
 import { ServiceMock } from '../../test/mocks/service.mock';
 import { RepositoryMock } from '../../test/mocks/repository.mock';
-import { MarketsService } from './markets.service';
-import { MarketDTOMock, MarketEntityMock } from './mocks/market-entity.mock';
-import { Market } from './market.entity';
+import { MarketEventsService } from './market-events.service';
+import {
+  MarketDTOMock,
+  MarketEventEntityMock,
+} from './mocks/market-event-entity.mock';
+import { MarketEvent } from './market-event.entity';
 import { MarketplaceEntityMock } from '../marketplaces/mocks/marketplace-entity.mock';
 import { MarketplacesService } from '../marketplaces/marketplaces.service';
 
-describe('MarketsService', () => {
-  let service: MarketsService;
+describe('MarketEventsService', () => {
+  let service: MarketEventsService;
   const repo = RepositoryMock;
   const marketplacesService = ServiceMock;
 
   beforeEach(async () => {
     const module: TestingModule = await Test.createTestingModule({
       providers: [
-        MarketsService,
+        MarketEventsService,
         {
-          provide: 'MarketRepository',
+          provide: 'MarketEventRepository',
           useValue: repo,
         },
         {
@@ -27,7 +30,7 @@ describe('MarketsService', () => {
       ],
     }).compile();
 
-    service = module.get<MarketsService>(MarketsService);
+    service = module.get<MarketEventsService>(MarketEventsService);
   });
 
   afterEach(() => {
@@ -56,7 +59,7 @@ describe('MarketsService', () => {
         .mockResolvedValue(MarketplaceEntityMock);
       const createSpy = jest
         .spyOn(repo, 'create')
-        .mockReturnValue(MarketEntityMock);
+        .mockReturnValue(MarketEventEntityMock);
       await service.create(MarketDTOMock, MarketplaceEntityMock.id);
       expect(createSpy).toHaveBeenCalledWith(MarketDTOMock);
     });
@@ -65,7 +68,7 @@ describe('MarketsService', () => {
       jest
         .spyOn(marketplacesService, 'findOne')
         .mockResolvedValue(MarketplaceEntityMock);
-      const marketEntityWithMarketplace = { ...MarketDTOMock } as Market;
+      const marketEntityWithMarketplace = { ...MarketDTOMock } as MarketEvent;
       marketEntityWithMarketplace.marketplace = MarketplaceEntityMock as any;
       jest.spyOn(repo, 'create').mockReturnValue(MarketDTOMock);
       jest
@@ -101,12 +104,12 @@ describe('MarketsService', () => {
     });
 
     it('should call remove with correct params', async () => {
-      jest.spyOn(repo, 'findOne').mockResolvedValue(MarketEntityMock);
+      jest.spyOn(repo, 'findOne').mockResolvedValue(MarketEventEntityMock);
       const removeSpy = jest.spyOn(repo, 'remove');
 
       await service.remove(1);
 
-      expect(removeSpy).toHaveBeenCalledWith(MarketEntityMock);
+      expect(removeSpy).toHaveBeenCalledWith(MarketEventEntityMock);
     });
   });
 });

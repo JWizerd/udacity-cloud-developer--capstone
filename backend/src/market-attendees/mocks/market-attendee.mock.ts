@@ -1,8 +1,8 @@
-import { MarketEntityMock } from '../../markets/mocks/market-entity.mock';
+import { MarketEventEntityMock } from '../../market-events/mocks/market-event-entity.mock';
 import { UserMock } from '../../users/mocks/user-entity.mock';
 
 export const MarketAttendeeEntityMock = {
-  market: MarketEntityMock,
+  market: MarketEventEntityMock,
   user: UserMock,
   rsvpDetails: 'test',
 };

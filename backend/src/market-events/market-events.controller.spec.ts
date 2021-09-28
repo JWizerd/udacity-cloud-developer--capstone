@@ -3,14 +3,14 @@ import { AuthService } from '../auth/auth.service';
 import { AuthGuard } from '../auth/auth.guard';
 import { AuthGuardMock } from '../auth/mocks/auth-guard.mock';
 import { ServiceMock } from '../../test/mocks/service.mock';
-import { MarketsController } from './markets.controller';
-import { MarketsService } from './markets.service';
-import { MarketDTOMock, MarketEntityMock } from './mocks/market-entity.mock';
+import { MarketEventsController } from './market-events.controller';
+import { MarketEventsService } from './market-events.service';
+import { MarketDTOMock, MarketEventEntityMock } from './mocks/market-event-entity.mock';
 import { AuthServiceMock } from '../auth/mocks/auth-service.mock';
 import { MarketplaceEntityMock } from '../marketplaces/mocks/marketplace-entity.mock';
 
-describe('MarketsController', () => {
-  let controller: MarketsController;
+describe('MarketEventsController', () => {
+  let controller: MarketEventsController;
   let authGuard: AuthGuardMock;
   let authService;
 
@@ -18,10 +18,10 @@ describe('MarketsController', () => {
     authGuard = new AuthGuardMock();
     authService = AuthServiceMock;
     const module: TestingModule = await Test.createTestingModule({
-      controllers: [MarketsController],
+      controllers: [MarketEventsController],
       providers: [
         {
-          provide: MarketsService,
+          provide: MarketEventsService,
           useValue: ServiceMock,
         },
         {
@@ -35,7 +35,7 @@ describe('MarketsController', () => {
       ],
     }).compile();
 
-    controller = module.get<MarketsController>(MarketsController);
+    controller = module.get<MarketEventsController>(MarketEventsController);
   });
 
   afterEach(() => {
@@ -57,11 +57,11 @@ describe('MarketsController', () => {
     });
 
     it('should return a market if found', async () => {
-      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEntityMock);
+      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEventEntityMock);
 
       const market = await controller.findOne(1);
 
-      expect(market).toEqual(MarketEntityMock);
+      expect(market).toEqual(MarketEventEntityMock);
     });
   });
 
@@ -75,11 +75,11 @@ describe('MarketsController', () => {
     });
 
     it('should return a newly created mock', async () => {
-      jest.spyOn(ServiceMock, 'create').mockResolvedValue(MarketEntityMock);
+      jest.spyOn(ServiceMock, 'create').mockResolvedValue(MarketEventEntityMock);
 
       const market = await controller.create(1, MarketDTOMock);
 
-      expect(market).toEqual(MarketEntityMock);
+      expect(market).toEqual(MarketEventEntityMock);
     });
   });
 
@@ -87,7 +87,7 @@ describe('MarketsController', () => {
     it('should call service.remove with correct params', async () => {
       const serviceRemoveSpy = jest
         .spyOn(ServiceMock, 'remove')
-        .mockResolvedValue(MarketEntityMock);
+        .mockResolvedValue(MarketEventEntityMock);
 
       await controller.remove(1);
 
@@ -95,7 +95,7 @@ describe('MarketsController', () => {
     });
 
     it('should return undefined if successfully deleted', async () => {
-      jest.spyOn(ServiceMock, 'remove').mockResolvedValue(MarketEntityMock);
+      jest.spyOn(ServiceMock, 'remove').mockResolvedValue(MarketEventEntityMock);
 
       const result = await controller.remove(1);
 
@@ -107,7 +107,7 @@ describe('MarketsController', () => {
     it('should call service.update with correct params', async () => {
       const serviceUpdateSpy = jest
         .spyOn(ServiceMock, 'update')
-        .mockResolvedValue(MarketEntityMock);
+        .mockResolvedValue(MarketEventEntityMock);
 
       await controller.update(1, MarketDTOMock);
 
@@ -115,11 +115,11 @@ describe('MarketsController', () => {
     });
 
     it('should return updated entity', async () => {
-      jest.spyOn(ServiceMock, 'update').mockResolvedValue(MarketEntityMock);
+      jest.spyOn(ServiceMock, 'update').mockResolvedValue(MarketEventEntityMock);
 
-      const result = await controller.update(1, MarketEntityMock);
+      const result = await controller.update(1, MarketEventEntityMock);
 
-      expect(result).toEqual(MarketEntityMock);
+      expect(result).toEqual(MarketEventEntityMock);
     });
   });
 

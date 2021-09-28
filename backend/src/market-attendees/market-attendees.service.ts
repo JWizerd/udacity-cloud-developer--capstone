@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { MarketsService } from '../markets/markets.service';
+import { MarketEventsService } from '../market-events/market-events.service';
 import { User } from '../users/user.entity';
 import { DeepPartial } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
@@ -12,7 +12,7 @@ export class MarketAttendeesService extends TenantedService<MarketAttendee> {
   constructor(
     @InjectRepository(MarketAttendee)
     protected readonly repo: Repository<MarketAttendee>,
-    private readonly marketService: MarketsService,
+    private readonly marketService: MarketEventsService,
   ) {
     super(repo);
   }

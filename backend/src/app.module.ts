@@ -6,7 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { databaseConfig } from './config/database.config';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { MarketsModule } from './markets/markets.module';
+import { MarketEventsModule } from './market-events/market-events.module';
 import { S3Module } from 'nestjs-s3';
 import { s3Config } from './config/s3.config';
 import { FilesModule } from './files/files.module';
@@ -20,7 +20,7 @@ import { MarketplacesModule } from './marketplaces/marketplaces.module';
     S3Module.forRoot(s3Config),
     AuthModule,
     UsersModule,
-    MarketsModule,
+    MarketEventsModule,
     FilesModule,
     MarketAttendeesModule,
     MarketplacesModule,

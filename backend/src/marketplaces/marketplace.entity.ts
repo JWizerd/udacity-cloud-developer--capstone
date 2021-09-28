@@ -20,7 +20,7 @@ export class Marketplace extends BaseEntity {
     lazy: true,
     onDelete: 'CASCADE',
   })
-  markets?: Promise<MarketEvent[]>;
+  events?: Promise<MarketEvent[]>;
 
   @Column({ nullable: false, unique: true })
   name?: string;

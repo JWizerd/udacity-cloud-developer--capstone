@@ -5,6 +5,7 @@ import {
   Get,
   Param,
   ParseIntPipe,
+  Patch,
   Post,
   Query,
   UseGuards,
@@ -17,13 +18,13 @@ import { MarketAttendeesOwnershipGuard } from './market-attendees-ownership.guar
 import { MarketAttendeesService } from './market-attendees.service';
 import { UpdateMarketAttendeeDTO } from './dtos/update.dto';
 
-@Controller('markets')
+@Controller('marketplaces')
 export class MarketAttendeesController {
   constructor(private readonly service: MarketAttendeesService) {}
 
-  @Get(':marketId/market-attendees')
+  @Get(':id/events/:eventId/attendees')
   async index(
-    @Param('marketId', ParseIntPipe) market: number,
+    @Param('eventId', ParseIntPipe) market: number,
     @Query('created') created: string,
     @Query('page') page = 1,
     @Query('limit') limit = 10,
@@ -37,25 +38,25 @@ export class MarketAttendeesController {
     return this.service.paginate({ page, limit }, options, order);
   }
 
-  @Get(':marketId/market-attendees/:id')
+  @Get(':id/events/:eventId/attendees/:attendeeId')
   async findOne(
-    @Param('id', ParseIntPipe) id: number,
+    @Param('attendeeId', ParseIntPipe) attendeeId: number,
     @AuthUserParam() user: User,
   ) {
-    return this.service.findOneByUser(id, user);
+    return this.service.findOneByUser(attendeeId, user);
   }
 
-  @Post(':marketId/market-attendees')
+  @Post(':id/events/:eventId/attendees')
   @UseGuards(AuthGuard)
   async create(
-    @Param('marketId', ParseIntPipe) marketId: number,
+    @Param('eventId', ParseIntPipe) eventId: number,
     @Body() marketAttendeeDTO: CreateMarketAttendeeDTO,
     @AuthUserParam() user: User,
   ) {
-    return this.service.create(marketId, user, marketAttendeeDTO);
+    return this.service.create(eventId, user, marketAttendeeDTO);
   }
 
-  @Post(':marketId/market-attendees/:id')
+  @Patch(':id/events/:eventId/attendees/:id')
   @UseGuards(AuthGuard, MarketAttendeesOwnershipGuard)
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -64,7 +65,7 @@ export class MarketAttendeesController {
     return this.service.update(id, marketAttendeeDTO);
   }
 
-  @Delete(':marketId/market-attendees/:id')
+  @Delete(':id/events/:eventId/attendees/:id')
   @UseGuards(AuthGuard, MarketAttendeesOwnershipGuard)
   async remove(@Param('id', ParseIntPipe) id: number) {
     this.service.remove(id);

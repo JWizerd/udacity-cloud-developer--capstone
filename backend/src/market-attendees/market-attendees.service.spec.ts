@@ -45,7 +45,9 @@ describe('MarketAttendeesService', () => {
       jest
         .spyOn(RepositoryMock, 'save')
         .mockResolvedValue(MarketAttendeeEntityMock);
-      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEventEntityMock);
+      jest
+        .spyOn(ServiceMock, 'findOne')
+        .mockResolvedValue(MarketEventEntityMock);
 
       await service.create(1, UserMock, MarketAttendeeDTO);
 
@@ -69,7 +71,7 @@ describe('MarketAttendeesService', () => {
     it('should call repo.save with correct params', async () => {
       const attendeeMock = { ...MarketAttendeeDTO } as any;
       attendeeMock.user = UserMock;
-      attendeeMock.market = MarketEventEntityMock;
+      attendeeMock.event = MarketEventEntityMock;
 
       jest
         .spyOn(RepositoryMock, 'create')
@@ -77,7 +79,9 @@ describe('MarketAttendeesService', () => {
       const saveSpy = jest
         .spyOn(RepositoryMock, 'save')
         .mockResolvedValue(MarketAttendeeEntityMock);
-      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEventEntityMock);
+      jest
+        .spyOn(ServiceMock, 'findOne')
+        .mockResolvedValue(MarketEventEntityMock);
 
       await service.create(1, UserMock, MarketAttendeeDTO);
 
@@ -91,7 +95,9 @@ describe('MarketAttendeesService', () => {
       jest
         .spyOn(RepositoryMock, 'save')
         .mockResolvedValue(MarketAttendeeEntityMock);
-      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEventEntityMock);
+      jest
+        .spyOn(ServiceMock, 'findOne')
+        .mockResolvedValue(MarketEventEntityMock);
 
       const entity = await service.create(1, UserMock, MarketAttendeeDTO);
 

@@ -23,7 +23,7 @@ export class MarketAttendee extends BaseEntity {
   user?: User;
 
   @ManyToOne(() => MarketEvent, (market) => market.attendees)
-  market: MarketEvent;
+  event: MarketEvent;
 
   @Column({ nullable: false, unique: true })
   rsvpDetails?: string;

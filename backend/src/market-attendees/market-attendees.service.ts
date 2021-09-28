@@ -22,10 +22,10 @@ export class MarketAttendeesService extends TenantedService<MarketAttendee> {
     user: User,
     marketAttendeeDTO: DeepPartial<MarketAttendee>,
   ): Promise<MarketAttendee> {
-    const market = await this.marketService.findOne(marketId);
+    const event = await this.marketService.findOne(marketId);
     const entity = this.repo.create(marketAttendeeDTO);
     entity.user = user;
-    entity.market = market;
+    entity.event = event;
     return this.repo.save(entity);
   }
 }

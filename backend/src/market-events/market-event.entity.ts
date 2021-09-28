@@ -13,10 +13,10 @@ export class MarketEvent extends BaseEntity {
     }
   }
 
-  @ManyToOne(() => Marketplace, (marketplace) => marketplace.markets)
+  @ManyToOne(() => Marketplace, (marketplace) => marketplace.events)
   marketplace?: Marketplace;
 
-  @OneToMany(() => MarketAttendee, (attendee) => attendee.market)
+  @OneToMany(() => MarketAttendee, (attendee) => attendee.event)
   attendees: MarketAttendee[];
 
   @Column({ nullable: false, unique: true })

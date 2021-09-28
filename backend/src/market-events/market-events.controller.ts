@@ -21,7 +21,7 @@ import { UpdateMarketDTO } from './dtos/update.dto';
 export class MarketEventsController {
   constructor(private readonly service: MarketEventsService) {}
 
-  @Get(':id/market-events')
+  @Get(':id/events')
   async index(
     @Param('id', ParseIntPipe) id: number,
     @Query('created') created?: string,
@@ -39,12 +39,12 @@ export class MarketEventsController {
     return this.service.paginate({ page, limit }, options, order);
   }
 
-  @Get(':id/market-events/:marketId')
-  async findOne(@Param('marketId', ParseIntPipe) marketId: number) {
-    return this.service.findOne(marketId);
+  @Get(':id/events/:eventId')
+  async findOne(@Param('eventId', ParseIntPipe) eventId: number) {
+    return this.service.findOne(eventId);
   }
 
-  @Post(':id/market-events')
+  @Post(':id/events')
   @UseGuards(AuthGuard)
   async create(
     @Param('id') marketplaceId: number,
@@ -53,18 +53,18 @@ export class MarketEventsController {
     return this.service.create(createMarketDTO, marketplaceId);
   }
 
-  @Delete(':id/market-events/:marketId')
+  @Delete(':id/events/:eventId')
   @UseGuards(AuthGuard, MarketEventsOwnershipGuard)
-  async remove(@Param('marketId', ParseIntPipe) marketId: number) {
-    this.service.remove(marketId);
+  async remove(@Param('eventId', ParseIntPipe) eventId: number) {
+    this.service.remove(eventId);
   }
 
-  @Patch(':id/market-events/:marketId')
+  @Patch(':id/events/:eventId')
   @UseGuards(AuthGuard, MarketEventsOwnershipGuard)
   async update(
-    @Param('marketId', ParseIntPipe) marketId: number,
+    @Param('eventId', ParseIntPipe) eventId: number,
     @Body() updateMarketDTO: UpdateMarketDTO,
   ) {
-    return this.service.update(marketId, updateMarketDTO);
+    return this.service.update(eventId, updateMarketDTO);
   }
 }

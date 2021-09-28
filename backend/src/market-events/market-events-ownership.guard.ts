@@ -11,7 +11,7 @@ export class MarketEventsOwnershipGuard implements CanActivate {
       if (!marketplace) return false;
       return this.marketplacesService.ownsResource(
         marketplace.id,
-        req.params.marketId,
+        req.params.eventId,
         'marketplace',
       );
     } catch (error) {

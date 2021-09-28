@@ -1,4 +1,3 @@
-import { Market } from '../markets/market.entity';
 import {
   Entity,
   Column,
@@ -7,6 +6,8 @@ import {
   PrimaryColumn,
   OneToMany,
 } from 'typeorm';
+
+import { Marketplace } from '../marketplaces/marketplace.entity';
 
 @Entity()
 export class User {
@@ -34,9 +35,9 @@ export class User {
   @UpdateDateColumn()
   updated?: Date;
 
-  @OneToMany(() => Market, (market) => market.user, {
+  @OneToMany(() => Marketplace, (marketplace) => marketplace.user, {
     lazy: true,
     onDelete: 'CASCADE',
   })
-  markets?: Promise<Market[]>;
+  marketplaces?: Promise<Marketplace[]>;
 }

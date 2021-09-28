@@ -1,4 +1,4 @@
-import { UserMock } from '../../users/mocks/user-entity.mock';
+import { MarketplaceEntityMock } from '../../marketplaces/mocks/marketplace-entity.mock';
 import { CreateMarketDTO } from '../dtos/create-market-dto.interface';
 import { Market } from '../market.entity';
 
@@ -13,7 +13,7 @@ export const MarketEntityMock: Market = {
   address: '1234 stiner',
   state: 'CO',
   zipcode: 80538,
-  user: UserMock,
+  marketplace: MarketplaceEntityMock,
   attendees: [] as any,
 };
 

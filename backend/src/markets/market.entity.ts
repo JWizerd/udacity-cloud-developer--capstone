@@ -1,7 +1,7 @@
 import { BaseEntity } from '../typeorm/base.entity';
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
-import { User } from '../users/user.entity';
 import { MarketAttendee } from '../market-attendees/market-attendee.entity';
+import { Marketplace } from '../marketplaces/marketplace.entity';
 
 @Entity()
 export class Market extends BaseEntity {
@@ -13,8 +13,8 @@ export class Market extends BaseEntity {
     }
   }
 
-  @ManyToOne(() => User, (user) => user.markets)
-  user?: User;
+  @ManyToOne(() => Marketplace, (marketplace) => marketplace.markets)
+  marketplace?: Marketplace;
 
   @OneToMany(() => MarketAttendee, (attendee) => attendee.market)
   attendees: MarketAttendee[];

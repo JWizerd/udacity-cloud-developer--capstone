@@ -7,7 +7,7 @@ import { MarketsController } from './markets.controller';
 import { MarketsService } from './markets.service';
 import { MarketDTOMock, MarketEntityMock } from './mocks/market-entity.mock';
 import { AuthServiceMock } from '../auth/mocks/auth-service.mock';
-import { UserMock } from '../users/mocks/user-entity.mock';
+import { MarketplaceEntityMock } from '../marketplaces/mocks/marketplace-entity.mock';
 
 describe('MarketsController', () => {
   let controller: MarketsController;
@@ -69,15 +69,15 @@ describe('MarketsController', () => {
     it('should call service.create with correct params', async () => {
       const serviceCreateSpy = jest.spyOn(ServiceMock, 'create');
 
-      await controller.create(UserMock, MarketDTOMock);
+      await controller.create(1, MarketDTOMock);
 
-      expect(serviceCreateSpy).toHaveBeenCalledWith(MarketDTOMock, UserMock);
+      expect(serviceCreateSpy).toHaveBeenCalledWith(MarketDTOMock, 1);
     });
 
     it('should return a newly created mock', async () => {
       jest.spyOn(ServiceMock, 'create').mockResolvedValue(MarketEntityMock);
 
-      const market = await controller.create(UserMock, MarketDTOMock);
+      const market = await controller.create(1, MarketDTOMock);
 
       expect(market).toEqual(MarketEntityMock);
     });
@@ -129,11 +129,22 @@ describe('MarketsController', () => {
 
       const dateString = new Date().toDateString();
 
-      await controller.index(dateString, 'test name', 10, 2, 'ASC');
+      await controller.index(
+        MarketplaceEntityMock.id,
+        dateString,
+        'test name',
+        10,
+        2,
+        'ASC',
+      );
 
       expect(servicePaginateSpy).toHaveBeenCalledWith(
         { page: 10, limit: 2 },
-        { created: dateString, name: 'test name' },
+        {
+          marketplace: MarketplaceEntityMock.id,
+          created: dateString,
+          name: 'test name',
+        },
         'ASC',
       );
     });
@@ -143,11 +154,15 @@ describe('MarketsController', () => {
 
       const dateString = new Date().toDateString();
 
-      await controller.index(dateString, 'test name');
+      await controller.index(MarketplaceEntityMock.id, dateString, 'test name');
 
       expect(servicePaginateSpy).toHaveBeenCalledWith(
         { page: 1, limit: 10 },
-        { created: dateString, name: 'test name' },
+        {
+          marketplace: MarketplaceEntityMock.id,
+          created: dateString,
+          name: 'test name',
+        },
         'DESC',
       );
     });

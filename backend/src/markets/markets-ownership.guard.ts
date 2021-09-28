@@ -1,18 +1,21 @@
-import { CanActivate, Injectable } from '@nestjs/common';
-import { AuthService } from '../auth/auth.service';
-import { OwnershipGuard } from '../auth/ownership.guard';
-import { Market } from './market.entity';
-import { MarketsService } from './markets.service';
+import { CanActivate, ExecutionContext } from '@nestjs/common';
+import { MarketplacesService } from 'src/marketplaces/marketplaces.service';
 
-@Injectable()
-export class MarketsOwnershipGuard
-  extends OwnershipGuard<Market>
-  implements CanActivate
-{
-  constructor(
-    protected readonly marketsService: MarketsService,
-    protected readonly authService: AuthService,
-  ) {
-    super(marketsService, authService);
+export class MarketsOwnershipGuard implements CanActivate {
+  constructor(private readonly marketplacesService: MarketplacesService) {}
+
+  async canActivate(context: ExecutionContext): Promise<boolean> {
+    try {
+      const req = context.switchToHttp().getRequest();
+      const marketplace = await this.marketplacesService.findOne(req.params.id);
+      if (!marketplace) return false;
+      return this.marketplacesService.ownsResource(
+        marketplace.id,
+        req.params.marketId,
+        'marketplace',
+      );
+    } catch (error) {
+      return false;
+    }
   }
 }

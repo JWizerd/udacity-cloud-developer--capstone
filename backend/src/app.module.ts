@@ -12,6 +12,7 @@ import { s3Config } from './config/s3.config';
 import { FilesModule } from './files/files.module';
 import { MarketAttendeesModule } from './market-attendees/market-attendees.module';
 import { MarketplacesModule } from './marketplaces/marketplaces.module';
+import { MarketplaceReviewsModule } from './marketplace-reviews/marketplace-reviews.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { MarketplacesModule } from './marketplaces/marketplaces.module';
     FilesModule,
     MarketAttendeesModule,
     MarketplacesModule,
+    MarketplaceReviewsModule,
   ],
   controllers: [AppController],
   providers: [AppService],

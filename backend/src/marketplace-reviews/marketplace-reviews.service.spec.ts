@@ -1,0 +1,106 @@
+import { Test, TestingModule } from '@nestjs/testing';
+import { MarketplacesService } from '../marketplaces/marketplaces.service';
+import { RepositoryMock } from '../../test/mocks/repository.mock';
+import { ServiceMock } from '../../test/mocks/service.mock';
+import { MarketplaceReviewsService } from './marketplace-reviews.service';
+import { MarketplaceEntityMock } from '../marketplaces/mocks/marketplace-entity.mock';
+import { UserMock } from '../users/mocks/user-entity.mock';
+import { MarketplaceReviewEntityMock } from './mocks/marketplace-review-entity.mock';
+
+describe('MarketplaceReviewsService', () => {
+  let service: MarketplaceReviewsService;
+  let marketplacesService: any;
+  let repo: any;
+
+  beforeEach(async () => {
+    const module: TestingModule = await Test.createTestingModule({
+      providers: [
+        MarketplaceReviewsService,
+        {
+          provide: MarketplacesService,
+          useValue: ServiceMock,
+        },
+        {
+          provide: 'MarketplaceReviewRepository',
+          useValue: RepositoryMock,
+        },
+      ],
+    }).compile();
+
+    marketplacesService = module.get<MarketplacesService>(MarketplacesService);
+    repo = module.get<'MarketplaceReviewRepository'>(
+      'MarketplaceReviewRepository',
+    );
+    service = module.get<MarketplaceReviewsService>(MarketplaceReviewsService);
+  });
+
+  it('should be defined', () => {
+    expect(service).toBeDefined();
+  });
+
+  describe('create', () => {
+    it('should call marketplacesService.findOne with correct params', async () => {
+      jest.spyOn(repo, 'create').mockReturnValue(MarketplaceReviewEntityMock);
+      const findOneSpy = jest
+        .spyOn(marketplacesService, 'findOne')
+        .mockResolvedValue(MarketplaceEntityMock);
+
+      await service.create(UserMock, 1, MarketplaceReviewEntityMock);
+
+      expect(findOneSpy).toHaveBeenCalledWith(1);
+    });
+
+    it('should call marketplacesService.findOne with correct params', async () => {
+      const createSpy = jest
+        .spyOn(repo, 'create')
+        .mockReturnValue(MarketplaceReviewEntityMock);
+      jest
+        .spyOn(marketplacesService, 'findOne')
+        .mockResolvedValue(MarketplaceEntityMock);
+
+      await service.create(UserMock, 1, MarketplaceReviewEntityMock);
+
+      expect(createSpy).toHaveBeenCalledWith(MarketplaceReviewEntityMock);
+    });
+
+    it('should call marketplacesService.save with correct params', async () => {
+      const reviewWithUserAndMarketPlace = {
+        ...MarketplaceReviewEntityMock,
+      } as any;
+      reviewWithUserAndMarketPlace.user = UserMock;
+      reviewWithUserAndMarketPlace.marketplace = MarketplaceEntityMock;
+
+      jest.spyOn(repo, 'create').mockReturnValue(MarketplaceReviewEntityMock);
+      jest
+        .spyOn(marketplacesService, 'findOne')
+        .mockResolvedValue(MarketplaceEntityMock);
+      const saveSpy = jest.spyOn(repo, 'save');
+
+      await service.create(UserMock, 1, MarketplaceReviewEntityMock);
+
+      expect(saveSpy).toHaveBeenCalledWith(reviewWithUserAndMarketPlace);
+    });
+
+    it('should call marketplacesService.save with correct params', async () => {
+      const reviewWithUserAndMarketPlace = {
+        ...MarketplaceReviewEntityMock,
+      } as any;
+      reviewWithUserAndMarketPlace.user = UserMock;
+      reviewWithUserAndMarketPlace.marketplace = MarketplaceEntityMock;
+
+      jest.spyOn(repo, 'create').mockReturnValue(MarketplaceReviewEntityMock);
+      jest
+        .spyOn(marketplacesService, 'findOne')
+        .mockResolvedValue(MarketplaceEntityMock);
+      jest.spyOn(repo, 'save').mockResolvedValue(MarketplaceReviewEntityMock);
+
+      const review = await service.create(
+        UserMock,
+        1,
+        MarketplaceReviewEntityMock,
+      );
+
+      expect(review).toEqual(reviewWithUserAndMarketPlace);
+    });
+  });
+});

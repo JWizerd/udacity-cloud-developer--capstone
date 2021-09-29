@@ -26,6 +26,9 @@ export class MarketEventsController {
     @Param('id', ParseIntPipe) id: number,
     @Query('created') created?: string,
     @Query('name') name?: string,
+    @Query('zipcode', ParseIntPipe) zipcode?: number,
+    @Query('city') city?: string,
+    @Query('state') state?: string,
     @Query('page') page = 1,
     @Query('limit') limit = 10,
     @Query('order') order = 'DESC',
@@ -34,6 +37,9 @@ export class MarketEventsController {
       created,
       name,
       marketplace: id,
+      zipcode,
+      city,
+      state,
     };
 
     return this.service.paginate({ page, limit }, options, order);

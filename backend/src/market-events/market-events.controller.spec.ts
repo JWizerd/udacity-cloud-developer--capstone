@@ -5,7 +5,10 @@ import { AuthGuardMock } from '../auth/mocks/auth-guard.mock';
 import { ServiceMock } from '../../test/mocks/service.mock';
 import { MarketEventsController } from './market-events.controller';
 import { MarketEventsService } from './market-events.service';
-import { MarketDTOMock, MarketEventEntityMock } from './mocks/market-event-entity.mock';
+import {
+  MarketDTOMock,
+  MarketEventEntityMock,
+} from './mocks/market-event-entity.mock';
 import { AuthServiceMock } from '../auth/mocks/auth-service.mock';
 import { MarketplaceEntityMock } from '../marketplaces/mocks/marketplace-entity.mock';
 
@@ -57,7 +60,9 @@ describe('MarketEventsController', () => {
     });
 
     it('should return a market if found', async () => {
-      jest.spyOn(ServiceMock, 'findOne').mockResolvedValue(MarketEventEntityMock);
+      jest
+        .spyOn(ServiceMock, 'findOne')
+        .mockResolvedValue(MarketEventEntityMock);
 
       const market = await controller.findOne(1);
 
@@ -75,7 +80,9 @@ describe('MarketEventsController', () => {
     });
 
     it('should return a newly created mock', async () => {
-      jest.spyOn(ServiceMock, 'create').mockResolvedValue(MarketEventEntityMock);
+      jest
+        .spyOn(ServiceMock, 'create')
+        .mockResolvedValue(MarketEventEntityMock);
 
       const market = await controller.create(1, MarketDTOMock);
 
@@ -95,7 +102,9 @@ describe('MarketEventsController', () => {
     });
 
     it('should return undefined if successfully deleted', async () => {
-      jest.spyOn(ServiceMock, 'remove').mockResolvedValue(MarketEventEntityMock);
+      jest
+        .spyOn(ServiceMock, 'remove')
+        .mockResolvedValue(MarketEventEntityMock);
 
       const result = await controller.remove(1);
 
@@ -115,7 +124,9 @@ describe('MarketEventsController', () => {
     });
 
     it('should return updated entity', async () => {
-      jest.spyOn(ServiceMock, 'update').mockResolvedValue(MarketEventEntityMock);
+      jest
+        .spyOn(ServiceMock, 'update')
+        .mockResolvedValue(MarketEventEntityMock);
 
       const result = await controller.update(1, MarketEventEntityMock);
 
@@ -133,6 +144,9 @@ describe('MarketEventsController', () => {
         MarketplaceEntityMock.id,
         dateString,
         'test name',
+        80538,
+        'loveland',
+        'CO',
         10,
         2,
         'ASC',
@@ -144,6 +158,9 @@ describe('MarketEventsController', () => {
           marketplace: MarketplaceEntityMock.id,
           created: dateString,
           name: 'test name',
+          zipcode: 80538,
+          city: 'loveland',
+          state: 'CO',
         },
         'ASC',
       );

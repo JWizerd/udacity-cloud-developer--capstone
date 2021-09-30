@@ -1,9 +1,11 @@
 import { authGuard } from "../auth";
 import Profile from "../views/Profile.vue";
-import ManageMarkets from "../views/admin/ManageMarkets";
-import ManageMarketSingle from "../views/admin/ManageMarketSingle";
-import CreateMarket from "../views/admin/CreateMarket";
-import UpdateMarket from "../views/admin/UpdateMarket";
+import ManageMarketplaces from "../views/admin/marketplaces/ManageMarketplaces";
+import CreateMarketplace from "../views/admin/marketplaces/CreateMarketplace";
+import UpdateMarketplace from "../views/admin/marketplaces/UpdateMarketplace";
+import ManageEvents from "../views/admin/events/ManageEvents";
+import CreateEvent from "../views/admin/events/CreateEvent";
+import UpdateEvent from "../views/admin/events/UpdateEvent";
 
 export const AdminRoutes = [
     {
@@ -13,27 +15,39 @@ export const AdminRoutes = [
       beforeEnter: authGuard
     },
     {
-      path: "/admin/markets",
-      name: "my-markets",
-      component: ManageMarkets,
+      path: "/admin/marketplaces",
+      name: "my-marketplaces",
+      component: ManageMarketplaces,
       beforeEnter: authGuard
     },
     {
-      path: "/admin/markets/:marketId",
-      name: "manage-market",
-      component: ManageMarketSingle,
+      path: "/admin/marketplaces/create-marketplace",
+      name: "create-marketplace",
+      component: CreateMarketplace,
       beforeEnter: authGuard
     },
     {
-      path: "/admin/create-market",
-      name: "create-market",
-      component: CreateMarket,
+      path: "/admin/marketplaces/:marketplaceId",
+      name: "update-marketplace",
+      component: UpdateMarketplace,
       beforeEnter: authGuard
     },
     {
-      path: "/admin/update-market/:marketId",
-      name: "update-market",
-      component: UpdateMarket,
+      path: "/admin/marketplaces/:marketplaceId/events",
+      name: "marketplace-events",
+      component: ManageEvents,
+      beforeEnter: authGuard
+    },
+    {
+      path: "/admin/marketplaces/:marketplaceId/events/create-event",
+      name: "create-event",
+      component: CreateEvent,
+      beforeEnter: authGuard
+    },
+    {
+      path: "/admin/marketplaces/:marketplaceId/events/:eventId",
+      name: "update-event",
+      component: UpdateEvent,
       beforeEnter: authGuard
     },
 ]

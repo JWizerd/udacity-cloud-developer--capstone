@@ -28,3 +28,11 @@ export default {
   }
 };
 </script>
+
+<style lang="scss">
+  a {
+    &:hover {
+      cursor: pointer;
+    }
+  }
+</style>

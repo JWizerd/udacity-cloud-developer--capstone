@@ -6,3 +6,8 @@ export default {
     state.user = null;
   },
 }
+
+export const USER_MUTATIONS = {
+ SET_USER: "SET_USER",
+ REMOVE_USER: "REMOVE_USER"
+}

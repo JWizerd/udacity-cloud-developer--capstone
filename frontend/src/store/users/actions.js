@@ -1,16 +1,24 @@
+import { USER_MUTATIONS } from "./mutations";
+import { MARKETPLACE_MUTATIONS } from "../marketplaces/mutations";
+
 export default {
   async CREATE_USER({ commit }, user) {
-    let { data: currentUser } = await this.$api.users.me();
-    const { sub: userUuid, picture: headshot, email } = user;
+    let currentUser = await this.$api.users.me();
+    const { sub: id, picture: headshot, email } = user;
 
     if (!currentUser) {
-      currentUser = await this.$api.users.create({ userUuid, headshot, email });
+      currentUser = await this.$api.users.create({ id, headshot, email });
     }
 
-    commit("SET_USER", currentUser);
+    commit(USER_MUTATIONS.SET_USER, currentUser);
   },
   LOGOUT({ commit }) {
-    commit("REMOVE_USER");
-    commit("REMOVE_USER_MARKETS");
+    commit(USER_MUTATIONS.REMOVE_USER);
+    commit(MARKETPLACE_MUTATIONS.REMOVE_USER_MARKETS);
   },
+}
+
+export const USER_ACTIONS = {
+  CREATE_USER: "CREATE_USER",
+  LOGOUT: "LOGOUT",
 }

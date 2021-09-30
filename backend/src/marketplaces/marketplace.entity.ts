@@ -26,10 +26,10 @@ export class Marketplace extends BaseEntity {
   name?: string;
 
   @Column({ nullable: false, type: 'text' })
-  description?: string;
+  summary?: string;
 
   @Column({ nullable: false, type: 'text' })
-  policy?: string;
+  description?: string;
 
   @Column({ nullable: true })
   featuredImage?: string;

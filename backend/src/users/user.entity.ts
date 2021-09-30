@@ -16,7 +16,7 @@ export class User {
     }
   }
 
-  @PrimaryColumn()
+  @PrimaryColumn({ nullable: false, unique: true })
   userUuid: string;
 
   @Column({ nullable: false, unique: true })

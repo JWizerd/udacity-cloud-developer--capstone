@@ -9,7 +9,7 @@ A gift economy or gift culture is a mode of exchange where valuables are not sol
 
 
 ## Why not just use Facebook Marketplace or Events?
-Some people do not want to participate in social media platforms but still want to contribute and create their own share markets (i.e. anarchists, non-confirmers, religious folk etc.). Therefore a separate platform is much needed.
+Some people do not want to participate in social media platforms but still want to contribute and create their own share marketplaces (i.e. anarchists, non-confirmers, religious folk etc.). Therefore a separate platform is much needed.
 
 
 ## What types of goods and services are typically sold at Share Markets?

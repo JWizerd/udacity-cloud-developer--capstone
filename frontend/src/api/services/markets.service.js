@@ -1,5 +1,5 @@
 import Service from "./base.service";
-import { ApiError } from "./api.error";
+import { ApiError } from "../api.error";
 export class MarketService extends Service {
   constructor(axios, resource, filesService) {
     super(axios, resource);

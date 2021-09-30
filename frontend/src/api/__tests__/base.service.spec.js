@@ -116,4 +116,37 @@ describe('Service', () => {
         expect(result).toEqual(mockResponseSingleEntity.data);
       });
   });
+
+  describe('buildResource', () => {
+    it('should return resource if no params in template', () => {
+      const service = new Service(axiosMock, 'resource');
+
+      const resourceUrl = service.buildResource();
+
+      expect(resourceUrl).toEqual('resource');
+    });
+
+    it('should return properly formatted template based on params and resource template', () => {
+      const service = new Service(axiosMock, 'resource/:grandparentId/parent/:parentId');
+
+      const resourceUrl = service.buildResource({
+        grandparentId: 1,
+        parentId: 2,
+      });
+
+      expect(resourceUrl).toEqual('resource/1/parent/2');
+    });
+
+    it('should throw an error if the template contains a param that is not included in the request params', () => {
+      const service = new Service(axiosMock, 'resource/:grandparentId/parent/:parentId');
+
+      try {
+        service.buildResource({
+          grandparentId: 1,
+        });
+      } catch (error) {
+        expect(error.message).toEqual('parentId parameter must be set')
+      }
+    });
+  });
 });

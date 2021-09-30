@@ -1,4 +1,4 @@
-import { ApiError } from "./api.error";
+import { ApiError } from "../api.error";
 
 export default class Service {
   constructor(axios, resource) {
@@ -57,5 +57,32 @@ export default class Service {
     } catch (error) {
       throw new ApiError(error);
     }
+  }
+
+  /**
+   * Builds a url path based on the resource template,
+   * and params passed into the request method
+   *
+   * @param {*} params
+   * @returns
+   */
+  buildResource(params) {
+    const slugs = this.resource.split('/');
+
+    if (slugs.length === 1) return this.resource;
+
+    for (let index = 0; index < slugs.length; index++) {
+      let slug = slugs[index];
+      if (!slug.includes(':') ) continue;
+      slugs[index] = this._getParamValue(slug, params);
+    }
+
+    return slugs.join('/');
+  }
+
+  _getParamValue(slug, params) {
+    const formattedSlug = slug.replace(':', '');
+    if (!params[formattedSlug]) throw new Error(`${formattedSlug} parameter must be set`);
+    return params[formattedSlug];
   }
 }

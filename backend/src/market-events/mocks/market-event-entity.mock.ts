@@ -6,7 +6,6 @@ export const MarketEventEntityMock: MarketEvent = {
   name: 'market name',
   description: 'blah',
   id: 1,
-  featuredImage: 'something.jpg',
   startDate: '2021-01-01',
   endDate: '2021-02-01',
   city: 'loveland',
@@ -20,8 +19,6 @@ export const MarketEventEntityMock: MarketEvent = {
 export const MarketDTOMock: CreateMarketDTO = {
   name: 'market name',
   description: 'blah',
-  summary: 'blah',
-  featuredImage: 'something.jpg',
   startDate: '2021-01-01',
   endDate: '2021-02-01',
   city: 'loveland',

@@ -24,14 +24,8 @@ export class MarketEvent extends BaseEntity {
   @Column({ nullable: false, unique: true })
   name?: string;
 
-  @Column({ nullable: false })
-  summary?: string;
-
   @Column({ nullable: false, type: 'text' })
   description?: string;
-
-  @Column({ nullable: true })
-  featuredImage?: string;
 
   @Column({ nullable: false, type: 'date' })
   startDate?: string;

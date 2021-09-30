@@ -5,7 +5,6 @@ import {
   IsNumber,
   IsOptional,
   IsString,
-  IsUrl,
   MaxLength,
 } from 'class-validator';
 import { STATES } from '../constants';
@@ -17,16 +16,7 @@ export class UpdateMarketDTO {
 
   @IsOptional()
   @IsString()
-  @MaxLength(255)
-  summary?: string;
-
-  @IsOptional()
-  @IsString()
   description?: string;
-
-  @IsOptional()
-  @IsUrl()
-  featuredImage?: string;
 
   @IsOptional()
   @IsISO8601()

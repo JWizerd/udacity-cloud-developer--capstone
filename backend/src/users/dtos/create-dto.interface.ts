@@ -1,6 +1,6 @@
 export interface CreateUserDto {
   email: string;
   username: string;
-  userUuid: string;
+  id: string;
   headshot?: string;
 }

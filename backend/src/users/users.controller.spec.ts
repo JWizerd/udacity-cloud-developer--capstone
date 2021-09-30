@@ -47,14 +47,14 @@ describe('UsersController', () => {
   describe('me', () => {
     it('should call service.findOne with correct params', async () => {
       const findOneSpy = jest.spyOn(usersService, 'findOne');
-      await controller.me('abc123');
+      await controller.me(UserMock);
       expect(findOneSpy).toHaveBeenCalledTimes(1);
-      expect(findOneSpy).toHaveBeenCalledWith('abc123');
+      expect(findOneSpy).toHaveBeenCalledWith(UserMock.id);
     });
 
     it('should return an entity if found', async () => {
       jest.spyOn(usersService, 'findOne').mockResolvedValue(UserMock);
-      const user = await controller.me('abc123');
+      const user = await controller.me(UserMock);
       expect(user).toEqual(UserMock);
     });
   });
@@ -77,14 +77,14 @@ describe('UsersController', () => {
   describe('remove', () => {
     it('should call remove with correct params', async () => {
       const removeSpy = jest.spyOn(usersService, 'remove');
-      await controller.remove('abc123');
+      await controller.remove(UserMock);
       expect(removeSpy).toHaveBeenCalledTimes(1);
-      expect(removeSpy).toHaveBeenCalledWith('abc123');
+      expect(removeSpy).toHaveBeenCalledWith(UserMock.id);
     });
 
     it('should return no response after successful deletion', async () => {
       jest.spyOn(usersService, 'remove').mockResolvedValue(undefined);
-      const deletedUser = await controller.remove('acb123');
+      const deletedUser = await controller.remove(UserMock);
       expect(deletedUser).toBeUndefined();
     });
   });
@@ -92,14 +92,14 @@ describe('UsersController', () => {
   describe('update', () => {
     it('should call update with correct params', async () => {
       const updateSpy = jest.spyOn(usersService, 'update');
-      await controller.update('abc123', UserMock);
+      await controller.update(UserMock, UserMock);
       expect(updateSpy).toHaveBeenCalledTimes(1);
-      expect(updateSpy).toHaveBeenCalledWith('abc123', UserMock);
+      expect(updateSpy).toHaveBeenCalledWith(UserMock.id, UserMock);
     });
 
     it('should return updated entity', async () => {
       jest.spyOn(usersService, 'update').mockResolvedValue(UserMock);
-      const updatedUser = await controller.update('abc123', UserMock);
+      const updatedUser = await controller.update(UserMock, UserMock);
       expect(updatedUser).toEqual(UserMock);
     });
   });

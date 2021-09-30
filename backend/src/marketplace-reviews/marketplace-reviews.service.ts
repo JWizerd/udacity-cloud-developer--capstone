@@ -28,12 +28,12 @@ export class MarketplaceReviewsService extends TenantedService<MarketplaceReview
     return await this.repo.save(review);
   }
 
-  async findByUserAndMarketplace(userUuid: string, marketplaceId: number) {
-    return this.repo.findOne({
-      where: {
-        marketplace: marketplaceId,
-        user: userUuid,
-      },
-    });
+  async findByUserAndMarketplace(userId: string, marketplaceId: number) {
+    const queryBuilder = this.repo.createQueryBuilder('review');
+
+    return await queryBuilder
+      .where('review.userId = :userId', { userId })
+      .andWhere('review.marketplaceId', { marketplaceId })
+      .getOne();
   }
 }

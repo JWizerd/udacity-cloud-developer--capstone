@@ -6,6 +6,7 @@ import { MarketplaceReviewsService } from './marketplace-reviews.service';
 import { MarketplaceEntityMock } from '../marketplaces/mocks/marketplace-entity.mock';
 import { UserMock } from '../users/mocks/user-entity.mock';
 import { MarketplaceReviewEntityMock } from './mocks/marketplace-review-entity.mock';
+import { QueryBuilderMock } from '../../test/mocks/queryBuilder.mock';
 
 describe('MarketplaceReviewsService', () => {
   let service: MarketplaceReviewsService;
@@ -105,17 +106,53 @@ describe('MarketplaceReviewsService', () => {
   });
 
   describe('findOneByUserAndMarketplace', () => {
-    it('should call repo.findOne with correct params', async () => {
-      const findOneSpy = jest.spyOn(repo, 'findOne');
+    let whereSpy;
+    let andWhereSpy;
+    let getOneSpy;
+
+    beforeEach(() => {
+      getOneSpy = jest.spyOn(QueryBuilderMock, 'getOne');
+      andWhereSpy = jest.spyOn(QueryBuilderMock, 'andWhere').mockReturnThis();
+      whereSpy = jest.spyOn(QueryBuilderMock, 'where').mockReturnThis();
+    });
+
+    it('should call repo.createQuerybuilder with correct params', async () => {
+      const queryBuilder = jest
+        .spyOn(repo, 'createQueryBuilder')
+        .mockReturnValue(QueryBuilderMock);
 
       await service.findByUserAndMarketplace('abc123', 1);
 
-      expect(findOneSpy).toHaveBeenLastCalledWith({
-        where: {
-          marketplace: 1,
-          user: 'abc123',
-        },
+      expect(queryBuilder).toHaveBeenLastCalledWith('review');
+    });
+
+    it('should call Querybuilder.where with correct params', async () => {
+      jest.spyOn(repo, 'createQueryBuilder').mockReturnValue(QueryBuilderMock);
+
+      await service.findByUserAndMarketplace('abc123', 1);
+
+      expect(whereSpy).toHaveBeenLastCalledWith('review.userId = :userId', {
+        userId: 'abc123',
       });
+    });
+
+    it('should call Querybuilder.andWhere with correct params', async () => {
+      jest.spyOn(repo, 'createQueryBuilder').mockReturnValue(QueryBuilderMock);
+
+      await service.findByUserAndMarketplace('abc123', 1);
+
+      expect(andWhereSpy).toHaveBeenLastCalledWith('review.marketplaceId', {
+        marketplaceId: 1,
+      });
+    });
+
+    it('should return review entity if found', async () => {
+      jest.spyOn(repo, 'createQueryBuilder').mockReturnValue(QueryBuilderMock);
+      getOneSpy.mockResolvedValue(MarketplaceReviewEntityMock);
+
+      const review = await service.findByUserAndMarketplace('abc123', 1);
+
+      expect(review).toEqual(MarketplaceReviewEntityMock);
     });
   });
 });

@@ -1,4 +1,4 @@
 export interface ISearchOptions {
   created: string;
-  user?: string;
+  userId?: string;
 }

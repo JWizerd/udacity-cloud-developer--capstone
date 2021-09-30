@@ -11,6 +11,7 @@ import { AuthUserParam } from '../auth/auth-user-param.decorator';
 import { AuthGuard } from '../auth/auth.guard';
 import { CreateUserDto } from './dtos/create.dto';
 import { UpdateUserDto } from './dtos/update.dto';
+import { User } from './user.entity';
 import { UsersService } from './users.service';
 
 @Controller('users')
@@ -19,8 +20,8 @@ export class UsersController {
   constructor(private readonly usersService: UsersService) {}
 
   @Get('me')
-  async me(@AuthUserParam() userId: string) {
-    return this.usersService.findOne(userId);
+  async me(@AuthUserParam() user: User) {
+    return this.usersService.findOne(user.id);
   }
 
   @Post()
@@ -29,12 +30,12 @@ export class UsersController {
   }
 
   @Delete()
-  async remove(@AuthUserParam() userId: string) {
-    return this.usersService.remove(userId);
+  async remove(@AuthUserParam() user: User) {
+    return this.usersService.remove(user.id);
   }
 
   @Patch()
-  async update(@AuthUserParam() userId: string, updateUserDTO: UpdateUserDto) {
-    return this.usersService.update(userId, updateUserDTO);
+  async update(@AuthUserParam() user: User, updateUserDTO: UpdateUserDto) {
+    return this.usersService.update(user.id, updateUserDTO);
   }
 }

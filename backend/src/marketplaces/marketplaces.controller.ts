@@ -25,17 +25,17 @@ export class MarketplacesController {
   @Get()
   async index(
     @AuthUserParam() user: User,
+    @Query('filterByUser') filterByUser: string,
     @Query('created') created?: string,
     @Query('name') name?: string,
     @Query('page') page = 1,
     @Query('limit') limit = 10,
     @Query('order') order = 'DESC',
-    @Query('filterByUser') filterByUser = false,
   ) {
     const options = {
       created,
       name,
-      user: filterByUser ? user.userUuid : undefined,
+      userId: filterByUser === 'true' ? user.id : undefined,
     };
 
     return this.service.paginate({ page, limit }, options, order);

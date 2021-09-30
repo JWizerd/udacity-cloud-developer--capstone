@@ -11,6 +11,8 @@ import {
 } from './mocks/market-event-entity.mock';
 import { AuthServiceMock } from '../auth/mocks/auth-service.mock';
 import { MarketplaceEntityMock } from '../marketplaces/mocks/marketplace-entity.mock';
+import { MarketEventsOwnershipGuard } from './market-events-ownership.guard';
+import { MarketplacesService } from '../marketplaces/marketplaces.service';
 
 describe('MarketEventsController', () => {
   let controller: MarketEventsController;
@@ -34,6 +36,18 @@ describe('MarketEventsController', () => {
         {
           provide: AuthService,
           useValue: authService,
+        },
+        {
+          provide: MarketplacesService,
+          useValue: ServiceMock,
+        },
+        {
+          provide: MarketEventsOwnershipGuard,
+          useValue: {
+            canActivate() {
+              return true;
+            },
+          },
         },
       ],
     }).compile();
@@ -144,7 +158,7 @@ describe('MarketEventsController', () => {
         MarketplaceEntityMock.id,
         dateString,
         'test name',
-        80538,
+        '80538',
         'loveland',
         'CO',
         10,

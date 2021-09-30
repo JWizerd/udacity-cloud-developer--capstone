@@ -1,5 +1,5 @@
 export const UserMock = {
-  userUuid: 'abc123',
+  id: 'abc123',
   username: 'jim.bob',
   email: 'jim.bob@jimbob.com',
   headshot:

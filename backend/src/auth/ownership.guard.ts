@@ -1,5 +1,5 @@
 import { CanActivate, ExecutionContext } from '@nestjs/common';
-import { ITenantedService } from 'src/typeorm/resource-service.interface';
+import { ITenantedService } from '../typeorm/resource-service.interface';
 import { AuthService } from './auth.service';
 
 export class OwnershipGuard<T> implements CanActivate {

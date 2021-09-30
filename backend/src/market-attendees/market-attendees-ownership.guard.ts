@@ -10,7 +10,7 @@ export class MarketAttendeesOwnershipGuard implements CanActivate {
       const req = context.switchToHttp().getRequest();
       const event = await this.service.findOne(req.params.eventId);
       if (!event) return false;
-      return this.service.ownsResource(event.id, req.params.id, 'event');
+      return this.service.ownsResource(event.id, req.params.id, 'eventId');
     } catch (error) {
       return false;
     }

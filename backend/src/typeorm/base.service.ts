@@ -20,6 +20,7 @@ export class BaseService<T> implements IService<T> {
     } as any;
 
     if (options.limit > 50) options.limit = 50;
+
     return this.paginator<T>(this.repo, options, {
       where: { ...this.removeUndefinedProps(searchOptions) },
       order: orderBy,

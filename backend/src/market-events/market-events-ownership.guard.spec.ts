@@ -4,7 +4,10 @@ import { MarketEventsOwnershipGuard } from './market-events-ownership.guard';
 describe('MarketEventsOwnershipGuard', () => {
   let guard: MarketEventsOwnershipGuard;
   beforeEach(() => {
-    guard = new MarketEventsOwnershipGuard(ServiceMock as any);
+    guard = new MarketEventsOwnershipGuard(
+      ServiceMock as any,
+      ServiceMock as any,
+    );
   });
 
   afterEach(() => {

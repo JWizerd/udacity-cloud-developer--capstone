@@ -1,3 +1,3 @@
 export interface IUser {
-  userUuid: string;
+  id: string;
 }

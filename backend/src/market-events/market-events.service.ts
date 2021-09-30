@@ -8,7 +8,8 @@ import { TenantedService } from '../typeorm/tenanted.service';
 @Injectable()
 export class MarketEventsService extends TenantedService<MarketEvent> {
   constructor(
-    @InjectRepository(MarketEvent) protected readonly repo: Repository<MarketEvent>,
+    @InjectRepository(MarketEvent)
+    protected readonly repo: Repository<MarketEvent>,
     private readonly marketplacesService: MarketplacesService,
   ) {
     super(repo);

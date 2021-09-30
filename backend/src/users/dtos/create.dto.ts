@@ -5,7 +5,7 @@ export class CreateUserDto {
   email: string;
 
   @IsNotEmpty()
-  userUuid: string;
+  id: string;
 
   @IsOptional()
   headshot?: string;

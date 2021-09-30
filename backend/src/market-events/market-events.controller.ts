@@ -26,7 +26,7 @@ export class MarketEventsController {
     @Param('id', ParseIntPipe) id: number,
     @Query('created') created?: string,
     @Query('name') name?: string,
-    @Query('zipcode', ParseIntPipe) zipcode?: number,
+    @Query('zipcode') zipcode?: string,
     @Query('city') city?: string,
     @Query('state') state?: string,
     @Query('page') page = 1,
@@ -37,7 +37,7 @@ export class MarketEventsController {
       created,
       name,
       marketplace: id,
-      zipcode,
+      zipcode: zipcode ? parseInt(zipcode, 10) : zipcode,
       city,
       state,
     };

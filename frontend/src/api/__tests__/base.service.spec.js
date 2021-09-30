@@ -148,5 +148,16 @@ describe('Service', () => {
         expect(error.message).toEqual('parentId parameter must be set')
       }
     });
+      it('should throw an error if the template contains a param that is not included in the request params', () => {
+        const service = new Service(axiosMock, 'resource/:grandparentId/parent/:parentId');
+
+        try {
+          service.buildResource({
+            grandparentId: 1,
+          });
+        } catch (error) {
+          expect(error.message).toEqual('parentId parameter must be set')
+        }
+    });
   });
 });

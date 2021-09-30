@@ -6,53 +6,53 @@ export default class Service {
     this.resource = resource;
   }
 
-  async create(data) {
+  async create(data, params) {
     try {
-      const { data: entity } =  await this.axios.post(this.resource, data);
+      const { data: entity } =  await this.axios.post(this.buildResource(params), data);
       return entity;
     } catch(error) {
       throw new ApiError(error);
     }
   }
 
-  async findOne(id) {
+  async findOne(id, params) {
     try {
-      const { data: entity } = await this.axios.get(`${this.resource}/${id}`);
+      const { data: entity } = await this.axios.get(`${this.buildResource(params)}/${id}`);
       return entity;
     } catch (error) {
       throw new ApiError(error);
     }
   }
 
-  async find(params = {}) {
+  async find(params = {}, urlParams) {
     try {
-      const { data: list } = await this.axios.get(this.resource, { params });
+      const { data: list } = await this.axios.get(this.buildResource(urlParams), { params });
       return list;
     } catch (error) {
       throw new ApiError(error);
     }
   }
 
-  async remove(id) {
+  async remove(id, params) {
     try {
-      await this.axios.delete(`${this.resource}/${id}`);
+      await this.axios.delete(`${this.buildResource(params)}/${id}`);
     } catch (error) {
       throw new ApiError(error);
     }
   }
 
-  async update(id, data) {
+  async update(id, data, params) {
     try {
-      const { data: entity } = await this.axios.patch(`${this.resource}/${id}`, data);
+      const { data: entity } = await this.axios.patch(`${this.buildResource(params)}/${id}`, data);
       return entity;
     } catch (error) {
       throw new ApiError(error);
     }
   }
 
-  async put(id, data) {
+  async put(id, data, params) {
     try {
-      const { data: entity } = await this.axios.put(`${this.resource}/${id}`, data);
+      const { data: entity } = await this.axios.put(`${this.buildResource(params)}/${id}`, data);
       return entity;
     } catch (error) {
       throw new ApiError(error);
@@ -66,7 +66,7 @@ export default class Service {
    * @param {*} params
    * @returns
    */
-  buildResource(params) {
+  buildResource(params = {}) {
     const slugs = this.resource.split('/');
 
     if (slugs.length === 1) return this.resource;

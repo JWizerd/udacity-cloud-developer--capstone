@@ -8,7 +8,7 @@ export const MarketplaceRoutes = [
     component: Marketplaces
   },
   {
-    path: "/marketplaces/:marketId",
+    path: "/marketplaces/:marketplaceId",
     name: "marketplace",
     component: MarketplaceSingle
   },

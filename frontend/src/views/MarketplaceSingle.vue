@@ -11,6 +11,13 @@
         </div>
         <event-list :marketplaceId="$store.getters.currentMarketplace.id" />
       </div>
+      <div class="row">
+        <div class="col-sm-12">
+          <h2>Reviews</h2>
+          <hr>
+        </div>
+        <review-list :marketplaceId="$store.getters.currentMarketplace.id" />
+      </div>
     </div>
   </div>
 </template>
@@ -18,21 +25,18 @@
 <script>
 import MarketplaceContent from "../components/marketplaces/MarketplaceContent";
 import EventList from "../components/events/EventList";
+import ReviewList from "../components/reviews/ReviewList";
 import { MARKETPLACE_ACTIONS } from '../store/marketplaces/actions';
 
 export default {
   name: "marketplaces",
   components: {
     MarketplaceContent,
-    EventList
-  },
-  data() {
-    return {
-      market: {}
-    }
+    EventList,
+    ReviewList
   },
   async created() {
-    await this.$store.dispatch(MARKETPLACE_ACTIONS.GET_MARKETPLACE, this.$route.params.marketId);
+    this.$store.dispatch(MARKETPLACE_ACTIONS.GET_MARKETPLACE, this.$route.params.marketplaceId);
   }
 };
 </script>

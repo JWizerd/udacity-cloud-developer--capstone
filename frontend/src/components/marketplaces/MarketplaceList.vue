@@ -1,5 +1,5 @@
 <template>
-  <div class="marketplaces" v-if="$store.getters.marketplaces && $store.getters.marketplaces.items">
+  <div class="marketplaces" v-if="$store.getters.marketplaces.items && $store.getters.marketplaces.items.length > 0">
     <div class="row align-items-center profile-header" v-for="(marketplace, index) in $store.getters.marketplaces.items" :key="index">
       <marketplace-card :marketplace="marketplace" />
     </div><!--/ row -->

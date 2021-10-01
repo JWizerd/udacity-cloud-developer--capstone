@@ -90,6 +90,7 @@ export default {
     },
     async createMarketplace() {
       try {
+        this.error = "";
         this.status = "SAVING";
         if (!this.$v.$invalid) {
           await this.$store.dispatch(MARKETPLACE_ACTIONS.CREATE_MARKETPLACE, this.model);

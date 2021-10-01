@@ -17,7 +17,7 @@
 
       <div class="form-group">
         <label class="label" for="name">Are you bringing any additional people?</label>
-        <input type="number" min="1" max="10" class="form-control" name="form" v-model="model.additionalPeople" placeholder="Enter summary about marketplace" />
+        <input type="number" min="1" max="10" class="form-control" name="form" v-model.number="model.additionalPeople" placeholder="Enter summary about marketplace" />
         <small class="form-text text-danger" v-if="!$v.model.additionalPeople.required">Field is required</small>
         <small class="form-text text-danger" v-if="!$v.model.additionalPeople.isMaxAdditonalPeople">Rating must be between 1 and 5</small>
       </div>
@@ -81,7 +81,11 @@ export default {
         }
       } catch(error) {
         this.status = "ERROR";
-        this.error = error.message;
+        if (error.message.toLowerCase().includes('forbidden')) {
+          this.error = "You've already RVSP'd for this event!";
+        } else {
+          this.error = error.message;
+        }
       }
     }
   },

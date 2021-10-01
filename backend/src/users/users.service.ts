@@ -17,7 +17,10 @@ export class UsersService extends ResourceService<User> {
     return super.create(payload);
   }
 
-  async findOne(id: string, cache = false): Promise<User> {
-    return this.repo.findOne(id, { cache });
+  async findOne(id: string): Promise<User> {
+    return this.repo
+      .createQueryBuilder('user')
+      .where('user.id = :id', { id })
+      .getOne();
   }
 }

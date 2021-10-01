@@ -15,13 +15,16 @@ export class MarketEvent extends BaseEntity {
 
   @ManyToOne(() => Marketplace, (marketplace) => marketplace.events, {
     eager: true,
+    onDelete: 'CASCADE',
   })
   marketplace?: Marketplace;
 
-  @OneToMany(() => MarketAttendee, (attendee) => attendee.event)
+  @OneToMany(() => MarketAttendee, (attendee) => attendee.event, {
+    onDelete: 'CASCADE',
+  })
   attendees: MarketAttendee[];
 
-  @Column({ nullable: false, unique: true })
+  @Column({ nullable: false })
   name?: string;
 
   @Column({ nullable: false, type: 'text' })

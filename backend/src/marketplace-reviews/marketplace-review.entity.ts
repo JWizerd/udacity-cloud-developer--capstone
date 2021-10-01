@@ -1,8 +1,7 @@
 import { BaseEntity } from '../typeorm/base.entity';
-import { Entity, Column, ManyToOne, JoinColumn, OneToOne } from 'typeorm';
+import { Entity, Column, ManyToOne } from 'typeorm';
 import { Marketplace } from '../marketplaces/marketplace.entity';
 import { User } from '../users/user.entity';
-import { Transform } from 'class-transformer';
 
 @Entity()
 export class MarketplaceReview extends BaseEntity {
@@ -14,15 +13,12 @@ export class MarketplaceReview extends BaseEntity {
     }
   }
 
-  @ManyToOne(() => Marketplace, (marketplace) => marketplace.events)
+  @ManyToOne(() => Marketplace, (marketplace) => marketplace.events, {
+    onDelete: 'CASCADE',
+  })
   marketplace?: Marketplace;
 
-  @OneToOne(() => User, { eager: true })
-  @Transform(({ value }) => {
-    delete value.email;
-    return value;
-  })
-  @JoinColumn()
+  @ManyToOne(() => User, (user) => user.reviews, { eager: true })
   user?: User;
 
   @Column({ nullable: false, type: 'text' })

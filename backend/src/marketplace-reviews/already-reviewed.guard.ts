@@ -15,7 +15,7 @@ export class AlreadyReviewedGuard implements CanActivate {
       const userUuid = this.authService.getUser(authHeader);
       const review = await this.service.findByUserAndMarketplace(
         userUuid,
-        req.params.marketplaceId,
+        parseInt(req.params.id, 10),
       );
 
       return review === undefined;

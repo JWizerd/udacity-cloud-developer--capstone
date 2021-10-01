@@ -22,7 +22,9 @@ export class MarketAttendee extends BaseEntity {
   @JoinColumn()
   user?: User;
 
-  @ManyToOne(() => MarketEvent, (market) => market.attendees)
+  @ManyToOne(() => MarketEvent, (market) => market.attendees, {
+    onDelete: 'CASCADE',
+  })
   event: MarketEvent;
 
   @Column({ nullable: false })

@@ -65,7 +65,7 @@ describe('AttachUserInterceptor', () => {
     await interceptor.intercept(executionContext, callHandlerSpy);
 
     expect(findOneSpy).toHaveBeenCalledTimes(1);
-    expect(findOneSpy).toHaveBeenCalledWith('abc123', true);
+    expect(findOneSpy).toHaveBeenCalledWith('abc123');
   });
 
   it('should attach user to request object', async () => {

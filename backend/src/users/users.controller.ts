@@ -24,6 +24,11 @@ export class UsersController {
     return this.usersService.findOne(user.id);
   }
 
+  @Get(':id')
+  async findOne(userId: string) {
+    return this.usersService.findOne(userId);
+  }
+
   @Post()
   async create(@Body() createUserDto: CreateUserDto) {
     return this.usersService.create(createUserDto);

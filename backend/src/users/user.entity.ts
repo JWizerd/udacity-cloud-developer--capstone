@@ -7,6 +7,7 @@ import {
   PrimaryColumn,
   OneToMany,
 } from 'typeorm';
+import { MarketplaceReview } from '../marketplace-reviews/marketplace-review.entity';
 
 @Entity()
 export class User {
@@ -39,4 +40,10 @@ export class User {
     onDelete: 'CASCADE',
   })
   marketplaces?: Promise<Marketplace[]>;
+
+  @OneToMany(() => MarketplaceReview, (review) => review.user, {
+    lazy: true,
+    onDelete: 'CASCADE',
+  })
+  reviews?: Promise<MarketplaceReview[]>;
 }

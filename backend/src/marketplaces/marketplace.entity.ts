@@ -2,6 +2,7 @@ import { BaseEntity } from '../typeorm/base.entity';
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../users/user.entity';
 import { MarketEvent } from '../market-events/market-event.entity';
+import { MarketplaceReview } from 'src/marketplace-reviews/marketplace-review.entity';
 
 @Entity()
 export class Marketplace extends BaseEntity {
@@ -17,10 +18,14 @@ export class Marketplace extends BaseEntity {
   user?: User;
 
   @OneToMany(() => MarketEvent, (market) => market.marketplace, {
-    lazy: true,
     onDelete: 'CASCADE',
   })
   events?: Promise<MarketEvent[]>;
+
+  @OneToMany(() => MarketplaceReview, (review) => review.marketplace, {
+    onDelete: 'CASCADE',
+  })
+  reviews?: Promise<MarketplaceReview[]>;
 
   @Column({ nullable: false, unique: true })
   name?: string;

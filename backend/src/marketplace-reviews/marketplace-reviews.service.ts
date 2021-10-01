@@ -5,6 +5,13 @@ import { User } from '../users/user.entity';
 import { DeepPartial, Repository } from 'typeorm';
 import { TenantedService } from '../typeorm/tenanted.service';
 import { MarketplaceReview } from './marketplace-review.entity';
+import { ISearchOptions } from '../typeorm/search-options.interface';
+import { IPaginationOptions } from 'nestjs-typeorm-paginate';
+
+interface MarketplaceReviewsSearchOptions extends ISearchOptions {
+  marketplace: number;
+  rating: number;
+}
 
 @Injectable()
 export class MarketplaceReviewsService extends TenantedService<MarketplaceReview> {
@@ -14,6 +21,30 @@ export class MarketplaceReviewsService extends TenantedService<MarketplaceReview
     private readonly marketplacesService: MarketplacesService,
   ) {
     super(repo);
+  }
+
+  async paginate(
+    options: IPaginationOptions,
+    searchOptions: MarketplaceReviewsSearchOptions,
+    order: string,
+  ) {
+    const queryBuilder = this.repo.createQueryBuilder('review');
+
+    if (options.limit > 50) options.limit = 50;
+
+    queryBuilder.where('review.marketplaceId = :marketplaceId', {
+      marketplaceId: searchOptions.marketplace,
+    });
+
+    if (searchOptions.rating) {
+      queryBuilder.andWhere('review.rating = :rating', {
+        rating: searchOptions.rating,
+      });
+    }
+
+    queryBuilder.orderBy('review.created', this.getOrderBy(order));
+
+    return this.paginator<MarketplaceReview>(queryBuilder, options);
   }
 
   async create(
@@ -33,7 +64,7 @@ export class MarketplaceReviewsService extends TenantedService<MarketplaceReview
 
     return await queryBuilder
       .where('review.userId = :userId', { userId })
-      .andWhere('review.marketplaceId', { marketplaceId })
+      .andWhere('review.marketplaceId = :marketplaceId', { marketplaceId })
       .getOne();
   }
 }

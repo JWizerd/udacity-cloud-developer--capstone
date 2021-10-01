@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Delete,
   Get,
@@ -21,17 +22,19 @@ import { MarketplaceOwnershipGuard } from '../marketplaces/marketplace-ownership
 @Controller('marketplaces')
 export class MarketplaceReviewsController {
   constructor(private readonly service: MarketplaceReviewsService) {}
-  @Get()
+  @Get(':id/reviews')
   async index(
+    @Param('id', ParseIntPipe) id: number,
+    @Query('rating') rating?: string,
     @Query('created') created?: string,
-    @Query('rating', ParseIntPipe) rating?: number,
     @Query('page') page = 1,
     @Query('limit') limit = 10,
     @Query('order') order = 'DESC',
   ) {
     const options = {
       created,
-      rating,
+      marketplace: id,
+      rating: rating ? parseInt(rating, 10) : undefined,
     };
 
     return this.service.paginate({ page, limit }, options, order);
@@ -42,7 +45,7 @@ export class MarketplaceReviewsController {
   async create(
     @AuthUserParam() user: User,
     @Param('id') marketplaceId: number,
-    createMarketPlaceDTO: CreateMarketplaceReviewDTO,
+    @Body() createMarketPlaceDTO: CreateMarketplaceReviewDTO,
   ) {
     return this.service.create(user, marketplaceId, createMarketPlaceDTO);
   }

@@ -24,7 +24,7 @@ export class AttachUserInterceptor implements NestInterceptor {
 
     if (authHeader) {
       const userId = this.authService.getUser(authHeader);
-      const user = await this.usersService.findOne(userId, true);
+      const user = await this.usersService.findOne(userId);
       req.user = user;
     }
 

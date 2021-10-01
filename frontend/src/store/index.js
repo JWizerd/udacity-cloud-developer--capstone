@@ -4,6 +4,7 @@ import USERS from "./users";
 import MARKETPLACES from "./marketplaces";
 import EVENTS from "./events";
 import REVIEWS from "./reviews";
+import ATTENDEES from "./attendees";
 
 Vue.use(Vuex);
 
@@ -12,6 +13,7 @@ export default new Vuex.Store({
     USERS,
     MARKETPLACES,
     EVENTS,
-    REVIEWS
+    REVIEWS,
+    ATTENDEES
   }
 });

@@ -7,11 +7,9 @@
         <router-view />
       </div>
     </div>
-    <footer class="bg-light text-center p-3">
-      <div class="logo"></div>
+    <footer class="bg-light text-center p-3 d-flex align-items-center justify-content-center">
       <p>
-        Sample project provided by
-        <a href="https://auth0.com">Auth0</a>
+        Project created by <a href="https://github.com/jwizerd">Jeremiah Wodke</a>
       </p>
     </footer>
   </div>

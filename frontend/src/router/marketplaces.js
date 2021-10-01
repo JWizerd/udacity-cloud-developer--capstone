@@ -1,5 +1,5 @@
 import Marketplaces from "../views/Marketplaces.vue"
-import MarketplaceSingle from "../views/MarketplaceSingle";
+import Marketplace from "../views/Marketplace";
 
 export const MarketplaceRoutes = [
   {
@@ -10,6 +10,6 @@ export const MarketplaceRoutes = [
   {
     path: "/marketplaces/:marketplaceId",
     name: "marketplace",
-    component: MarketplaceSingle
+    component: Marketplace
   },
 ]

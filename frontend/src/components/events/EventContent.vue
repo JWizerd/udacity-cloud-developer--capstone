@@ -1,31 +1,40 @@
 <template>
   <div :class="'col-sm-12 mb-3 card event-card p-4 event-content event-' + event.id" v-if="event">
     <div class="relative img-wrapper mb-4">
-      <img class="img-fluid" v-show="event.featuredImage" :src="event.featuredImage" :alt="event.name + ' - image'" />
+      <img class="img-fluid" v-show="event.marketplace.featuredImage" :src="event.marketplace.featuredImage" :alt="event.name + ' - image'" />
     </div>
 
     <div class="content-wrapper">
       <h1>{{ event.name }}</h1>
-      <event-details :event="event" />
 
       <div class="mt-4">
-        <h2>Summary:</h2>
-        <p>{{ event.summary }}</p>
+        <h2>Details:</h2>
+        <event-details :event="event" />
+        <hr>
       </div>
       <div class="mt-4">
         <h2>Description:</h2>
         <main class="event-description">{{ event.description }}</main>
       </div>
-
+    </div>
+    <div class="row">
+      <div class="col-sm-12">
+        <div class="mt-4">
+          <h2 class="mb-3">Attendees:</h2>
+          <attendee-list :eventId="event.id" />
+        </div>
+      </div>
     </div>
   </div><!--/ col-sm-6 -->
 </template>
 
 <script>
 import EventDetails from "./EventDetails";
+import AttendeeList from "../attendees/AttendeeList";
 export default {
   components: {
-    EventDetails
+    EventDetails,
+    AttendeeList
   },
   props: {
     event: {

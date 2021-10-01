@@ -6,7 +6,7 @@
           <h3>{{ event.name }}</h3>
           <event-details :event="event" />
           <p>{{ event.description }}</p>
-          <a :href="'/marketplaces/' + event.id" class="btn btn-primary">Read More</a>
+          <router-link :to="'/marketplaces/' + $route.params.marketplaceId + '/events/' + event.id" class="btn btn-primary">Details</router-link>
         </div>
       </div><!--/ row -->
     </div>

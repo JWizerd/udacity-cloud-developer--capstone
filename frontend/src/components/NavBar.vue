@@ -2,7 +2,6 @@
   <div class="nav-container mb-3">
     <nav class="navbar navbar-expand-md navbar-light bg-light">
       <div class="container">
-        <div class="navbar-brand logo"></div>
         <button
           class="navbar-toggler"
           type="button"
@@ -18,7 +17,13 @@
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-              <router-link to="/" class="nav-link">Markets</router-link>
+              <router-link to="/" class="nav-link">Marketplaces</router-link>
+            </li>
+            <li class="nav-item" v-if="$auth.isAuthenticated">
+              <router-link to="/admin/marketplaces/create-marketplace" class="nav-link">Create Marketplace</router-link>
+            </li>
+            <li class="nav-item" v-if="$auth.isAuthenticated">
+              <router-link to="/admin/marketplaces" class="nav-link">Manage Marketplaces</router-link>
             </li>
           </ul>
           <ul class="navbar-nav d-none d-md-block">

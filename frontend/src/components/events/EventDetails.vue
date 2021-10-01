@@ -1,15 +1,15 @@
 <template>
   <div class="details d-flex">
     <div class="d-flex mr-2">
-      <small class="start-date mr-1 form-text"><strong>Location:</strong></small>
-      <small class="start-date mr-1 form-text"> {{ event.address }}</small>
-      <small class="start-date mr-1 form-text">{{ event.city }},</small>
-      <small class="start-date mr-1 form-text">{{ event.state }}</small>
-      <small class="start-date mr-1 form-text">{{ event.zipcode }}</small>
+      <div class="start-date mr-1 form-text"><strong>Location:</strong></div>
+      <div class="start-date mr-1 form-text"> {{ event.address }}</div>
+      <div class="start-date mr-1 form-text">{{ event.city }},</div>
+      <div class="start-date mr-1 form-text">{{ event.state }}</div>
+      <div class="start-date mr-1 form-text">{{ event.zipcode }}</div>
     </div>
     <div class="d-flex">
-      <small class="start-date mr-1 form-text"><strong>Start:</strong> {{ startDate }}</small>
-      <small class="end-date form-text"><strong>End:</strong> {{ endDate }}</small>
+      <div class="start-date mr-1 form-text"><strong>Start:</strong> {{ startDate }}</div>
+      <div class="end-date form-text"><strong>End:</strong> {{ endDate }}</div>
     </div>
   </div>
 </template>

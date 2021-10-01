@@ -5,6 +5,7 @@ import { filesServiceProvider } from "./files.service.provider";
 import { authServiceProvider } from "./auth.provider";
 import { eventsServiceProvider } from "./events.service.provider";
 import { reviewsServiceProvider } from "./reviews.service.provider";
+import { attendeesServiceProvider } from "./attendees.service.provider";
 
 export default {
   axios: axiosServiceProvider,
@@ -14,4 +15,5 @@ export default {
   marketplaces: marketsServiceProvider,
   events: eventsServiceProvider,
   reviews: reviewsServiceProvider,
+  attendees: attendeesServiceProvider,
 };

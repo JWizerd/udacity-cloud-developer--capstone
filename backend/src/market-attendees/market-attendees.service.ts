@@ -6,6 +6,12 @@ import { DeepPartial } from 'typeorm';
 import { Repository } from 'typeorm/repository/Repository';
 import { MarketAttendee } from './market-attendee.entity';
 import { TenantedService } from '../typeorm/tenanted.service';
+import { ISearchOptions } from 'src/typeorm/search-options.interface';
+import { IPaginationOptions } from 'nestjs-typeorm-paginate';
+
+interface MarketAttendeeISearchOptions extends ISearchOptions {
+  eventId: number;
+}
 
 @Injectable()
 export class MarketAttendeesService extends TenantedService<MarketAttendee> {
@@ -15,6 +21,24 @@ export class MarketAttendeesService extends TenantedService<MarketAttendee> {
     private readonly marketEventsService: MarketEventsService,
   ) {
     super(repo);
+  }
+
+  async paginate(
+    options: IPaginationOptions,
+    searchOptions: MarketAttendeeISearchOptions,
+    order: string,
+  ) {
+    const queryBuilder = this.repo.createQueryBuilder('attendee');
+
+    if (options.limit > 50) options.limit = 50;
+
+    queryBuilder.where('attendee.marketplaceId = :eventId', {
+      eventId: searchOptions.eventId,
+    });
+
+    queryBuilder.orderBy('attendee.created', this.getOrderBy(order));
+
+    return this.paginator<MarketAttendee>(queryBuilder, options);
   }
 
   async create(

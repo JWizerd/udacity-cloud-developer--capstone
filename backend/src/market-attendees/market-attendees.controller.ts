@@ -24,7 +24,7 @@ export class MarketAttendeesController {
 
   @Get(':id/events/:eventId/attendees')
   async index(
-    @Param('eventId', ParseIntPipe) market: number,
+    @Param('eventId', ParseIntPipe) eventId: number,
     @Query('created') created: string,
     @Query('page') page = 1,
     @Query('limit') limit = 10,
@@ -32,7 +32,7 @@ export class MarketAttendeesController {
   ) {
     const options = {
       created,
-      market,
+      eventId,
     };
 
     return this.service.paginate({ page, limit }, options, order);

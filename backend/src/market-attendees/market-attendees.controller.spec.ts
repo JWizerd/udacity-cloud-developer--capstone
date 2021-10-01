@@ -50,7 +50,7 @@ describe('MarketAttendeesController', () => {
 
       expect(servicePaginateSpy).toHaveBeenCalledWith(
         { page: 1, limit: 10 },
-        { created: '2021-01-01', market: 1 },
+        { created: '2021-01-01', eventId: 1 },
         'DESC',
       );
     });

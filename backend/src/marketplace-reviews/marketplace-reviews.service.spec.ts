@@ -141,9 +141,12 @@ describe('MarketplaceReviewsService', () => {
 
       await service.findByUserAndMarketplace('abc123', 1);
 
-      expect(andWhereSpy).toHaveBeenLastCalledWith('review.marketplaceId', {
-        marketplaceId: 1,
-      });
+      expect(andWhereSpy).toHaveBeenLastCalledWith(
+        'review.marketplaceId = :marketplaceId',
+        {
+          marketplaceId: 1,
+        },
+      );
     });
 
     it('should return review entity if found', async () => {

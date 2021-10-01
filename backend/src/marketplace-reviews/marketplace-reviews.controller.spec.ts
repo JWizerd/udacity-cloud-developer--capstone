@@ -46,11 +46,11 @@ describe('MarketplaceReviewsController', () => {
     it('should call service.paginate with correct params', async () => {
       const paginateSpy = jest.spyOn(service, 'paginate');
 
-      await controller.index('2021-01-01', 5, 1, 10, 'ASC');
+      await controller.index(1, '4', '2021-01-01', 1, 1, 'ASC');
 
       expect(paginateSpy).toHaveBeenCalledWith(
-        { page: 1, limit: 10 },
-        { created: '2021-01-01', rating: 5 },
+        { page: 1, limit: 1 },
+        { created: '2021-01-01', rating: 4, marketplace: 1 },
         'ASC',
       );
     });
@@ -60,7 +60,7 @@ describe('MarketplaceReviewsController', () => {
         .spyOn(service, 'paginate')
         .mockResolvedValue([MarketplaceReviewEntityMock]);
 
-      const result = await controller.index('2021-01-01', 5, 1, 10, 'ASC');
+      const result = await controller.index(1, '4', '2021-01-1', 1, 1, 'ASC');
 
       expect(result).toEqual([MarketplaceReviewEntityMock]);
     });

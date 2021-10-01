@@ -2,7 +2,7 @@ import { BaseEntity } from '../typeorm/base.entity';
 import { Entity, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from '../users/user.entity';
 import { MarketEvent } from '../market-events/market-event.entity';
-import { MarketplaceReview } from 'src/marketplace-reviews/marketplace-review.entity';
+import { MarketplaceReview } from '../marketplace-reviews/marketplace-review.entity';
 
 @Entity()
 export class Marketplace extends BaseEntity {

@@ -1,22 +1,22 @@
 <template>
   <div>
-    <div class="container" v-if="$store.getters.currentMarketplace">
+    <div class="container" v-if="marketplace">
       <div class="row">
-        <marketplace-content :marketplace="$store.getters.currentMarketplace" />
+        <marketplace-content :marketplace="marketplace" />
       </div>
       <div class="row">
         <div class="col-sm-12">
           <h2>Upcoming Events</h2>
           <hr>
         </div>
-        <event-list :marketplaceId="$store.getters.currentMarketplace.id" />
+        <event-list :marketplaceId="marketplace.id" />
       </div>
       <div class="row">
         <div class="col-sm-12">
           <h2>Reviews</h2>
           <hr>
         </div>
-        <review-list :marketplaceId="$store.getters.currentMarketplace.id" />
+        <review-list :marketplaceId="marketplace.id" />
       </div>
     </div>
   </div>
@@ -34,6 +34,11 @@ export default {
     MarketplaceContent,
     EventList,
     ReviewList
+  },
+  computed: {
+    marketplace() {
+      return this.$store.getters.currentMarketplace;
+    }
   },
   async created() {
     this.$store.dispatch(MARKETPLACE_ACTIONS.GET_MARKETPLACE, this.$route.params.marketplaceId);

@@ -1,23 +1,22 @@
+import { removeItem, updateItem } from "../utils";
+
 export default {
   SET_MARKETPLACES(state, marketplaces) {
     state.marketplaces = marketplaces;
   },
-  SET_USER_MARKETS(state, marketplaces) {
+  SET_USER_MARKETPLACES(state, marketplaces) {
     state.userMarketplaces = marketplaces;
   },
-  SET_CURRENT_MARKET(state, market) {
+  SET_CURRENT_MARKETPLACE(state, market) {
     state.currentMarketplace = market;
   },
-  REMOVE_MARKET(state, marketId) {
-    if (state.userMarketplaces.items.length === 1) {
-      state.userMarketplaces.items = [];
-    } else {
-      const index = state.userMarketplaces.items.findIndex(m => m.id === marketId);
-      if (index !== -1) state.userMarketplaces.items.splice(index, 1);
-      state.userMarketplaces = {...state.userMarketplaces};
-    }
+  REMOVE_MARKETPLACE(state, marketId) {
+    state.userMarketplaces = removeItem(state.userMarketplaces, marketId);
   },
-  ADD_MARKET(state, market) {
+  UPDATE_MARKETPLACE(state, market) {
+    state.userMarketplaces = updateItem(state.userMarketplaces, market.id, market);
+  },
+  ADD_MARKETPLACE(state, market) {
     state.userMarketplaces.items.push(market);
   },
   REMOVE_USER_MARKETPLACES(state) {
@@ -27,9 +26,10 @@ export default {
 
 export const MARKETPLACE_MUTATIONS = {
   SET_MARKETPLACES: "SET_MARKETPLACES",
-  SET_USER_MARKETS: "SET_USER_MARKETS" ,
-  SET_CURRENT_MARKET: "SET_CURRENT_MARKET",
-  REMOVE_MARKET: "REMOVE_MARKET",
-  ADD_MARKET: "ADD_MARKET",
+  SET_USER_MARKETPLACES: "SET_USER_MARKETPLACES" ,
+  SET_CURRENT_MARKETPLACE: "SET_CURRENT_MARKETPLACE",
+  REMOVE_MARKETPLACE: "REMOVE_MARKETPLACE",
+  ADD_MARKETPLACE: "ADD_MARKETPLACE",
   REMOVE_USER_MARKETPLACES: "REMOVE_USER_MARKETPLACES",
+  UPDATE_MARKETPLACE: "UPDATE_MARKETPLACE",
 }

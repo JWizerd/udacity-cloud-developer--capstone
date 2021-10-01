@@ -7,8 +7,6 @@ export default {
     marketplaces: {},
     userMarketplaces: {},
     currentMarketplace: null,
-    marketSchemaCreate: null,
-    marketCreateFormError: "",
   }),
   getters,
   mutations,

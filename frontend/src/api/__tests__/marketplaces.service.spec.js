@@ -17,7 +17,7 @@ describe('MarketplacesService', () => {
   };
 
   beforeEach(() => {
-    service = new MarketplacesService(axiosMock, 'marketplaces', FilesServiceMock);
+    service = new MarketplacesService(axiosMock, FilesServiceMock);
   });
 
   afterEach(() => {
@@ -105,46 +105,6 @@ describe('MarketplacesService', () => {
       const updatedMarket = await service.update(mockMarket, 1);
 
       expect(updatedMarket).toEqual(mockMarket);
-    });
-  });
-
-  describe('duplicate', () => {
-    it('should call axios.post with correct params', async () => {
-      const market = { ...mockMarketWithoutFile };
-      const duplicatedMarket = { ...mockMarketWithoutFile };
-      delete duplicatedMarket.id;
-      duplicatedMarket.name = `COPY - ${market.name}`;
-
-      const createSpy = jest.spyOn(axiosMock, 'post').mockResolvedValue({ data: true });
-
-      await service.duplicate(market);
-
-      expect(createSpy).toHaveBeenCalledWith('marketplaces', duplicatedMarket);
-    });
-
-    it('should call axios.post with correct params', async () => {
-      const market = { ...mockMarketWithoutFile };
-      const duplicatedMarket = { ...mockMarketWithoutFile };
-      delete duplicatedMarket.id;
-      duplicatedMarket.name = `COPY - ${market.name}`;
-
-      const createSpy = jest.spyOn(axiosMock, 'post').mockResolvedValue({ data: true });
-
-      await service.duplicate(market);
-
-      expect(createSpy).toHaveBeenCalledWith('marketplaces', duplicatedMarket);
-    });
-
-    it('should return duplicated market', async () => {
-      const market = { ...mockMarketWithoutFile };
-      const duplicatedMarket = { ...mockMarketWithoutFile };
-      delete duplicatedMarket.id;
-      duplicatedMarket.name = `COPY - ${market.name}`;
-      jest.spyOn(axiosMock, 'post').mockResolvedValue({ data: duplicatedMarket });
-
-      const newMarket = await service.duplicate(market);
-
-      expect(newMarket).toEqual(duplicatedMarket);
     });
   });
 });

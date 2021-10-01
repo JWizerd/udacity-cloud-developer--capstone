@@ -1,3 +1,5 @@
+import { removeItem } from "../utils/remove-item";
+
 export default {
   SET_EVENTS(state, events) {
     state.events = events;
@@ -6,13 +8,7 @@ export default {
     state.userEvents = events;
   },
   REMOVE_EVENT(state, eventId) {
-    if (state.userEvents.items.length === 1) {
-      state.userEvents.items = [];
-    } else {
-      const index = state.userEvents.items.findIndex(m => m.id === eventId);
-      if (index !== -1) state.userEvents.items.splice(index, 1);
-      state.userEvents = {...state.userEvents};
-    }
+    state.userEvents = removeItem(state.userEvents, eventId);
   },
   SET_CURRENT_EVENT(state, event) {
     state.currentEvent = event;

@@ -2,7 +2,7 @@ import Service from "./base.service";
 import altAxios from "axios";
 
 export class FilesService extends Service {
-  constructor(axios, resource, fileUploadClient = altAxios) {
+  constructor(axios, resource =  'files', fileUploadClient = altAxios) {
     super(axios, resource);
     this.fileUploadClient = fileUploadClient;
   }

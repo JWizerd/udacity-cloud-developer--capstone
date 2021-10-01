@@ -1,8 +1,8 @@
 import Service from "./base.service";
 import { ApiError } from "../api.error";
 export class MarketplacesService extends Service {
-  constructor(axios, resource, filesService) {
-    super(axios, resource);
+  constructor(axios, filesService) {
+    super(axios, 'marketplaces');
     this.filesService = filesService;
   }
 
@@ -35,16 +35,5 @@ export class MarketplacesService extends Service {
   async attachImage(marketFields, altImageId) {
     const attachmentUrl = await this.filesService.upload(`marketplace-${altImageId}`, marketFields.featuredImage);
     marketFields.featuredImage = attachmentUrl;
-  }
-
-  async duplicate(market) {
-    try {
-      delete market.id;
-      market.name = `COPY - ${market.name}`;
-      const { data: newMarket } = await this.axios.post(this.resource, market);
-      return newMarket;
-    } catch (error) {
-      throw new ApiError(error);
-    }
   }
 }

@@ -5,10 +5,15 @@ import { MarketAttendeesController } from './market-attendees.controller';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { MarketAttendee } from './market-attendee.entity';
 import { MarketAttendeesOwnershipGuard } from './market-attendees-ownership.guard';
+import { AlreadyRsvpGuard } from './already-rsvp.guard';
 
 @Module({
   imports: [TypeOrmModule.forFeature([MarketAttendee]), MarketEventsModule],
-  providers: [MarketAttendeesService, MarketAttendeesOwnershipGuard],
+  providers: [
+    MarketAttendeesService,
+    MarketAttendeesOwnershipGuard,
+    AlreadyRsvpGuard,
+  ],
   controllers: [MarketAttendeesController],
 })
 export class MarketAttendeesModule {}

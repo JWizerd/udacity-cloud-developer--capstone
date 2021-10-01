@@ -17,6 +17,7 @@ import { CreateMarketAttendeeDTO } from './dtos/create.dto';
 import { MarketAttendeesOwnershipGuard } from './market-attendees-ownership.guard';
 import { MarketAttendeesService } from './market-attendees.service';
 import { UpdateMarketAttendeeDTO } from './dtos/update.dto';
+import { AlreadyRsvpGuard } from './already-rsvp.guard';
 
 @Controller('marketplaces')
 export class MarketAttendeesController {
@@ -47,7 +48,7 @@ export class MarketAttendeesController {
   }
 
   @Post(':id/events/:eventId/attendees')
-  @UseGuards(AuthGuard)
+  @UseGuards(AuthGuard, AlreadyRsvpGuard)
   async create(
     @Param('eventId', ParseIntPipe) eventId: number,
     @Body() marketAttendeeDTO: CreateMarketAttendeeDTO,

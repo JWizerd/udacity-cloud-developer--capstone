@@ -28,15 +28,15 @@ export class MarketAttendeesService extends TenantedService<MarketAttendee> {
     searchOptions: MarketAttendeeISearchOptions,
     order: string,
   ) {
-    const queryBuilder = this.repo.createQueryBuilder('attendee');
-
     if (options.limit > 50) options.limit = 50;
 
-    queryBuilder.where('attendee.marketplaceId = :eventId', {
-      eventId: searchOptions.eventId,
-    });
-
-    queryBuilder.orderBy('attendee.created', this.getOrderBy(order));
+    const queryBuilder = this.repo.createQueryBuilder('attendee');
+    queryBuilder
+      .leftJoinAndSelect('attendee.user', 'user')
+      .where('attendee.eventId = :eventId', {
+        eventId: searchOptions.eventId,
+      })
+      .orderBy('attendee.created', this.getOrderBy(order));
 
     return this.paginator<MarketAttendee>(queryBuilder, options);
   }
@@ -51,5 +51,14 @@ export class MarketAttendeesService extends TenantedService<MarketAttendee> {
     entity.user = user;
     entity.event = event;
     return this.repo.save(entity);
+  }
+
+  async findByUserAndMarketEvent(userId: string, eventId: number) {
+    const queryBuilder = this.repo.createQueryBuilder('attendee');
+
+    return await queryBuilder
+      .where('attendee.userId = :userId', { userId })
+      .andWhere('attendee.eventId = :eventId', { eventId })
+      .getOne();
   }
 }

@@ -14,8 +14,6 @@ services:
       - mysql_db_data_container:/var/lib/mysql
       - ./init.sql:/data/application/init.sql
     restart: unless-stopped
-    networks:
-      - app-network
   backend:
     depends_on:
       - mysql_dev
@@ -28,9 +26,5 @@ services:
     volumes:
       - .:/usr/src/app
     command: npm run start:debug
-    networks:
-      - app-network
 volumes:
   mysql_db_data_container:
-networks:
-  app-network:

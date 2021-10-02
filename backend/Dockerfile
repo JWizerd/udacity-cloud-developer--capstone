@@ -1,35 +1,30 @@
-FROM node:12-alpine as build
+FROM node:12.19.0-alpine3.9 AS development
 
-RUN apk update && apk upgrade && \
-  apk add --no-cache bash git openssh
+WORKDIR /usr/src/app
 
-RUN mkdir /app
+COPY package*.json ./
 
-WORKDIR /app
-
-COPY package.json .
-
-RUN npm install
+RUN npm install --only=development
 
 COPY . .
 
-RUN npm run start
+RUN npm run build
 
 # -----
 
-FROM node:12-alpine
+FROM node:12.19.0-alpine3.9 as production
 
-RUN mkdir /app
+ARG NODE_ENV=production
+ENV NODE_ENV=${NODE_ENV}
 
-COPY --from=build /app/dist ./dist
-COPY --from=build /app/package.json .
+WORKDIR /usr/src/app
 
-ENV NODE_ENV production
+COPY package*.json ./
 
-RUN npm install
+RUN npm install --only=production
 
-EXPOSE 9000
+COPY . .
 
-CMD ["npm", "run", "start:prod"]
+COPY --from=development /usr/src/app/dist ./dist
 
-
+CMD ["node", "dist/main"]

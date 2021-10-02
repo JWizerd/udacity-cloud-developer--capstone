@@ -1,0 +1,36 @@
+version: "3.8"
+services:
+  mysql_dev:
+    image: mysql:latest
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_ROOT_HOST: '%'
+    ports:
+      - 3307:3307
+    expose:
+      - 3307
+    command: --init-file /data/application/init.sql
+    volumes:
+      - mysql_db_data_container:/var/lib/mysql
+      - ./init.sql:/data/application/init.sql
+    restart: unless-stopped
+    networks:
+      - app-network
+  backend:
+    depends_on:
+      - mysql_dev
+    build:
+      context: .
+      target: development
+      dockerfile: ./Dockerfile
+    ports:
+      - 9000:9000
+    volumes:
+      - .:/usr/src/app
+    command: npm run start:debug
+    networks:
+      - app-network
+volumes:
+  mysql_db_data_container:
+networks:
+  app-network:

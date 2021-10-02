@@ -9,10 +9,8 @@ services:
       - 3307:3307
     expose:
       - 3307
-    command: --init-file /data/application/init.sql
     volumes:
       - mysql_db_data_container:/var/lib/mysql
-      - ./init.sql:/data/application/init.sql
     restart: unless-stopped
   backend:
     depends_on:

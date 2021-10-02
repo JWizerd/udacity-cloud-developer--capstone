@@ -16,9 +16,6 @@ export default {
   UPDATE_MARKETPLACE(state, market) {
     state.userMarketplaces = updateItem(state.userMarketplaces, market.id, market);
   },
-  ADD_MARKETPLACE(state, market) {
-    state.userMarketplaces.items.push(market);
-  },
   REMOVE_USER_MARKETPLACES(state) {
     state.userMarketplaces = {};
   }

@@ -13,9 +13,8 @@ export default {
     const market = await this.$api.marketplaces.findOne(marketId);
     commit(MARKETPLACE_MUTATIONS.SET_CURRENT_MARKETPLACE, market);
   },
-  async CREATE_MARKETPLACE({ commit }, market) {
+  async CREATE_MARKETPLACE(_, market) {
     await this.$api.marketplaces.create(market);
-    commit(MARKETPLACE_MUTATIONS.ADD_MARKETPLACE, market);
   },
   async UPDATE_MARKETPLACE({ commit }, market) {
     await this.$api.marketplaces.update(market);

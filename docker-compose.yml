@@ -1,8 +1,7 @@
 version: "3.8"
 services:
-  mysql:
+  unassigned_mysql_dev:
     image: mysql:latest
-    container_name: unassigned_mysql_dev
     environment:
       MYSQL_ROOT_PASSWORD: root
     ports:
@@ -15,12 +14,10 @@ services:
     networks:
       - app_network
     restart: unless-stopped
-  backend:
+  unassigned_api_dev:
     depends_on:
       - mysql
-    build:
-      context: ./backend
-      container_name: unassigned_api_dev
+    build: ./backend
     ports:
       - target: 9000
       - published: 9000

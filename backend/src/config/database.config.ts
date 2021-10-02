@@ -3,7 +3,9 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm/dist/interfaces/typeorm-op
 export const databaseConfig: TypeOrmModuleOptions = {
   type: 'mysql',
   host: process.env.DATABASE_HOST || '127.0.0.1',
-  port: 3306,
+  port: process.env.DATABASE_PORT
+    ? parseInt(process.env.DATABASE_PORT, 10)
+    : 3306,
   username: process.env.DATABASE_USER || 'root',
   password: process.env.DATABASE_PASS || 'root',
   database: process.env.DATABASE_DB || 'udacity_uassigned_test',
